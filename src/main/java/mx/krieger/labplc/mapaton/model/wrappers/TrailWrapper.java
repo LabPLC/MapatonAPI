@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import mx.krieger.internal.commons.utils.strings.SpecialCharacters;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 
-public class UserTrail {
+/**
+ * The Class TrailWrapper.
+ * This class wraps the main elements of a trail that is stored in the datastore;
+ */
+public class TrailWrapper {
 
 	protected Long trailId;
 	protected Long routeId;
@@ -28,37 +32,37 @@ public class UserTrail {
 	protected String notes;
 
 	/**
-	 * This is the [default/overloaded/wrapper] constructor used to
-	 * [create/wrap/unwrap] [an empty/a complete] instance of UserTrail.java
+	 * Instantiates a new trail wrapper.
 	 */
-	public UserTrail() {
+	public TrailWrapper() {
 		super();
 	}
 
+
 	/**
-	 * This is the [default/overloaded/wrapper] constructor used to
-	 * [create/wrap/unwrap] [an empty/a complete] instance of UserTrail.java
-	 * 
-	 * @param routeId
-	 * @param routeName
-	 * @param originPlatformId
-	 * @param originPlatformName
-	 * @param originStationId
-	 * @param originStationName
-	 * @param destinationPlatformId
-	 * @param destinationPlatformName
-	 * @param destinationStationId
-	 * @param destinationStationName
-	 * @param branchId
-	 * @param branchName
-	 * @param points
-	 * @param transportType
-	 * @param maxTariff
-	 * @param photoUrl
-	 * @param schedule
-	 * @param notes
+	 * Instantiates a new trail wrapper.
+	 *
+	 * @param trailId the trail id
+	 * @param routeId the route id
+	 * @param routeName the route name
+	 * @param originPlatformId the origin platform id
+	 * @param originPlatformName the origin platform name
+	 * @param originStationId the origin station id
+	 * @param originStationName the origin station name
+	 * @param destinationPlatformId the destination platform id
+	 * @param destinationPlatformName the destination platform name
+	 * @param destinationStationId the destination station id
+	 * @param destinationStationName the destination station name
+	 * @param branchId the branch id
+	 * @param branchName the branch name
+	 * @param points the points
+	 * @param transportType the transport type
+	 * @param maxTariff the max tariff
+	 * @param photoUrl the photo url
+	 * @param schedule the schedule
+	 * @param notes the notes
 	 */
-	public UserTrail(Long trailId, Long routeId, String routeName, Long originPlatformId, String originPlatformName,
+	public TrailWrapper(Long trailId, Long routeId, String routeName, Long originPlatformId, String originPlatformName,
 			Long originStationId, String originStationName, Long destinationPlatformId, String destinationPlatformName,
 			Long destinationStationId, String destinationStationName, Long branchId, String branchName,
 			ArrayList<PointData> points, String transportType, double maxTariff, String photoUrl, String schedule,
@@ -87,7 +91,12 @@ public class UserTrail {
 	
 	
 
-	public UserTrail(RegisteredTrail mappedTrail){
+	/**
+	 * Instantiates a new trail wrapper.
+	 *
+	 * @param mappedTrail the mapped trail
+	 */
+	public TrailWrapper(RegisteredTrail mappedTrail){
 		super();
 		this.trailId = mappedTrail.getId();
 
@@ -143,6 +152,8 @@ public class UserTrail {
 	}
 
 	/**
+	 * Gets the trail id.
+	 *
 	 * @return the trailId
 	 */
 	public Long getTrailId() {
@@ -150,14 +161,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param trailId
-	 *            the trailId to set
+	 * Sets the trail id.
+	 *
+	 * @param trailId            the trailId to set
 	 */
 	public void setTrailId(Long trailId) {
 		this.trailId = trailId;
 	}
 
 	/**
+	 * Gets the route id.
+	 *
 	 * @return the routeId
 	 */
 	public Long getRouteId() {
@@ -165,14 +179,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param routeId
-	 *            the routeId to set
+	 * Sets the route id.
+	 *
+	 * @param routeId            the routeId to set
 	 */
 	public void setRouteId(Long routeId) {
 		this.routeId = routeId;
 	}
 
 	/**
+	 * Gets the route name.
+	 *
 	 * @return the routeName
 	 */
 	public String getRouteName() {
@@ -180,14 +197,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param routeName
-	 *            the routeName to set
+	 * Sets the route name.
+	 *
+	 * @param routeName            the routeName to set
 	 */
 	public void setRouteName(String routeName) {
 		this.routeName = routeName;
 	}
 
 	/**
+	 * Gets the origin platform id.
+	 *
 	 * @return the originPlatformId
 	 */
 	public Long getOriginPlatformId() {
@@ -195,14 +215,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param originPlatformId
-	 *            the originPlatformId to set
+	 * Sets the origin platform id.
+	 *
+	 * @param originPlatformId            the originPlatformId to set
 	 */
 	public void setOriginPlatformId(Long originPlatformId) {
 		this.originPlatformId = originPlatformId;
 	}
 
 	/**
+	 * Gets the origin platform name.
+	 *
 	 * @return the originPlatformName
 	 */
 	public String getOriginPlatformName() {
@@ -210,14 +233,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param originPlatformName
-	 *            the originPlatformName to set
+	 * Sets the origin platform name.
+	 *
+	 * @param originPlatformName            the originPlatformName to set
 	 */
 	public void setOriginPlatformName(String originPlatformName) {
 		this.originPlatformName = originPlatformName;
 	}
 
 	/**
+	 * Gets the origin station id.
+	 *
 	 * @return the originStationId
 	 */
 	public Long getOriginStationId() {
@@ -225,14 +251,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param originStationId
-	 *            the originStationId to set
+	 * Sets the origin station id.
+	 *
+	 * @param originStationId            the originStationId to set
 	 */
 	public void setOriginStationId(Long originStationId) {
 		this.originStationId = originStationId;
 	}
 
 	/**
+	 * Gets the origin station name.
+	 *
 	 * @return the originStationName
 	 */
 	public String getOriginStationName() {
@@ -240,14 +269,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param originStationName
-	 *            the originStationName to set
+	 * Sets the origin station name.
+	 *
+	 * @param originStationName            the originStationName to set
 	 */
 	public void setOriginStationName(String originStationName) {
 		this.originStationName = originStationName;
 	}
 
 	/**
+	 * Gets the destination platform id.
+	 *
 	 * @return the destinationPlatformId
 	 */
 	public Long getDestinationPlatformId() {
@@ -255,14 +287,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param destinationPlatformId
-	 *            the destinationPlatformId to set
+	 * Sets the destination platform id.
+	 *
+	 * @param destinationPlatformId            the destinationPlatformId to set
 	 */
 	public void setDestinationPlatformId(Long destinationPlatformId) {
 		this.destinationPlatformId = destinationPlatformId;
 	}
 
 	/**
+	 * Gets the destination platform name.
+	 *
 	 * @return the destinationPlatformName
 	 */
 	public String getDestinationPlatformName() {
@@ -270,14 +305,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param destinationPlatformName
-	 *            the destinationPlatformName to set
+	 * Sets the destination platform name.
+	 *
+	 * @param destinationPlatformName            the destinationPlatformName to set
 	 */
 	public void setDestinationPlatformName(String destinationPlatformName) {
 		this.destinationPlatformName = destinationPlatformName;
 	}
 
 	/**
+	 * Gets the destination station id.
+	 *
 	 * @return the destinationStationId
 	 */
 	public Long getDestinationStationId() {
@@ -285,14 +323,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param destinationStationId
-	 *            the destinationStationId to set
+	 * Sets the destination station id.
+	 *
+	 * @param destinationStationId            the destinationStationId to set
 	 */
 	public void setDestinationStationId(Long destinationStationId) {
 		this.destinationStationId = destinationStationId;
 	}
 
 	/**
+	 * Gets the destination station name.
+	 *
 	 * @return the destinationStationName
 	 */
 	public String getDestinationStationName() {
@@ -300,14 +341,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param destinationStationName
-	 *            the destinationStationName to set
+	 * Sets the destination station name.
+	 *
+	 * @param destinationStationName            the destinationStationName to set
 	 */
 	public void setDestinationStationName(String destinationStationName) {
 		this.destinationStationName = destinationStationName;
 	}
 
 	/**
+	 * Gets the branch id.
+	 *
 	 * @return the branchId
 	 */
 	public Long getBranchId() {
@@ -315,14 +359,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param branchId
-	 *            the branchId to set
+	 * Sets the branch id.
+	 *
+	 * @param branchId            the branchId to set
 	 */
 	public void setBranchId(Long branchId) {
 		this.branchId = branchId;
 	}
 
 	/**
+	 * Gets the branch name.
+	 *
 	 * @return the branchName
 	 */
 	public String getBranchName() {
@@ -330,14 +377,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param branchName
-	 *            the branchName to set
+	 * Sets the branch name.
+	 *
+	 * @param branchName            the branchName to set
 	 */
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
 	}
 
 	/**
+	 * Gets the transport type.
+	 *
 	 * @return the transportType
 	 */
 	public String getTransportType() {
@@ -345,14 +395,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param transportType
-	 *            the transportType to set
+	 * Sets the transport type.
+	 *
+	 * @param transportType            the transportType to set
 	 */
 	public void setTransportType(String transportType) {
 		this.transportType = transportType;
 	}
 
 	/**
+	 * Gets the max tariff.
+	 *
 	 * @return the maxTariff
 	 */
 	public double getMaxTariff() {
@@ -360,14 +413,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param maxTariff
-	 *            the maxTariff to set
+	 * Sets the max tariff.
+	 *
+	 * @param maxTariff            the maxTariff to set
 	 */
 	public void setMaxTariff(double maxTariff) {
 		this.maxTariff = maxTariff;
 	}
 
 	/**
+	 * Gets the photo url.
+	 *
 	 * @return the photoUrl
 	 */
 	public String getPhotoUrl() {
@@ -375,14 +431,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param photoUrl
-	 *            the photoUrl to set
+	 * Sets the photo url.
+	 *
+	 * @param photoUrl            the photoUrl to set
 	 */
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
 	}
 
 	/**
+	 * Gets the schedule.
+	 *
 	 * @return the schedule
 	 */
 	public String getSchedule() {
@@ -390,14 +449,17 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param schedule
-	 *            the schedule to set
+	 * Sets the schedule.
+	 *
+	 * @param schedule            the schedule to set
 	 */
 	public void setSchedule(String schedule) {
 		this.schedule = schedule;
 	}
 
 	/**
+	 * Gets the notes.
+	 *
 	 * @return the notes
 	 */
 	public String getNotes() {
@@ -405,8 +467,9 @@ public class UserTrail {
 	}
 
 	/**
-	 * @param notes
-	 *            the notes to set
+	 * Sets the notes.
+	 *
+	 * @param notes            the notes to set
 	 */
 	public void setNotes(String notes) {
 		this.notes = notes;
@@ -564,10 +627,10 @@ public class UserTrail {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof UserTrail)) {
+		if (!(obj instanceof TrailWrapper)) {
 			return false;
 		}
-		UserTrail other = (UserTrail) obj;
+		TrailWrapper other = (TrailWrapper) obj;
 		if (branchId == null) {
 			if (other.branchId != null) {
 				return false;

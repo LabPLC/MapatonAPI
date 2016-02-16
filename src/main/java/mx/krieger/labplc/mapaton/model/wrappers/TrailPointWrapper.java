@@ -6,35 +6,10 @@ package mx.krieger.labplc.mapaton.model.wrappers;
 import mx.krieger.internal.commons.utils.dateandtime.beans.TimeStamp;
 import mx.krieger.internal.commons.utils.location.beans.GPSLocation;
 
+
 /**
- * <p>
- * This class stores the information of a point, timestamp and location.
- * </p>
- * 
- * @author JJMS(juanjo@krieger.mx)
- * @version 1.0.0.0
- *          <p>
- *          history:<br>
- *          <table border="1">
- *          <thead>
- *          <tr>
- *          <th width="15%">Date</th>
- *          <th width="30%">Author</th>
- *          <th width="55%">Comment</th>
- *          </tr>
- *          </thead><tbody>
- *          <tr>
- *          <td>30 Jul 2015 - 14:04:38</td>
- *          <td>JJMS (juanjo@krieger.mx)</td>
- *          <td>
- *          <ul>
- *          <li>creation</li>
- *          </ul>
- *          </td>
- *          </tr>
- *          </tbody>
- *          </table>
- *          </p>
+ * The Class TrailPointWrapper.
+ * This class contains the data of a given registered point, with the position it was originally registered as
  */
 public class TrailPointWrapper {
 	private GPSLocation location;
@@ -52,9 +27,9 @@ public class TrailPointWrapper {
 	/**
 	 * This is the overloaded constructor used to create a complete instance of
 	 * a point.
-	 * 
-	 * @param location
-	 * @param timeStamp
+	 *
+	 * @param location the location
+	 * @param timeStamp the time stamp
 	 */
 	public TrailPointWrapper(GPSLocation location, TimeStamp timeStamp) {
 		super();
@@ -65,9 +40,9 @@ public class TrailPointWrapper {
 	/**
 	 * This is the overloaded constructor used to create a complete instance of
 	 * a point.
-	 * 
-	 * @param location
-	 * @param timeStamp
+	 *
+	 * @param location the location
+	 * @param position the position
 	 */
 	public TrailPointWrapper(GPSLocation location, int position) {
 		super();
@@ -79,9 +54,10 @@ public class TrailPointWrapper {
 	/**
 	 * This is the overloaded constructor used to create a complete instance of
 	 * a point.
-	 * 
-	 * @param location
-	 * @param timeStamp
+	 *
+	 * @param location the location
+	 * @param timeStamp the time stamp
+	 * @param position the position
 	 */
 	public TrailPointWrapper(GPSLocation location, TimeStamp timeStamp, int position) {
 		super();
@@ -93,6 +69,8 @@ public class TrailPointWrapper {
 	
 	
 	/**
+	 * Gets the position.
+	 *
 	 * @return the position
 	 */
 	public int getPosition() {
@@ -100,6 +78,8 @@ public class TrailPointWrapper {
 	}
 
 	/**
+	 * Sets the position.
+	 *
 	 * @param position the position to set
 	 */
 	public void setPosition(int position) {
@@ -107,6 +87,8 @@ public class TrailPointWrapper {
 	}
 
 	/**
+	 * Gets the location.
+	 *
 	 * @return the location
 	 */
 	public GPSLocation getLocation() {
@@ -114,14 +96,17 @@ public class TrailPointWrapper {
 	}
 
 	/**
-	 * @param location
-	 *            the location to set
+	 * Sets the location.
+	 *
+	 * @param location            the location to set
 	 */
 	public void setLocation(GPSLocation location) {
 		this.location = location;
 	}
 
 	/**
+	 * Gets the time stamp.
+	 *
 	 * @return the timeStamp
 	 */
 	public TimeStamp getTimeStamp() {
@@ -129,8 +114,9 @@ public class TrailPointWrapper {
 	}
 
 	/**
-	 * @param timeStamp
-	 *            the timeStamp to set
+	 * Sets the time stamp.
+	 *
+	 * @param timeStamp            the timeStamp to set
 	 */
 	public void setTimeStamp(TimeStamp timeStamp) {
 		this.timeStamp = timeStamp;

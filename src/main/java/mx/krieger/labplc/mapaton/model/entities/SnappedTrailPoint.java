@@ -8,21 +8,25 @@ import mx.krieger.internal.apicommons.model.entities.PersistentEntity;
 
 /**
  * This class Keeps the cleaned points for a trail.
+ *
  * @author Juanjo (juanjo@krieger.mx)
- * @since 18 Nov 2015 - 19:32:49
  * @version v0.0.0.0
+ * @since 16 / feb / 2016
  */
 @Entity
 public class SnappedTrailPoint extends PersistentEntity{
 
 	@Index private Long trailId;
+	
 	@Index private IndexedGPSLocation location;
+	
 	@Index private int position;
 
 	/**
-	 * This is the [] constructor used to create a [] instance of [].
-	 * @param trailId
-	 * @param location
+	 * Instantiates a new snapped trail point.
+	 *
+	 * @param trailId the trail id
+	 * @param location the location
 	 */
 	public SnappedTrailPoint(Long trailId, IndexedGPSLocation location){
 		super();
@@ -32,6 +36,9 @@ public class SnappedTrailPoint extends PersistentEntity{
 	
 	
 
+	/**
+	 * Instantiates a new snapped trail point.
+	 */
 	public SnappedTrailPoint() {
 		super();
 	}
@@ -39,6 +46,8 @@ public class SnappedTrailPoint extends PersistentEntity{
 
 
 	/**
+	 * Gets the position.
+	 *
 	 * @return the position
 	 */
 	public int getPosition() {
@@ -48,6 +57,8 @@ public class SnappedTrailPoint extends PersistentEntity{
 
 
 	/**
+	 * Sets the position.
+	 *
 	 * @param position the position to set
 	 */
 	public void setPosition(int position) {
@@ -57,6 +68,8 @@ public class SnappedTrailPoint extends PersistentEntity{
 
 
 	/**
+	 * Gets the trail id.
+	 *
 	 * @return the trailId
 	 */
 	public Long getTrailId(){
@@ -64,14 +77,17 @@ public class SnappedTrailPoint extends PersistentEntity{
 	}
 
 	/**
-	 * @param trailId
-	 *            the trailId to set
+	 * Sets the trail id.
+	 *
+	 * @param trailId            the trailId to set
 	 */
 	public void setTrailId(Long trailId){
 		this.trailId = trailId;
 	}
 
 	/**
+	 * Gets the location.
+	 *
 	 * @return the location
 	 */
 	public IndexedGPSLocation getLocation(){
@@ -79,8 +95,9 @@ public class SnappedTrailPoint extends PersistentEntity{
 	}
 
 	/**
-	 * @param location
-	 *            the location to set
+	 * Sets the location.
+	 *
+	 * @param location            the location to set
 	 */
 	public void setLocation(IndexedGPSLocation location){
 		this.location = location;

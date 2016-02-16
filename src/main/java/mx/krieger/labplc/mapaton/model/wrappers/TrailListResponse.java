@@ -2,17 +2,29 @@ package mx.krieger.labplc.mapaton.model.wrappers;
 
 import java.util.List;
 
-public class UserTrailsResponse extends CursorResponse {
+/**
+ * The Class TrailListResponse.
+ * This class is a paginated response of the trails that are registered in the datastore
+ */
+public class TrailListResponse extends CursorResponse {
 	private List<TrailDetails> trails;
 
 	
 	
-	public UserTrailsResponse(List<TrailDetails> trails, String cursor) {
+	/**
+	 * Instantiates a new trail list response.
+	 *
+	 * @param trails the trails
+	 * @param cursor the cursor
+	 */
+	public TrailListResponse(List<TrailDetails> trails, String cursor) {
 		super(cursor);
 		this.trails = trails;
 	}
 
 	/**
+	 * Gets the trails.
+	 *
 	 * @return the trails
 	 */
 	public List<TrailDetails> getTrails() {
@@ -20,6 +32,8 @@ public class UserTrailsResponse extends CursorResponse {
 	}
 
 	/**
+	 * Sets the trails.
+	 *
 	 * @param trails the trails to set
 	 */
 	public void setTrails(List<TrailDetails> trails) {

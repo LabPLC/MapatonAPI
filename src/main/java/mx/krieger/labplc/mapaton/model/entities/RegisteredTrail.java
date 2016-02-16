@@ -10,6 +10,7 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Subclass;
 
 import mx.krieger.labplc.mapaton.commons.enums.TransportType;
+import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.labplc.mapaton.handlers.TrailsHandler;
 import mx.krieger.labplc.mapaton.model.wrappers.PointData;
 
@@ -37,8 +38,8 @@ public class RegisteredTrail extends GenericTrail{
 
 	
 	/**
-	 * This is the [default/overloaded/wrapper] constructor used to
-	 * [create/wrap/unwrap] [an empty/a complete] instance of NewTrail.java
+	 * This is the default constructor used to
+	 * create an empty instance of NewTrail.java
 	 */
 	public RegisteredTrail(){
 		super();
@@ -356,16 +357,6 @@ public class RegisteredTrail extends GenericTrail{
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * This method retrieves the points associated with this specific trail.
-	 * @author Juanjo (juanjo@krieger.mx)
-	 * @since 13 Nov 2015 - 15:15:13
-	 * @return an ArrayList of plain PointData
-	 */
-	public ArrayList<PointData> getPoints(){
-		return new TrailsHandler().getTrailPoints(this.id);
 	}
 
 }

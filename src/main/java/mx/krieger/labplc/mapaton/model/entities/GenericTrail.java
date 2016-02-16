@@ -12,7 +12,7 @@ import mx.krieger.internal.apicommons.model.entities.PersistentEntity;
 /**
  * This entity class persists the information of a trail.
  * @author JJMS (juanjo@krieger.mx)
- * @since 19 Aug 2015 - 01:23:34
+ * @since 16 / feb / 2016
  * @version 1.0.0.0
  */
 @Entity

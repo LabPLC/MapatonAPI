@@ -6,22 +6,27 @@ import com.googlecode.objectify.annotation.Index;
 
 import mx.krieger.internal.commons.utils.location.beans.GPSLocation;
 
+/**
+ * The Class PointData.
+ * This class has the information about a given point
+ */
 public class PointData{
 	private GPSLocation location;
 	@Index
 	private Date timeStamp;
 
 	/**
-	 * This is the [] constructor used to create a [] instance of [].
+	 * Instantiates a new point data.
 	 */
 	public PointData(){
 		super();
 	}
 
 	/**
-	 * This is the [] constructor used to create a [] instance of [].
-	 * @param location
-	 * @param timeStamp
+	 * Instantiates a new point data.
+	 *
+	 * @param location the location
+	 * @param timeStamp the time stamp
 	 */
 	public PointData(GPSLocation location, Date timeStamp){
 		super();
@@ -31,7 +36,8 @@ public class PointData{
 
 	/**
 	 * This is the overloaded constructor used to create a complete instance of PointData from the contents of a pointWrapper.
-	 * @param pointWrapper
+	 *
+	 * @param pointWrapper the point wrapper
 	 */
 	public PointData(TrailPointWrapper pointWrapper){
 		super();
@@ -40,6 +46,8 @@ public class PointData{
 	}
 
 	/**
+	 * Gets the location.
+	 *
 	 * @return the location
 	 */
 	public GPSLocation getLocation(){
@@ -47,14 +55,17 @@ public class PointData{
 	}
 
 	/**
-	 * @param location
-	 *            the location to set
+	 * Sets the location.
+	 *
+	 * @param location            the location to set
 	 */
 	public void setLocation(GPSLocation location){
 		this.location = location;
 	}
 
 	/**
+	 * Gets the time stamp.
+	 *
 	 * @return the timeStamp
 	 */
 	public Date getTimeStamp(){
@@ -62,8 +73,9 @@ public class PointData{
 	}
 
 	/**
-	 * @param timeStamp
-	 *            the timeStamp to set
+	 * Sets the time stamp.
+	 *
+	 * @param timeStamp            the timeStamp to set
 	 */
 	public void setTimeStamp(Date timeStamp){
 		this.timeStamp = timeStamp;

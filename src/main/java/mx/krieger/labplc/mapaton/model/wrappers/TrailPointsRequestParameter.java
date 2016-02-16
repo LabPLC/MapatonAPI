@@ -1,21 +1,26 @@
 package mx.krieger.labplc.mapaton.model.wrappers;
 
+/**
+ * The Class TrailPointsRequestParameter.
+ * This class is the parameter for getting the points of a registered trail;
+ */
 public class TrailPointsRequestParameter extends CursorParameter{
 
 	private Long trailId;
 
 	/**
-	 * This is the [] constructor used to create a [] instance of [].
+	 * Instantiates a new trail points request parameter.
 	 */
 	public TrailPointsRequestParameter(){
 		super();
 	}
 
 	/**
-	 * This is the [] constructor used to create a [] instance of [].
-	 * @param cursor
-	 * @param trailId
-	 * @param numberOfElements
+	 * Instantiates a new trail points request parameter.
+	 *
+	 * @param cursor the cursor
+	 * @param trailId the trail id
+	 * @param numberOfElements the number of elements
 	 */
 	public TrailPointsRequestParameter(
 		String cursor, Long trailId, int numberOfElements){
@@ -26,6 +31,8 @@ public class TrailPointsRequestParameter extends CursorParameter{
 	}
 
 	/**
+	 * Gets the cursor.
+	 *
 	 * @return the cursor
 	 */
 	public String getCursor(){
@@ -33,14 +40,17 @@ public class TrailPointsRequestParameter extends CursorParameter{
 	}
 
 	/**
-	 * @param cursor
-	 *            the cursor to set
+	 * Sets the cursor.
+	 *
+	 * @param cursor            the cursor to set
 	 */
 	public void setCursor(String cursor){
 		this.cursor = cursor;
 	}
 
 	/**
+	 * Gets the trail id.
+	 *
 	 * @return the trailId
 	 */
 	public Long getTrailId(){
@@ -48,14 +58,17 @@ public class TrailPointsRequestParameter extends CursorParameter{
 	}
 
 	/**
-	 * @param trailId
-	 *            the trailId to set
+	 * Sets the trail id.
+	 *
+	 * @param trailId            the trailId to set
 	 */
 	public void setTrailId(Long trailId){
 		this.trailId = trailId;
 	}
 
 	/**
+	 * Gets the number of elements.
+	 *
 	 * @return the numberOfElements
 	 */
 	public int getNumberOfElements(){
@@ -63,8 +76,9 @@ public class TrailPointsRequestParameter extends CursorParameter{
 	}
 
 	/**
-	 * @param numberOfElements
-	 *            the numberOfElements to set
+	 * Sets the number of elements.
+	 *
+	 * @param numberOfElements            the numberOfElements to set
 	 */
 	public void setNumberOfElements(int numberOfElements){
 		this.numberOfElements = numberOfElements;

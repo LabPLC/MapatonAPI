@@ -1,16 +1,20 @@
-window.SECTION_STATS = 1;
-window.SECTION_USERS = 2;
-window.SECTION_MAPPINGS = 3;
+window.mapDataHasBeenLoaded = false; //Boolean to know if the data for the map has been loaded
+window.cleanMapHasBeenLoaded = false; //Boolean to know if the data for the clean map has been loaded
+window.gMapsAPIHasLoaded = false; //Boolean to know if the google maps API has been loaded
 
-window.currentElement = -1;
-window.mapDataHasBeenLoaded = false;
-window.gMapsAPIHasLoaded = false;
-window.cleanMapHasBeenLoaded = false;
 
+/**
+ * This function will be called when the DOM has been loaded. 
+ * @param $ jquery
+ */
 (function($) {
 	initSkel();
 })(jQuery);
 
+/**
+ * Fill the HTML with the data that was fetched from the server.
+ * @param trailData
+ */
 function inflateTrailUI(trailData){
     $("#page-title").html(trailData.origin.stationName + " - " + trailData.destination.stationName);
     var html =
@@ -79,18 +83,19 @@ function inflateTrailUI(trailData){
         '</div>';
 
     var wrapper = $("#content");
-    wrapper.html(html);
+    wrapper.html(html); //append the trail description form to the html
     window.data = trailData;
-    window.mapDataHasBeenLoaded = true;
-    if(window.gMapsAPIHasLoaded){
+    window.mapDataHasBeenLoaded = true; //Specify that we are able to load the points from the server
+    if(window.gMapsAPIHasLoaded){ //get the registered points from the server
     	getTrailPoints(trailData.trailId, '');
     }
-    componentHandler.upgradeElements(document.getElementById('mainTable'));
+    componentHandler.upgradeElements(document.getElementById('mainTable')); //specify to MDL that we added some elements that are handled by it
     
+    //Add an onclick to the tab that contains the clean map
     $('#clean-tab-id').click(function(){
-    	if(!window.cleanMapHasBeenLoaded){
+    	if(!window.cleanMapHasBeenLoaded){ //in case that the clean points have not been loaded, load them.
     		getTrailSnappedPoints(trailData.trailId, '');
-    		window.cleanMapHasBeenLoaded = true;
+    		window.cleanMapHasBeenLoaded = true; //specify that the clean points have been loaded
     	}
 
     });
@@ -98,12 +103,13 @@ function inflateTrailUI(trailData){
     
 }
 
+//Specify that the google maps API has loaded.
 function initMaps(){
 	console.log('init maps');   
 	window.gMapsAPIHasLoaded = true;
 
 }
-
+//Fill the points of a given map (Selector) and place them.
 function fillMap(trailPoints, selector){
     var map;
     selector = selector ? selector: 'trailmap';
@@ -139,7 +145,9 @@ function fillMap(trailPoints, selector){
     }
 }
 
-
+/**
+ * In case there is no data about the trail, display that to the user
+ */
 function showNoData(){
 	var html = 
 		'<div class="row">' +

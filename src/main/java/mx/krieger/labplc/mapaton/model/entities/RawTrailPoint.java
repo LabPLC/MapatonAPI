@@ -21,7 +21,7 @@ public class RawTrailPoint extends PersistentEntity{
 	@Index private PointData pointData;
 
 	/**
-	 * This is the default constructor used to create an empty instance of a
+	 * This is the default constructor used to create an empty instance of a raw trail point
 	 * point.
 	 */
 	public RawTrailPoint(){
@@ -29,7 +29,7 @@ public class RawTrailPoint extends PersistentEntity{
 	}
 
 	/**
-	 * This is the [] constructor used to create a [] instance of [].
+	 * This is the overloaded constructor used to create an instance of a raw trail point
 	 * @param trailId
 	 * @param pointData
 	 */

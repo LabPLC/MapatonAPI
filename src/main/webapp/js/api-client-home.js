@@ -1,10 +1,17 @@
 
+//In case if the dashboard API has not loaded, we store the wanted action in here
 window.pendingAction = -1;
+
+//Boolean to know if the mapaton public dashboard API has loaded
 window.clientHasLoaded = false;
 
 
-
+/**
+ * this method is called when the google client js has loaded on the client page
+ * it fetches the dashboard API for mapaton public and then gets the trails to display them
+ */
 function initDashboardAPI(){
+	//Call the google client to load the Mapaton Public dashboard API
     gapi.client.load(DASHBOARD_API_NAME, DASHBOARD_API_VERSION, function() {
         window.clientHasLoaded = true;
         console.log("Client has loaded!");
@@ -15,34 +22,39 @@ function initDashboardAPI(){
 }
 
 
+/**
+ * This method will fetch the trails from the API and format them in a correct way to display
+ * @param cursor the current cursor for pagination, can be an empty string if it is the first page
+ */
 function getAllTrails(cursor){
     if(window.clientHasLoaded){
         gapi.client.dashboardAPI.getAllTrails({
         	numberOfElements:NUMBER_OF_ELEMENTS,
         	cursor:cursor
         }).execute(function (resp) {
-        	//console.log(resp);
             if(typeof resp.error=='undefined'){
-                var trails = [];
+                var trails = []; //The array of objects that will be displayed on a table
                 if(resp.trails){
-                	for(var i=0; i<resp.trails.length; i++){
-                        var t = resp.trails[i];
+                	for(var i=0; i<resp.trails.length; i++){ //Get a trail and verify that all the data needed is there
+                        var tempTrail = resp.trails[i];
                         var trail = {};
-                        trail.origin = t.originStationName;
-                        trail.destination = t.destinationStationName;
-                        trail.transportType = t.transportType;
-                        if(t.schedule)
-                            trail.schedule = t.schedule;
-                        if(t.branchName)
-                            trail.branch = t.branchName;
-                        trail.id = t.trailId;
-                        trail.status = t.trailStatus;
+                        trail.origin = tempTrail.originStationName;
+                        trail.destination = tempTrail.destinationStationName;
+                        trail.transportType = tempTrail.transportType;
+                        if(tempTrail.schedule)
+                            trail.schedule = tempTrail.schedule;
+                        if(tempTrail.branchName)
+                            trail.branch = tempTrail.branchName;
+                        trail.id = tempTrail.trailId;
+                        trail.status = tempTrail.trailStatus;
 
-                        if(t.revisionDate)
-                        	trail.revisionDate = dateString(new Date(t.revisionDate)) ;
+                        //Set a human readable date for the trail
+                        if(tempTrail.revisionDate)
+                        	trail.revisionDate = dateString(new Date(tempTrail.revisionDate)) ;
                         else
                         	trail.revisionDate = 'Sin revisión';
-                        switch(t.trailStatus){
+                        //Set a human readable status for the trail;
+                        switch(tempTrail.trailStatus){
                         	case window.TRAIL_STATUS.VALID:
 	                        	trail.trailStatus = "Válido";
 	                        	break;
@@ -59,6 +71,7 @@ function getAllTrails(cursor){
                         trails.push(trail);
                     }
                 }
+                //Call the method to fill the table with the fetched trails
                 updateTrailTable(trails, resp.cursor);
             } else {
                 console.log(resp);

@@ -2,45 +2,35 @@ package mx.krieger.labplc.mapaton.model.wrappers;
 
 import java.util.ArrayList;
 
-public class TrailPointsResult{
+/**
+ * The Class TrailPointsResult.
+ * This class is a paginated response that contains the registered points of a trail;
+ */
+public class TrailPointsResult extends CursorResponse{
 
-	private String encodedCursor;
 	private ArrayList<TrailPointWrapper> points;
 
 	/**
-	 * This is the [] constructor used to create a [] instance of [].
+	 * Instantiates a new trail points result.
 	 */
 	public TrailPointsResult(){
 		super();
 	}
 
 	/**
-	 * This is the [] constructor used to create a [] instance of [].
-	 * @param encodedCursor
-	 * @param points
+	 * Instantiates a new trail points result.
+	 *
+	 * @param points the points
 	 */
-	public TrailPointsResult(String encodedCursor, ArrayList<TrailPointWrapper> points){
+	public TrailPointsResult(ArrayList<TrailPointWrapper> points){
 		super();
-		this.encodedCursor = encodedCursor;
 		this.points = points;
 	}
 
+	
 	/**
-	 * @return the encodedCursor
-	 */
-	public String getEncodedCursor(){
-		return encodedCursor;
-	}
-
-	/**
-	 * @param encodedCursor
-	 *            the encodedCursor to set
-	 */
-	public void setEncodedCursor(String encodedCursor){
-		this.encodedCursor = encodedCursor;
-	}
-
-	/**
+	 * Gets the points.
+	 *
 	 * @return the points
 	 */
 	public ArrayList<TrailPointWrapper> getPoints(){
@@ -48,8 +38,9 @@ public class TrailPointsResult{
 	}
 
 	/**
-	 * @param points
-	 *            the points to set
+	 * Sets the points.
+	 *
+	 * @param points            the points to set
 	 */
 	public void setPoints(ArrayList<TrailPointWrapper> points){
 		this.points = points;
@@ -63,11 +54,6 @@ public class TrailPointsResult{
 		final int maxLen = 10;
 		StringBuilder builder = new StringBuilder();
 		builder.append("TrailPointsResult [");
-		if(encodedCursor != null) {
-			builder.append("encodedCursor=");
-			builder.append(encodedCursor);
-			builder.append(", ");
-		}
 		if(points != null) {
 			builder.append("points=");
 			builder.append(points.subList(0, Math.min(points.size(), maxLen)));
@@ -83,8 +69,6 @@ public class TrailPointsResult{
 	public int hashCode(){
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-			+ ((encodedCursor == null) ? 0 : encodedCursor.hashCode());
 		result = prime * result + ((points == null) ? 0 : points.hashCode());
 		return result;
 	}
@@ -104,13 +88,6 @@ public class TrailPointsResult{
 			return false;
 		}
 		TrailPointsResult other = (TrailPointsResult) obj;
-		if(encodedCursor == null) {
-			if(other.encodedCursor != null) {
-				return false;
-			}
-		}else if(!encodedCursor.equals(other.encodedCursor)) {
-			return false;
-		}
 		if(points == null) {
 			if(other.points != null) {
 				return false;

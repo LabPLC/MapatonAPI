@@ -13,11 +13,11 @@ import mx.krieger.internal.apicommons.model.entities.IndexedGPSLocation;
 import mx.krieger.internal.apicommons.model.entities.PersistentEntity;
 
 /**
- * This class is used to persist platforms
- * 
+ * This class is used to persist platforms.
+ *
  * @author JJMS (juanjo@krieger.mx)
- * @since 19 Aug 2015 - 01:11:50
  * @version 1.0.0.0
+ * @since 19 Aug 2015 - 01:11:50
  */
 @Entity
 @Cache
@@ -25,11 +25,15 @@ public class Platform extends PersistentEntity {
 
 	@Index
 	private Ref<Station> station;
+	
 	@Index
 	private String name;
+	
 	private String description;
+	
 	@Index
 	private IndexedGPSLocation location;
+	
 	@Index
 	private GeoPt geopt;
 
@@ -37,6 +41,7 @@ public class Platform extends PersistentEntity {
 	
 	
 	public static class Status{
+		
 		public static final int CATALOGUE = 0;
 		public static final int TRAIL = 1;
 		public static final int TRAIL_VERIFIED = 2;
@@ -44,21 +49,19 @@ public class Platform extends PersistentEntity {
 
 	
 	/**
-	 * This is the [default/overloaded/wrapper] constructor used to
-	 * [create/wrap/unwrap] [an empty/a complete] instance of Platform.java
+	 * Instantiates a new platform.
 	 */
 	public Platform() {
 		super();
 	}
 
 	/**
-	 * This is the [default/overloaded/wrapper] constructor used to
-	 * [create/wrap/unwrap] [an empty/a complete] instance of Platform.java
-	 * 
-	 * @param station
-	 * @param name
-	 * @param description
-	 * @param location
+	 * Instantiates a new platform.
+	 *
+	 * @param station the station
+	 * @param name the name
+	 * @param description the description
+	 * @param location the location
 	 */
 	public Platform(Ref<Station> station, String name, String description, IndexedGPSLocation location) {
 		super();
@@ -70,12 +73,17 @@ public class Platform extends PersistentEntity {
 	}
 
 	/**
+	 * Gets the station.
+	 *
 	 * @return the station
 	 */
 	public Station getStation() {
 		return station.get();
 	}
+	
 	/**
+	 * Gets the ref station.
+	 *
 	 * @return the station
 	 */
 	public Ref<Station> getRefStation() {
@@ -83,14 +91,17 @@ public class Platform extends PersistentEntity {
 	}
 
 	/**
-	 * @param station
-	 *            the station to set
+	 * Sets the station.
+	 *
+	 * @param station            the station to set
 	 */
 	public void setStation(Station station) {
 		this.station = Ref.create(station);
 	}
 
 	/**
+	 * Gets the name.
+	 *
 	 * @return the name
 	 */
 	public String getName() {
@@ -98,14 +109,17 @@ public class Platform extends PersistentEntity {
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * Sets the name.
+	 *
+	 * @param name            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
+	 * Gets the description.
+	 *
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -113,14 +127,17 @@ public class Platform extends PersistentEntity {
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
+	 * Sets the description.
+	 *
+	 * @param description            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	/**
+	 * Gets the location.
+	 *
 	 * @return the location
 	 */
 	public IndexedGPSLocation getLocation() {
@@ -129,8 +146,9 @@ public class Platform extends PersistentEntity {
 	}
 
 	/**
-	 * @param location
-	 *            the location to set
+	 * Sets the location.
+	 *
+	 * @param location            the location to set
 	 */
 	public void setLocation(IndexedGPSLocation location) {
 		this.location = location;
@@ -138,6 +156,8 @@ public class Platform extends PersistentEntity {
 	}
 
 	/**
+	 * Gets the created status.
+	 *
 	 * @return the createdStatus
 	 */
 	public int getCreatedStatus() {
@@ -145,6 +165,8 @@ public class Platform extends PersistentEntity {
 	}
 
 	/**
+	 * Sets the created status.
+	 *
 	 * @param createdStatus the createdStatus to set
 	 */
 	public void setCreatedStatus(int createdStatus) {

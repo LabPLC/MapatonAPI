@@ -1,6 +1,3 @@
-/**
- * 19 Aug 2015 - 01:17:46
- */
 package mx.krieger.labplc.mapaton.model.entities;
 
 import com.googlecode.objectify.annotation.Entity;
@@ -8,12 +5,9 @@ import com.googlecode.objectify.annotation.Index;
 
 import mx.krieger.internal.apicommons.model.entities.PersistentEntity;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class persist information about the branches
- * 
- * @author JJMS (juanjo@krieger.mx)
- * @since 19 Aug 2015 - 01:17:46
- * @version 1.0.0.0
+ * The Class Branch.
  */
 @Entity
 public class Branch extends PersistentEntity {
@@ -22,18 +16,16 @@ public class Branch extends PersistentEntity {
 	private String name;
 
 	/**
-	 * This is the [default/overloaded/wrapper] constructor used to
-	 * [create/wrap/unwrap] [an empty/a complete] instance of Branch.java
+	 * Instantiates a new branch.
 	 */
 	public Branch() {
 		super();
 	}
 
 	/**
-	 * This is the [default/overloaded/wrapper] constructor used to
-	 * [create/wrap/unwrap] [an empty/a complete] instance of Branch.java
-	 * 
-	 * @param name
+	 * Instantiates a new branch.
+	 *
+	 * @param name the name
 	 */
 	public Branch(String name) {
 		super();
@@ -41,6 +33,8 @@ public class Branch extends PersistentEntity {
 	}
 
 	/**
+	 * Gets the name.
+	 *
 	 * @return the name
 	 */
 	public String getName() {
@@ -48,17 +42,16 @@ public class Branch extends PersistentEntity {
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * Sets the name.
+	 *
+	 * @param name the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
+	/* (non-Javadoc)
+	 * @see mx.krieger.internal.apicommons.model.entities.PersistentEntity#toString()
 	 */
 	@Override
 	public String toString() {
@@ -87,10 +80,8 @@ public class Branch extends PersistentEntity {
 		return builder.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
+	/* (non-Javadoc)
+	 * @see mx.krieger.internal.apicommons.model.entities.PersistentEntity#hashCode()
 	 */
 	@Override
 	public int hashCode() {
@@ -100,10 +91,8 @@ public class Branch extends PersistentEntity {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/* (non-Javadoc)
+	 * @see mx.krieger.internal.apicommons.model.entities.PersistentEntity#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {

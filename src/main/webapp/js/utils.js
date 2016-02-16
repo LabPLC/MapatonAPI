@@ -1,12 +1,14 @@
 
 
-window.TRAIL_STATUS = {};
+window.TRAIL_STATUS = {}; //Object to define the constants of the trail status
 window.TRAIL_STATUS.VALID = 0;
 window.TRAIL_STATUS.INVALID_TOO_SHORT = 1;
 window.TRAIL_STATUS.INVALID_OUTSIDE_TIMEFRAME = 2;
 window.TRAIL_STATUS.INVALID_WRONG_DATA = 3;
 
-
+/**
+ * function to initialize the content manager
+ */
 function initSkel(){
     skel.breakpoints({
         xlarge:		'(max-width: 1680px)',
@@ -45,7 +47,11 @@ function initSkel(){
 }
 
 
-
+/**
+ * function to make a date human readable
+ * @param date {Date}
+ * @returns {String}
+ */
 function dateString(date){
 	if(date === 'undefined' || date == null){
 		return "";
@@ -61,6 +67,11 @@ function dateString(date){
 	
 }
 
+/**
+ * function to make a date human readable, with hours and minutes
+ * @param date {Date}
+ * @returns {String}
+ */
 function dateDetailedString(date){
 	if(date === 'undefined' || date == null){
 		return "";
@@ -79,10 +90,20 @@ function dateDetailedString(date){
 	
 }
 
+/**
+ * format a number as a 2 number string
+ * @param string to be formatted
+ * @returns {String}
+ */
 function twoNumberString(string){
 	return ("0" + string).slice(-2);
 }
 
+/**
+ * Get a parameter in the url;
+ * @param name
+ * @returns
+ */
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),

@@ -15,7 +15,6 @@ import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 import mx.krieger.labplc.mapaton.model.entities.Route;
 import mx.krieger.labplc.mapaton.model.entities.SnappedTrailPoint;
 import mx.krieger.labplc.mapaton.model.entities.Station;
-import mx.krieger.labplc.mapaton.model.entities.TrailRecord;
 
 /**
  * This class is used to manage entity classes within objectify and Google Data
@@ -35,7 +34,6 @@ public class OfyService {
 		factory().register(Platform.class);
 		factory().register(Route.class);
 		factory().register(Station.class);
-		factory().register(TrailRecord.class);
 	}
 
 	public static Objectify ofy() {

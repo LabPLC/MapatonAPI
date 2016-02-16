@@ -5,13 +5,13 @@ package mx.krieger.labplc.mapaton.model.wrappers;
 
 import java.util.Date;
 
-import mx.krieger.labplc.mapaton.commons.enums.RegisteredTrailStatusEnum;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 
 /**
- * @author jjm20
+ * The Class TrailDetails.
+ * This class extends TrailWrapper to detail more about a trail
  */
-public class TrailDetails extends UserTrail {
+public class TrailDetails extends TrailWrapper {
 
 	private Date creationDate;
 	private int trailStatus;
@@ -20,16 +20,32 @@ public class TrailDetails extends UserTrail {
 	private double totalMinutes;
 	private double totalMeters;
 
+	/**
+	 * Instantiates a new trail details.
+	 *
+	 * @param mappedTrail the mapped trail
+	 * @param creationDate the creation date
+	 */
 	public TrailDetails(RegisteredTrail mappedTrail, Date creationDate) {
 		super(mappedTrail);
 		this.trailStatus = mappedTrail.getTrailStatus();
 		this.creationDate=(creationDate);
 	}
 
+	/**
+	 * Gets the creation date.
+	 *
+	 * @return the creation date
+	 */
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
+	/**
+	 * Sets the creation date.
+	 *
+	 * @param creationDate the new creation date
+	 */
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	} 
@@ -37,6 +53,8 @@ public class TrailDetails extends UserTrail {
 	
 
 	/**
+	 * Gets the trail status.
+	 *
 	 * @return the trailStatus
 	 */
 	public int getTrailStatus() {
@@ -44,6 +62,8 @@ public class TrailDetails extends UserTrail {
 	}
 
 	/**
+	 * Sets the trail status.
+	 *
 	 * @param trailStatus the trailStatus to set
 	 */
 	public void setTrailStatus(int trailStatus) {
@@ -51,6 +71,8 @@ public class TrailDetails extends UserTrail {
 	}
 
 	/**
+	 * Gets the invalid reason.
+	 *
 	 * @return the invalidReason
 	 */
 	public String getInvalidReason() {
@@ -58,6 +80,8 @@ public class TrailDetails extends UserTrail {
 	}
 
 	/**
+	 * Sets the invalid reason.
+	 *
 	 * @param invalidReason the invalidReason to set
 	 */
 	public void setInvalidReason(String invalidReason) {
@@ -67,6 +91,8 @@ public class TrailDetails extends UserTrail {
 	
 
 	/**
+	 * Gets the total minutes.
+	 *
 	 * @return the totalMinutes
 	 */
 	public double getTotalMinutes() {
@@ -74,6 +100,8 @@ public class TrailDetails extends UserTrail {
 	}
 
 	/**
+	 * Sets the total minutes.
+	 *
 	 * @param totalMinutes the totalMinutes to set
 	 */
 	public void setTotalMinutes(double totalMinutes) {
@@ -81,6 +109,8 @@ public class TrailDetails extends UserTrail {
 	}
 
 	/**
+	 * Gets the total meters.
+	 *
 	 * @return the totalMeters
 	 */
 	public double getTotalMeters() {
@@ -88,6 +118,8 @@ public class TrailDetails extends UserTrail {
 	}
 
 	/**
+	 * Sets the total meters.
+	 *
 	 * @param totalMeters the totalMeters to set
 	 */
 	public void setTotalMeters(double totalMeters) {
