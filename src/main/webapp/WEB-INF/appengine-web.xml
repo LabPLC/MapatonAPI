@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+	
+	<!-- General Configuration -->
+	<application>mapaton-public</application>
+	<module>default</module>
+	<version>dos</version>
+	<threadsafe>true</threadsafe>
+	<instance-class>F4_1G</instance-class>
+	
+	<!-- Automatic Scaling Configuration -->
+	<automatic-scaling>
+		<min-idle-instances>automatic</min-idle-instances>
+		<max-idle-instances>automatic</max-idle-instances>
+		<min-pending-latency>automatic</min-pending-latency>
+		<max-pending-latency>automatic</max-pending-latency>
+		<max-concurrent-requests>50</max-concurrent-requests>
+	</automatic-scaling>
+
+	<!-- Environment Variables -->
+	<env-variables>
+	</env-variables>
+
+	<!-- System Variables -->
+	<system-properties>
+		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />		
+	</system-properties>
+	
+</appengine-web-app>

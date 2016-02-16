@@ -1,0 +1,63 @@
+@import '../libs/_vars';
+@import '../libs/_functions';
+@import '../libs/_mixins';
+
+@-ms-viewport {
+  width: device-width;
+}
+
+body {
+  -ms-overflow-style: scrollbar;
+}
+
+@include breakpoint(xxsmall) {
+  html, body {
+    min-width: 320px;
+  }
+}
+
+body {
+  .loader{
+    background: _palette(base, bg);
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100000;
+
+    .item-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+
+      i {
+        color: _palette(base, accent);
+        font-size: 2em;
+      }
+    }
+  }
+
+  &.is-loading {
+    .loader {
+      display: block;
+    }
+  }
+}
+
+.block {
+  display: block;
+}
+
+/* IE FIX*/
+video {
+  display: block;
+}
+
+@mixin apply-palette-to-body($p: null) {
+  body {
+    @include apply-palette-to-section($p);
+  }
+}

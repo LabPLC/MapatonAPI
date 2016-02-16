@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="A public dashboard.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Dashboard: MapatónCDMX</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium" rel="stylesheet">
+        <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-red.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body id="home">
+        <div class="layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <span class="mdl-layout-title"></span>
+                </div>
+            </header>
+
+            <div class="mdl-layout__drawer">
+                <header class="drawer-header">
+                    <img src="images/img_banner.svg">
+                </header>
+                <nav class="navigation mdl-navigation">
+                    <a class="mdl-navigation__link clickable" id="nav-3"><i class="material-icons" role="presentation">map</i>Mapeos</a>
+                </nav>
+            </div>
+
+            <main class="mdl-layout__content">
+                <div class="content-wrapper">
+                </div>
+            </main>
+            <input type="hidden" id="cursor"/>
+            <input type="hidden" id="tableName"/>
+        </div>
+
+        <!-- SCRIPTS -->
+        <script src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script src="js/material.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/utils-properties.js"></script>
+        <script src="js/utils-dialogs.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/api-client-home.js"></script>
+        <script src="js/section-main.js"></script>
+        <script src="https://apis.google.com/js/client.js?onload=initDashboardAPI" gapi_processed="true"></script>
+    </body>
+</html>

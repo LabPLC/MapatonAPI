@@ -1,0 +1,31 @@
+@import 'libs/_vars';
+@import 'libs/_functions';
+@import 'libs/_mixins';
+@import 'libs/_skel';
+@import 'libs/_init';
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic);
+@import '../fonts/font-awesome.min.css';
+
+// Base Style
+
+@import 'base/_page';
+@import 'base/_typography';
+@import "base/_dialog";
+@import "base/_dialog-nonmaterial";
+
+// Components
+
+@import 'components/_container';
+@import 'components/_button';
+@import 'components/_form';
+@import 'components/_icon';
+@import 'components/_image';
+@import 'components/_list';
+@import 'components/_section';
+@import 'components/_table';
+
+//Initializing Style
+@include apply-palette-to-body(base);
+
+// Layouts for this page
+@import "layout/_project";

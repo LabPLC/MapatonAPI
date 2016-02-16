@@ -1,0 +1,84 @@
+@import '../libs/_vars';
+@import '../libs/_functions';
+@import '../libs/_mixins';
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button,
+.button {
+  @include vendor('appearance', 'none');
+  @include vendor('transition', 'background-color #{_duration(transition)} ease-in-out, color #{_duration(transition)} ease-in-out');
+  border-radius: _size(border-radius);
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: _font(weight-bold);
+  padding:  _padding(button-vertical) _padding(button-horizontal);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &.icon {
+	padding-left: 1.35em;
+
+	&:before {
+	  margin-right: 0.5em;
+	}
+  }
+
+  &.fit {
+	display: block;
+	margin: 0 0 (_size(element-margin) * 0.5) 0;
+	width: 100%;
+  }
+
+  &.small {
+	font-size: 0.8em;
+  }
+
+  &.big {
+	font-size: 1.35em;
+  }
+
+  &.disabled,
+  &:disabled {
+	@include vendor('pointer-events', 'none');
+	cursor: default;
+	opacity: 0.25;
+  }
+}
+
+@mixin color-button($p: null) {
+  input[type="submit"],
+  input[type="reset"],
+  input[type="button"],
+  button,
+  .button {
+	background-color: transparent;
+	color: _palette($p, fg) !important;
+	box-shadow: inset 0 0 0 (_size(border-width) * 2) _palette($p, border);
+
+	&:hover {
+	  background-color: _palette($p, btn-bg-hover);
+	}
+
+	&:active {
+	  background-color: _palette($p, btn-bg-active);
+	}
+
+	&.special {
+	  box-shadow: none;
+	  background-color: _palette($p, accent);
+	  color: _palette($p, fg-accent) !important;
+
+	  &:hover {
+		background-color: lighten(_palette($p, accent), 5);
+	  }
+
+	  &:active {
+		background-color: darken(_palette($p, accent), 5);
+	  }
+	}
+  }
+}

@@ -1,0 +1,58 @@
+.big-padding-top{
+  padding-top: _padding(big-padding);
+}
+.big-padding-bottom{
+  padding-bottom: _padding(big-padding);
+}
+
+
+$header-height: 3.5em;
+
+.header {
+  height: $header-height;
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  text-align: left;
+
+  .logo {
+    height: $header-height;
+    width: auto;
+    display: inline-block;
+
+    @include breakpoint(xsmall){
+      margin-top: $header-height *0.1;
+      height: $header-height * 0.8;
+    }
+  }
+
+  .social {
+    float: right;
+    display: inline-block;
+    height: 100%;
+
+    a {
+      img {
+        margin-top: $header-height * 0.15;
+        height: $header-height * 0.7;
+        width: auto;
+      }
+    }
+  }
+}
+
+.nav-bar {
+  @include apply-palette-to-section(dark, "true");
+
+  height: $header-height + 1.4em;
+
+  padding-top: 0.7em;
+  padding-bottom: 0.7em;
+  position: inherit;
+
+  .logo {
+    margin-top: $header-height * 0.2;
+    height: $header-height * 0.6;
+  }
+}

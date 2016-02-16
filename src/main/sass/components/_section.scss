@@ -1,0 +1,83 @@
+@import '../libs/_vars';
+@import '../libs/_functions';
+@import '../libs/_mixins';
+
+section, article {
+  &.special {
+	text-align: center;
+  }
+}
+
+header {
+  p {
+	position: relative;
+	margin: 0 0 (_size(element-margin) * 0.75) 0;
+
+	@include breakpoint(small) {
+	  br {
+		display: none;
+	  }
+	}
+
+  }
+
+  h1 {
+	font-family: _font(family-title);
+	font-weight: _font(weight-ultrabold);
+
+	+ p {
+	  font-size: 1.5em;
+	  margin-top: (_size(element-margin) * -0.25);
+	  line-height: 1.7em;
+	}
+  }
+
+  h2 + p {
+	font-size: 1.25em;
+	margin-top: (_size(element-margin) * -0.25);
+	line-height: 1.5em;
+  }
+
+  h3 + p {
+	font-size: 1.1em;
+	margin-top: (_size(element-margin) * -0.125);
+	line-height: 1.5em;
+  }
+
+  h4 + p,
+  h5 + p,
+  h6 + p {
+	font-size: 0.9em;
+	margin-top: (_size(element-margin) * -0.3);
+	line-height: 1.5em;
+  }
+
+  &.major {
+	margin: 0 0 _padding(box) 0;
+	text-align: center;
+
+	&.with-divider {
+	  &:after {
+		content: '';
+		border-bottom: solid (_size(border-width) * 3);
+		display: block;
+		width: 62%;
+		margin: _size(element-margin) auto 0 auto;
+	  }
+	}
+
+	@include breakpoint(small) {
+	  margin: 0 0 _size(element-margin) 0;
+
+	  p {
+		font-size: 1em;
+	  }
+	}
+  }
+}
+
+@mixin color-section($p: null) {
+  header.major.with-divider:after {
+	border-color: _palette($p, border);
+  }
+}
