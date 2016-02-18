@@ -1,8 +1,8 @@
 
 # MapatonAPI
-API pública y open*source para el consumo de los datos resultantes de MapatónCDMX
+API pública y open-source para el consumo de los datos resultantes de MapatónCDMX
 
-Para más información acerca del API es posible utilizar la heraamienta [API explorer](https://apis*explorer.appspot.com/apis*explorer/?base=https://mapaton*public.appspot.com/_ah/api#p/) del proyecto, la cual contiene una lista de los métodos utilizables, así como sus parámetros y retornos. El API explorer cuenta con un editor de JSON para realizar las peticiones y ayuda a saber qué parámetros se utilizan en cada método.
+Para más información acerca del API es posible utilizar la heraamienta [API explorer](https://apis-explorer.appspot.com/apis-explorer/?base=https%3A%2F%2Fmapaton-public.appspot.com%2F_ah%2Fapi#p/) del proyecto, la cual contiene una lista de los métodos utilizables, así como sus parámetros y retornos. El API explorer cuenta con un editor de JSON para realizar las peticiones y ayuda a saber qué parámetros se utilizan en cada método.
 Dentro de DashboardAPI es posible ver los métodos expuestos:
 * dashboardAPI.getAllTrails 
 * dashboardAPI.getTrailDetails 
