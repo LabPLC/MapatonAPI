@@ -2,7 +2,7 @@
 # MapatonAPI
 API pública y open-source para el consumo de los datos resultantes de MapatónCDMX
 
-Para más información acerca del API es posible utilizar la heraamienta [API explorer](https://apis-explorer.appspot.com/apis-explorer/?base=https%3A%2F%2Fmapaton-public.appspot.com%2F_ah%2Fapi#p/) del proyecto, la cual contiene una lista de los métodos utilizables, así como sus parámetros y retornos. El API explorer cuenta con un editor de JSON para realizar las peticiones y ayuda a saber qué parámetros se utilizan en cada método.
+Para más información acerca del API es posible utilizar la herramienta [API explorer](https://apis-explorer.appspot.com/apis-explorer/?base=https%3A%2F%2Fmapaton-public.appspot.com%2F_ah%2Fapi#p/) del proyecto, la cual contiene una lista de los métodos utilizables, así como sus parámetros y retornos. El API explorer cuenta con un editor de JSON para realizar las peticiones y ayuda a saber qué parámetros se utilizan en cada método.
 Dentro de DashboardAPI es posible ver los métodos expuestos:
 * dashboardAPI.getAllTrails 
 * dashboardAPI.getTrailDetails 
@@ -108,5 +108,14 @@ Método utilizado para obtener todos los puntos registrados en MapatónCDMX por 
        * __radius__: El radio de precisión del punto registrado
     * __position__: La posición en del punto respecto a otros (no utilizado en _dashboardAPI.getTrailRawPoints_)
 
+### dashboard.registerGtfsTask
 
+Método utilizado para la creación de un archivo GTFS en el servidor de acuerdo con los parámetros pasados.
+
+1. Parámetros:
+   * __password__: Una contraseña sencilla para evitar que se hagan peticiones en exceso
+   * __trailIds__: Un arreglo de identificadores de recorrido separados por coma (,)
+
+2. Retornos:
+   * Vacío, simplemente se encola una petición al servidor para que realice el procesamiento en segundo plano. Una vez generado, el archivo gtfs se puede descargar de [este link](http://mapaton-public.appspot.com/serveGtfsZip)
 
