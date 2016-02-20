@@ -197,6 +197,10 @@ public class RegisteredTrail extends GenericTrail{
 	public void setRevisionDate(Date revisionDate) {
 		this.revisionDate = revisionDate;
 	}
+	
+	public ArrayList<PointData> getPoints(){
+		return new TrailsHandler().getTrailPoints(this.id);
+	}
 
 	/* (non-Javadoc)
 	 * 

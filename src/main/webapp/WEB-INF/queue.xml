@@ -1,0 +1,15 @@
+<queue-entries>
+	<queue>
+		<name>gtfsQueue</name>
+		<mode>push</mode>
+		<rate>1/s</rate>
+		<max-concurrent-requests>1</max-concurrent-requests>
+		<retry-parameters>
+			<task-retry-limit>10</task-retry-limit>
+			<task-age-limit>1d</task-age-limit>
+			<min-backoff-seconds>30</min-backoff-seconds>
+			<max-backoff-seconds>300</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+</queue-entries>

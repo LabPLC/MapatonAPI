@@ -1,5 +1,8 @@
 package mx.krieger.labplc.mapaton.apis;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
@@ -16,6 +19,7 @@ import mx.krieger.labplc.mapaton.model.wrappers.CursorParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailDetails;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsResult;
+import mx.krieger.labplc.mapaton.tasks.GtfsGenerationTask;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
 
 /**
@@ -116,5 +120,28 @@ public class DashboardAPI{
 		logger.debug("Points of the trail finished ");
 		return result;
 	}
+
+
+	/**
+	 * Register the gtfs creation task.
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param password the simple password to avoid excess of petitions
+	 * @param trailIds the trail ids to be added to the GTFS
+	 * @since 19 / feb / 2016
+	 */
+	@ApiMethod(name = "registerGtfsTask", path = "registerGtfsTask", httpMethod = HttpMethod.POST)
+	public void registerGtfsTask(@Named("password") String password, @Named("trailIds") String trailIds) throws TrailNotFoundException{
+		logger.debug("registering gtfs task");
+		if(password.equals("MAPATON")){
+			HashMap<String, String> params = new HashMap<>();
+			params.put(GtfsGenerationTask.Params.trailIds.name(), trailIds);
+			
+			new GtfsGenerationTask().enqueue(params);
+		}
+		
+		logger.debug("registration finished");
+	}
+	
 
 }

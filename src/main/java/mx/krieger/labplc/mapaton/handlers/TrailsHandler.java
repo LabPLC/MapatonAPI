@@ -206,4 +206,24 @@ public class TrailsHandler{
 		return result;
 	}
 	
+	/**
+	 * This method returns the all the points of a trail registered in the competition of MapatonCDMX
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 19 / feb / 2016
+	 * @param parameter The object containing all the parameters for the request.
+	 * @return The list of trails and the cursor to be able to get the next N number of elements.
+	 * @throws TrailNotFoundException 
+	 */
+	public ArrayList<PointData> getTrailPoints(Long trailId){
+		logger.debug("Getting points for trail " + trailId);
+		List<RawTrailPoint> points = ofy().load().type(RawTrailPoint.class)
+			.filter("trailId", trailId).list();
+		ArrayList<PointData> result = new ArrayList<PointData>();
+		for(RawTrailPoint point : points){
+			result.add(point.getPointData());
+		}
+		return result;
+	}
+	
+	
 }

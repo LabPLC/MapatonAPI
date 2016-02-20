@@ -188,6 +188,11 @@
 			<version>${appengine.version}</version>
 			<scope>test</scope>
 		</dependency>
+	    <dependency>
+	        <groupId>com.google.appengine.tools</groupId>
+	        <artifactId>appengine-gcs-client</artifactId>
+	        <version>RELEASE</version>
+	    </dependency>
 	</dependencies>
 
 	<!-- Build -->
