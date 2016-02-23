@@ -1,16 +1,19 @@
 package mx.krieger.labplc.mapaton.utils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-
-import org.joda.time.LocalTime;
 
 import com.google.appengine.tools.cloudstorage.GcsFileMetadata;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
@@ -28,9 +31,16 @@ import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.labplc.mapaton.handlers.TrailsHandler;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
-import mx.krieger.labplc.mapaton.model.entities.Route;
 import mx.krieger.labplc.mapaton.model.wrappers.PointData;
 
+/**
+ * This class is used to manage the contents of the application through the
+ * dashboard.
+ *
+ * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+ * @version 1.0.0.0
+ * @since 22 / feb / 2016
+ */
 public class GTFSHelper {
 	public static final String GTFS_FILE = "mapatonGTFS.zip";
 	public static final String BUCKET_NAME = "mapaton-public-gtfs";
@@ -38,22 +48,31 @@ public class GTFSHelper {
 	private static Logger logger = new Logger(GTFSHelper.class);
 	
 	private static final double AVERAGE_SPEED = 14.5; // km/h
-	private static final double AVERAGE_SPEED2 = 4.027778; // m/s
-	private static final int STOP_DISTANCE = 200;
+	private static final double AVERAGE_SPEED_METERS_PER_SEC = 4.027778; // m/s
+	private static final int STOP_DISTANCE = 250;
+	private static final int STOPTIMES_PER_HOUR = 4;
+	private static final int TOTAL_SERVICE_HOURS = 16; // 6:00 - 22:00
+	private static final int STOPTIME_MINUTE_DIFFERENCE = 60 / STOPTIMES_PER_HOUR;
+	private static final int NUMBER_OF_STOPTIMES = STOPTIMES_PER_HOUR * TOTAL_SERVICE_HOURS;
 	
+	
+	/**
+	 * Headers for the files needed in the GTFS Zip
+	 */
 	private static final String AGENCY_HEADER = "agency_id, agency_name,agency_url,agency_timezone,agency_phone,agency_lang\n";
 	private static final String STOPS_HEADER = "stop_id,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_station\n";
-	private static final String TRIPS_HEADER = "route_id,service_id,trip_id,trip_headsign,shape_id\n";
+	private static final String TRIPS_HEADER = "route_id,service_id,trip_id,trip_headsign,direction_id,shape_id\n";
 	private static final String ROUTES_HEADER = "route_id,route_short_name,route_long_name,route_desc,route_type\n";
 	private static final String STOPTIMES_HEADER = "trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type,timepoint\n";
 	private static final String CALENDAR_HEADER = "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date\n";
 	private static final String CALENDAR_DATES_HEADER = "service_id,date,exception_type\n";
 	private static final String FARE_ATTRIBUTES_HEADER = "fare_id,price,currency_type,payment_method,transfers,transfer_duration\n";
-	private static final String FARE_RULES_HEADER = "fare_id,route_id,origin_id,destination_id,contains_id\n";
+	private static final String FARE_RULES_HEADER = "fare_id,route_id\n";
 	private static final String SHAPES_HEADER = "shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence,shape_dist_traveled\n";
-	private static final String FREQUENCIES_HEADER = "trip_id,start_time,end_time,headway_secs\n";
 	
-	
+	/**
+	 * File names for the GTFS Zip
+	 */
 	private static final String AGENCY_TXT = "agency.txt";
 	private static final String STOPS_TXT = "stops.txt";
 	private static final String TRIPS_TXT = "trips.txt";
@@ -64,12 +83,12 @@ public class GTFSHelper {
 	private static final String FARE_ATTRIBUTES_TXT = "fare_attributes.txt";
 	private static final String FARE_RULES_TXT = "fare_rules.txt";
 	private static final String SHAPES_TXT = "shapes.txt";
-	private static final String FREQUENCIES_TXT = "frequencies.txt";
 	
 	
 	
 	private final GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-	private List<RouteGtfs> routes = new ArrayList<>();
+	private Map<String, RouteGtfs> routesMap = new HashMap<>();
+	private Map<String, List<String>> fareRules = new HashMap<>();
 	private List<Stop> stops = new ArrayList<>();
 	private List<StopTime> stoptimes = new ArrayList<>();
 	private List<Trip> trips = new ArrayList<>();
@@ -77,13 +96,28 @@ public class GTFSHelper {
 	
 	
 	
-
+	/**
+	 * Method used to write to a Google Cloud Services file a byte array 
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param fileName the Google Cloud Services file that points to the file to write
+	 * @param content the byte array that will be written
+	 * @since 22 / feb / 2016
+	 */
 	private void writeToFile(GcsFilename fileName, byte[] content) throws IOException {
 		GcsOutputChannel outputChannel = gcsService.createOrReplace(fileName, GcsFileOptions.getDefaultInstance());
 		outputChannel.write(ByteBuffer.wrap(content));
 		outputChannel.close();
 	}
-
+	
+	/**
+	 * Method used to read the contents of a Google Cloud Services file to a byte array 
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param fileName the Google Cloud Services file that points to the file to write
+	 * @return the byte array that contains the contents
+	 * @since 22 / feb / 2016
+	 */
 	private byte[] readFromFile(GcsFilename fileName) throws IOException { 
 		int fileSize = (int) gcsService.getMetadata(fileName).getLength();
 		ByteBuffer result = ByteBuffer.allocate(fileSize);
@@ -93,6 +127,13 @@ public class GTFSHelper {
 		return result.array();
 	}
 	
+	/**
+	 * Method used to ZIP a Google Cloud Services file array to a predefined Google Cloud Services file Zip
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param filesToZip the array of Google Cloud Services files that points to the zip
+	 * @since 22 / feb / 2016
+	 */
 	private void zipFiles(final GcsFilename... filesToZip) throws IOException {
 
 		GcsFilename targetZipFile = new  GcsFilename(BUCKET_NAME, GTFS_FILE);
@@ -139,20 +180,39 @@ public class GTFSHelper {
 	    }
 	}
 	
+
+	
+	/**
+	 * Method used to get the GTFS ZIP from Google Cloud Services
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @return filesToZip the main GTFS ZIP file that was generated
+	 * @since 22 / feb / 2016
+	 */
 	public byte[] getGTFSZipFile() throws IOException{
 		GcsFilename targetZipFile = new  GcsFilename(BUCKET_NAME, GTFS_FILE);
 		return readFromFile(targetZipFile);
 		 
 	}
 	
+	/**
+	 * Method used to generate the GTFS ZIP file from an array of trail Ids.
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param trailIds the trail Ids that will be part of the generated GTFS ZIP file
+	 * @since 22 / feb / 2016
+	 */
 	public void generateGTFS(long[] trailIds) throws IOException{
 		logger.debug("generating with ids " + Arrays.toString(trailIds));
 		CalendarGtfs calendar = new CalendarGtfs();
 		calendar.serviceId = "C1";
 		calendars.add(calendar);
 		int trailNumber = 0;
+		NumberFormat formatter = new DecimalFormat("#0.00");     
+
 		for(long trailId: trailIds){
 			trailNumber ++;
+			logger.debug("looking at trail " + trailNumber);
 			RegisteredTrail trail;
 			try {
 				trail = TrailsHandler.getTrailById(trailId);
@@ -161,46 +221,71 @@ public class GTFSHelper {
 				e.printStackTrace();
 				continue;
 			}
-			Route r;
-			if(trail.getRoute() != null){
-				r = trail.getRoute().get();
-			} else {
-				r = new Route();
-				r.setName("Ruta");
-				r.setId((long)trailNumber);
-			}
+			
+
+			
 			RouteGtfs rg = new RouteGtfs();
-			rg.routeId = r.getId() + "";
-			rg.shortName = r.getName() + r.getId();
-			rg.longName = trail.getOrigin().get().getStation().getName() + " - " + trail.getDestination().get().getStation().getName();
-			routes.add(rg);
+			boolean isInbound = false;
+			boolean isNew = false;
+			String origin = trail.getOrigin().get().getStation().getName();
+			String destiny = trail.getDestination().get().getStation().getName();
+			if(routesMap.containsKey(origin + " - " + destiny)){
+				rg = routesMap.get(origin + " - " + destiny);
+			} else if (routesMap.containsKey(destiny+ " - " + origin)){
+				rg = routesMap.get(destiny+ " - " + origin);
+				isInbound = true;
+			} else {				
+				rg.routeId = trailNumber + "";
+				rg.shortName =  "R " + trailNumber;
+				rg.longName =  origin + " - " + destiny;
+				routesMap.put(origin + " - " + destiny, rg);
+				isNew = true;
+			}
 			logger.debug("route added");
 			
-			Trip trip = new Trip();
-			trip.tripId = trail.getId() + "";
-			if(trail.getBranch() != null){
-				trip.headsign = trail.getBranch().get().getName();
+			if(isNew){
+				String tariff = formatter.format(trail.getMaxTariff());
+				if(fareRules.containsKey(tariff)){
+					fareRules.get(tariff).add(rg.routeId);
+				} else {
+					fareRules.put(tariff, new ArrayList<String>());
+					fareRules.get(tariff).add(rg.routeId);
+				}
 			}
-			trip.routeId = rg.routeId;
-			trip.serviceId = calendar.serviceId;
-			trips.add(trip);
 			
 			
-			double distance = trail.getTotalMeters();
+			
+			Trip baseTrip = new Trip();
+			baseTrip.tripId = trailNumber + "T";
+			if(trail.getBranch() != null){
+				baseTrip.headsign = trail.getBranch().get().getName();
+			}
+			baseTrip.routeId = rg.routeId;
+			baseTrip.serviceId = calendar.serviceId;
+			baseTrip.direction = isInbound?"1":"0";
+			
+			
+			for (int i = 0; i < NUMBER_OF_STOPTIMES; i++) {
+				Trip trip = new Trip();
+				trip.tripId = baseTrip.tripId + i;
+				trip.headsign = baseTrip.headsign;
+				trip.routeId = baseTrip.routeId;
+				trip.serviceId = baseTrip.serviceId;
+				trip.direction = baseTrip.direction;
+
+				trips.add(trip);
+			}
+			logger.debug("trip added");
 			
 			int position = 0;
-			int seconds = 0;
-			LocalTime start = new LocalTime(6, 0);
-			LocalTime current = new LocalTime(6,0);
-			LocalTime end = new LocalTime(22,0);
+			GtfsTime current = new GtfsTime(6,0,0);
 
 			GPSLocation prev = null;
 			List<PointData> points = trail.getPoints();
 			int pointSize = points.size();
-			int pointNumber = 0;
+			logger.debug("generating stops and stoptimes");
 			for (int i = 0; i < pointSize; i ++){
-//			for (PointData pd : points){
-				pointNumber ++;
+				double seconds = 0;
 				PointData pd = points.get(i);
 				GPSLocation curr = pd.getLocation();
 				if(prev == null){
@@ -209,37 +294,27 @@ public class GTFSHelper {
 					double dist = GpsLocationUtils.getDistanceBetweenPoints(prev, curr);
 					if(dist > STOP_DISTANCE){ 
 						prev = curr;
-						seconds += dist / AVERAGE_SPEED2;
+						seconds = dist / AVERAGE_SPEED_METERS_PER_SEC;
 					} else {
 						continue;
 					}
 				}
-				position ++;
+				current = current.addSeconds((int)seconds);
+
 				Stop stop = new Stop();
 				stop.lat = prev.getLatitude();
 				stop.lon = prev.getLongitude();
-				stop.stopId = trailNumber + " " + position;
+				stop.stopId = trailNumber + "S" + position;
 				stop.name = rg.shortName + " " + stop.stopId;
 				stop.description = rg.longName + " " + stop.stopId;
 
-				
-				StopTime stoptime = new StopTime();
-				stoptime.stopId = stop.stopId;
-				stoptime.seq = position;
-				stoptime.tripId = trip.tripId;
-				if(pointNumber == 1){
-					stoptime.arrivalTime = "07:00:00";
-					stoptime.departureTime = "07:00:00";					
-				}
-				if(pointNumber == pointSize){
-					stoptime.arrivalTime = "09:00:00";
-					stoptime.departureTime = "09:00:00";					
-				}
+				generateStoptimes(current, stop, baseTrip, trailNumber * 10000 + position * NUMBER_OF_STOPTIMES);
+				position ++;
+
 				
 				stops.add(stop);
-				stoptimes.add(stoptime);
 			}
-			
+			logger.debug(" trail processing completed");
 			
 		}
 		
@@ -254,10 +329,41 @@ public class GTFSHelper {
 		
 	}
 	
-	public void generateAllStoptimes(){
+	/**
+	 * Method used to generate the StopTimes from start to finish for a given stop.
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param start the starting time point for the groups of stopTimes
+	 * @param stop the current stop that will be part of the stopTimes
+	 * @param trip the base trip that contains the id of the trips that will be part of the stoptimes
+	 * @param position the starting position of the sequence of stopTimes
+	 * @since 22 / feb / 2016
+	 */
+	public void generateStoptimes(GtfsTime start, Stop stop, Trip trip, int position){
+		GtfsTime current = start;
+		int i;
+		for (i = 0; i < NUMBER_OF_STOPTIMES; i++) {
+			StopTime stoptime = new StopTime();
+			stoptime.stopId = stop.stopId;
+			stoptime.seq = position + i;
+			stoptime.tripId = trip.tripId + i;
+			
+			stoptime.arrivalTime = current.toString();
+//			stoptime.departureTime = stoptime.arrivalTime;	
+
+			stoptimes.add(stoptime);
+			current = current.addMinutes(STOPTIME_MINUTE_DIFFERENCE);
+		}
+		logger.debug(i + " stoptimes generated for stop " + stop.stopId );
 		
 	}
 	
+	/**
+	 * Method used to update the GTFS ZIP file to be served later on.
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 22 / feb / 2016
+	 */
 	private void updateGtfs() throws IOException{
 		GcsFilename calsFile = new GcsFilename(BUCKET_NAME, CALENDAR_TXT);
 		GcsFilename stopsFile = new GcsFilename(BUCKET_NAME, STOPS_TXT);
@@ -265,34 +371,103 @@ public class GTFSHelper {
 		GcsFilename tripsFile = new GcsFilename(BUCKET_NAME, TRIPS_TXT);
 		GcsFilename stoptimesFile = new GcsFilename(BUCKET_NAME, STOPTIMES_TXT);
 		GcsFilename agencyFile = new GcsFilename(BUCKET_NAME, AGENCY_TXT);
+		GcsFilename fareRule = new GcsFilename(BUCKET_NAME, FARE_RULES_TXT);
+		GcsFilename fareAttrs = new GcsFilename(BUCKET_NAME, FARE_ATTRIBUTES_TXT);
 
 		updateAgency(agencyFile);
-		updateFile(stopsFile, stops, STOPS_HEADER);
+		updateFareRules(fareRule, fareAttrs);
 		updateFile(calsFile, calendars, CALENDAR_HEADER);
+		calendars = null;
+		updateFile(routesFile, routesMap.values(), ROUTES_HEADER);
+		routesMap = null;
+		updateFile(stopsFile, stops, STOPS_HEADER);
+		stops = null;
 		updateFile(tripsFile, trips, TRIPS_HEADER);
-		updateFile(routesFile, routes, ROUTES_HEADER);
+		trips = null;
 		updateFile(stoptimesFile, stoptimes, STOPTIMES_HEADER);
+		stoptimes = null;
 		
-		zipFiles(agencyFile, calsFile, stopsFile, routesFile, tripsFile, stoptimesFile);
+		zipFiles(agencyFile, calsFile, stopsFile, routesFile, tripsFile, stoptimesFile, fareRule, fareAttrs);
 	}
 	
+	/**
+	 * Method used to update the AGENCY_TXT
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param file the Google Cloud Services file that contains the agencies
+	 * @since 22 / feb / 2016
+	 */
 	private void updateAgency(GcsFilename file) throws IOException{
-		String contents = AGENCY_HEADER + "FunBus,The Fun Bus,http://www.thefunbus.org,America/Los_Angeles,(310) 555-0222,es";
-		writeToFile(file, contents.getBytes());
+		String contents = AGENCY_HEADER + "MapatonCDMX,Mapaton Ciudad de Mexico,http://www.mapatoncd.mx,America/Mexico_City,000000000,es";
+		writeToFile(file, contents.getBytes("UTF-8"));
 	}
-	private void updateFile(GcsFilename file, List<? extends Gtfize> elements, String header) throws IOException{
-		StringBuilder sb = new StringBuilder(header);
-		for	(Gtfize s : elements){
-			sb.append(s.toTxt());
+	
+	/**
+	 * Method used to update the FARE_RULES and FARE_ATTRIBUTES
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param file the Google Cloud Services file that contains the fares
+	 * @since 22 / feb / 2016
+	 */
+	private void updateFareRules(GcsFilename rules, GcsFilename attributes) throws UnsupportedEncodingException, IOException{
+		StringBuilder rulesString = new StringBuilder(FARE_RULES_HEADER);
+		StringBuilder attributesString = new StringBuilder(FARE_ATTRIBUTES_HEADER);
+		int number = 0;
+		for (String tariff : fareRules.keySet()) {
+			String tariffKey = "TA" + number;
+			attributesString.append(tariffKey).append(",")
+				.append(tariff).append(",")
+				.append("MXN,0,0,\n");
+			for(String route: fareRules.get(tariff)){
+				rulesString.append(tariffKey).append(",")
+					.append(route).append("\n");
+			}
+			number++;
 		}
-		writeToFile(file, sb.toString().getBytes());
+		writeToFile(attributes, attributesString.toString().getBytes("UTF-8"));
+		writeToFile(rules, rulesString.toString().getBytes("UTF-8"));
+		
+		
 	}
 
-	private static abstract class Gtfize{
+	/**
+	 * Method used to update the given file with a collection of elements and the header for that file
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param file the Google Cloud Services file that contains the fares
+	 * @since 22 / feb / 2016
+	 */
+	private void updateFile(GcsFilename file, Collection<? extends GTFSElement> elements, String header) throws IOException{
+		StringBuilder sb = new StringBuilder(header);
+		for	(GTFSElement s : elements){
+			sb.append(s.toTxt());
+		}
+		writeToFile(file, sb.toString().getBytes("UTF-8"));
+	}
+
+	/**
+	 * Class that defines the main behaviour of elements that will be placed on a GTFS file
+	 * 
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 22 / feb / 2016
+	 */
+	private static abstract class GTFSElement{
+		/**
+		 * Method to get the representation of this object as part of a GTFS file
+		 * 
+		 * @return the txt representation of this element
+		 */
 		public abstract String toTxt();
 		
 	}
-	private static class RouteGtfs extends Gtfize{
+	
+	/**
+	 * Class that defines the attributes needed for ROUTES_TXT
+	 * 
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 22 / feb / 2016
+	 */
+	private static class RouteGtfs extends GTFSElement{
 
 		public String routeId;
 		public String shortName;
@@ -341,7 +516,14 @@ public class GTFSHelper {
 		}
 		
 	}
-	private static class Stop extends Gtfize{
+	
+	/**
+	 * Class that defines the attributes needed for STOPS_TXT
+	 * 
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 22 / feb / 2016
+	 */
+	private static class Stop extends GTFSElement{
 		public String stopId;
 		public String name;
 		public String description;
@@ -396,26 +578,30 @@ public class GTFSHelper {
 		}
 		
 	}
-	private static class StopTime extends Gtfize{
+	
+	/**
+	 * Class that defines the attributes needed for STOPTIMES_TXT
+	 * 
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 22 / feb / 2016
+	 */
+	private static class StopTime extends GTFSElement{
 		public String tripId;
 		public String arrivalTime = "";
-		public String departureTime = "";
+		//public String departureTime = ""; //COMMENTED FOR MEMORY EFFICIENCY
 		public String stopId;
 		public int seq;
-		public int pickup = 0;
-		public int drop = 0;
-		public int timepoint = 0;
 		
 		public String toTxt(){
 			StringBuilder sb = new StringBuilder();
 			sb.append(tripId).append(",")
 				.append(arrivalTime).append(",")
-				.append(departureTime).append(",")
+				.append(arrivalTime).append(",") //DEPARTURE TIME
 				.append(stopId).append(",")
 				.append(seq).append(",")
-				.append(pickup).append(",")
-				.append(drop).append(",")
-				.append(timepoint).append("\n");
+				.append("0,") //PICKUP
+				.append("0,") //DROP
+				.append("0\n"); //TIMEPOINT
 			return sb.toString();
 		}
 
@@ -457,11 +643,19 @@ public class GTFSHelper {
 		}
 		
 	}
-	private static class Trip extends Gtfize{
+	
+	/**
+	 * Class that defines the attributes needed for TRIPS_TXT
+	 * 
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 22 / feb / 2016
+	 */
+	private static class Trip extends GTFSElement{
 		public String routeId;
 		public String serviceId;
 		public String tripId;
 		public String headsign="";
+		public String direction = "0";
 		public String shapeId="";
 		
 		public String toTxt(){
@@ -470,6 +664,7 @@ public class GTFSHelper {
 				.append(serviceId).append(",")
 				.append(tripId).append(",")
 				.append(headsign).append(",")
+				.append(direction).append(",")
 				.append(shapeId).append("\n");
 			return sb.toString();
 		}
@@ -506,7 +701,14 @@ public class GTFSHelper {
 		}
 		
 	}
-	private static class CalendarGtfs extends Gtfize{
+	
+	/**
+	 * Class that defines the attributes needed for CALENDAR_TXT
+	 * 
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 22 / feb / 2016
+	 */
+	private static class CalendarGtfs extends GTFSElement{
 		public String serviceId;
 		public int monday=1;
 		public int tuesday=1;
@@ -569,5 +771,79 @@ public class GTFSHelper {
 		
 	}
 	
+	/**
+	 * Immutable class that defines the way a time for GTFS file is handled
+	 * It allows hours greater than 24:00 to comply with the GTFS standard
+	 * 
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 22 / feb / 2016
+	 */
+	private static class GtfsTime {
+		public int hour;
+		public int minute;
+		public int second;
+		public GtfsTime(int hour, int minute, int second) {
+			super();
+			this.hour = hour;
+			this.minute = minute;
+			this.second = second;
+		}
+
+		/**
+		 * Method used to add seconds to the time
+		 *
+		 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+		 * @param seconds the seconds that will be added
+		 * @since 22 / feb / 2016
+		 */
+		public GtfsTime addSeconds(double seconds){
+			int newSecond = (int)seconds + second;
+			int newMinute = minute;
+			int newHour = hour;
+			if(newSecond >= 60) {
+				newMinute += newSecond / 60;
+				newSecond = newSecond % 60;
+				if(newMinute >= 60){
+					newHour += newMinute / 60;
+					newMinute = newMinute % 60;
+				}
+				
+			}
+			
+			GtfsTime copy = new GtfsTime(newHour, newMinute, newSecond);
+			return copy;
+			
+		}
+
+		/**
+		 * Method used to add minutes to the time
+		 *
+		 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+		 * @param minutes the minutes that will be added
+		 * @since 22 / feb / 2016
+		 */
+		public GtfsTime addMinutes(int minutes){
+			int newMinute = minute + minutes;
+			int newHour = hour;
+			if(newMinute >= 60){
+				newHour += newMinute / 60;
+				newMinute = newMinute % 60;
+			}
+		
+			
+			GtfsTime copy = new GtfsTime(newHour, newMinute, second);
+			return copy;
+			
+		}
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return String.format("%02d", hour) + ":" + String.format("%02d", minute) + ":" + String.format("%02d", second);
+		}
+
+		
+	}
 
 }

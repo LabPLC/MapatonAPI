@@ -217,7 +217,7 @@ public class TrailsHandler{
 	public ArrayList<PointData> getTrailPoints(Long trailId){
 		logger.debug("Getting points for trail " + trailId);
 		List<RawTrailPoint> points = ofy().load().type(RawTrailPoint.class)
-			.filter("trailId", trailId).list();
+			.filter("trailId", trailId).order("pointData.timeStamp").list();
 		ArrayList<PointData> result = new ArrayList<PointData>();
 		for(RawTrailPoint point : points){
 			result.add(point.getPointData());
