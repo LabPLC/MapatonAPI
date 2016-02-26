@@ -10,7 +10,6 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Subclass;
 
 import mx.krieger.labplc.mapaton.commons.enums.TransportType;
-import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.labplc.mapaton.handlers.TrailsHandler;
 import mx.krieger.labplc.mapaton.model.wrappers.PointData;
 

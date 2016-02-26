@@ -3,8 +3,6 @@ package mx.krieger.labplc.mapaton.apis;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -13,17 +11,16 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.AuthLevel;
 import com.google.api.server.spi.config.Named;
 
-import mx.krieger.internal.apicommons.exceptions.APIException;
 import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.labplc.mapaton.handlers.TrailsHandler;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 import mx.krieger.labplc.mapaton.model.wrappers.CursorParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailDetails;
+import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsResult;
 import mx.krieger.labplc.mapaton.tasks.GtfsGenerationTask;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
 
 /**
  * This class is used to manage the contents of the application through the
@@ -145,6 +142,14 @@ public class DashboardAPI{
 		
 		logger.debug("registration finished");
 	}
+	
+	/**
+	 * Register the gtfs creation task of all valid trails
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param password the simple password to avoid excess of petitions
+	 * @since 26 / feb / 2016
+	 */
 	@ApiMethod(name = "registerGtfsFullTask", path = "registerGtfsFullTask", httpMethod = HttpMethod.POST)
 	public void registerGtfsFullTask(@Named("password") String password) throws TrailNotFoundException{
 		logger.debug("registering gtfs task");

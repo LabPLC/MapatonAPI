@@ -6,7 +6,6 @@ package mx.krieger.labplc.mapaton.handlers;
 import static mx.krieger.labplc.mapaton.utils.OfyService.ofy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Cursor;
@@ -15,9 +14,7 @@ import com.google.appengine.api.datastore.ReadPolicy.Consistency;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
-import mx.krieger.internal.apicommons.exceptions.APIException;
 import mx.krieger.internal.commons.utils.dateandtime.utils.TimeStampUtils;
-import mx.krieger.internal.commons.utils.location.beans.GPSLocation;
 import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.enums.RegisteredTrailStatusEnum;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
@@ -28,10 +25,10 @@ import mx.krieger.labplc.mapaton.model.entities.SnappedTrailPoint;
 import mx.krieger.labplc.mapaton.model.wrappers.CursorParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.PointData;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailDetails;
+import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailPointWrapper;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsResult;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
 import mx.krieger.labplc.mapaton.utils.CursorHelper;
 
 /**

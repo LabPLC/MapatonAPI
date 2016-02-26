@@ -118,4 +118,14 @@ Método utilizado para la creación de un archivo GTFS en el servidor de acuerdo
 
 2. Retornos:
    * Vacío, simplemente se encola una petición al servidor para que realice el procesamiento en segundo plano. Una vez generado, el archivo gtfs se puede descargar de [este link](http://mapaton-public.appspot.com/serveGtfsZip)
+   
+### dashboard.registerGtfsFullTask
+
+Método utilizado para la creación de un archivo GTFS en el servidor de acuerdo con los parámetros pasados.
+
+1. Parámetros:
+   * __password__: Una contraseña sencilla para evitar que se hagan peticiones en exceso
+
+2. Retornos:
+   * Vacío, simplemente se encola una petición al servidor para que realice el procesamiento en segundo plano. Una vez generado, el archivo gtfs se puede descargar de [este link](http://mapaton-public.appspot.com/serveGtfsZip)
 

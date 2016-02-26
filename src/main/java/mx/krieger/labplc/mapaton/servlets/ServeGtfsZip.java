@@ -1,24 +1,19 @@
 package mx.krieger.labplc.mapaton.servlets;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.api.client.util.IOUtils;
-
 import mx.krieger.labplc.mapaton.utils.GTFSHelper;
 
 
 public class ServeGtfsZip extends HttpServlet {
 	
-    
+   	private static final long serialVersionUID = 1L;
+
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		byte[] zipData = new GTFSHelper().getGTFSZipFile();
