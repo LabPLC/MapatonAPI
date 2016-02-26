@@ -1,6 +1,9 @@
 package mx.krieger.labplc.mapaton.apis;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.api.server.spi.config.Api;
@@ -135,6 +138,20 @@ public class DashboardAPI{
 		logger.debug("registering gtfs task");
 		if(password.equals("MAPATON")){
 			HashMap<String, String> params = new HashMap<>();
+			params.put(GtfsGenerationTask.Params.trailIds.name(), trailIds);
+			
+			new GtfsGenerationTask().enqueue(params);
+		}
+		
+		logger.debug("registration finished");
+	}
+	@ApiMethod(name = "registerGtfsFullTask", path = "registerGtfsFullTask", httpMethod = HttpMethod.POST)
+	public void registerGtfsFullTask(@Named("password") String password) throws TrailNotFoundException{
+		logger.debug("registering gtfs task");
+		if(password.equals("MAPATON")){
+			ArrayList<Long> ids = new TrailsHandler().getAllValidTrailsIds();
+			HashMap<String, String> params = new HashMap<>();
+			String trailIds = Arrays.toString(ids.toArray()).replace("[", "").replace("]", "").replace(" ", "");
 			params.put(GtfsGenerationTask.Params.trailIds.name(), trailIds);
 			
 			new GtfsGenerationTask().enqueue(params);

@@ -25,7 +25,7 @@ import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 import com.google.common.net.MediaType;
 
-import mx.krieger.internal.commons.utils.location.GpsLocationUtils;
+import mx.krieger.internal.commons.utils.constants.EarthConstants;
 import mx.krieger.internal.commons.utils.location.beans.GPSLocation;
 import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
@@ -44,6 +44,7 @@ import mx.krieger.labplc.mapaton.model.wrappers.PointData;
 public class GTFSHelper {
 	public static final String GTFS_FILE = "mapatonGTFS.zip";
 	public static final String BUCKET_NAME = "mapaton-public-gtfs";
+	private static final int MAX_CAPACITY = 2097152; //2 ^ 21, used to avoid an out of memory error
 	
 	private static Logger logger = new Logger(GTFSHelper.class);
 	
@@ -60,7 +61,7 @@ public class GTFSHelper {
 	 * Headers for the files needed in the GTFS Zip
 	 */
 	private static final String AGENCY_HEADER = "agency_id, agency_name,agency_url,agency_timezone,agency_phone,agency_lang\n";
-	private static final String STOPS_HEADER = "stop_id,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_station\n";
+	private static final String STOPS_HEADER = "stop_id,stop_name,stop_desc,stop_lat,stop_lon\n";
 	private static final String TRIPS_HEADER = "route_id,service_id,trip_id,trip_headsign,direction_id,shape_id\n";
 	private static final String ROUTES_HEADER = "route_id,route_short_name,route_long_name,route_desc,route_type\n";
 	private static final String STOPTIMES_HEADER = "trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type,timepoint\n";
@@ -135,6 +136,7 @@ public class GTFSHelper {
 	 * @since 22 / feb / 2016
 	 */
 	private void zipFiles(final GcsFilename... filesToZip) throws IOException {
+		logger.debug("zipping files " + filesToZip.length);
 
 		GcsFilename targetZipFile = new  GcsFilename(BUCKET_NAME, GTFS_FILE);
 	    final int fetchSize = 4 * 1024 * 1024;
@@ -147,14 +149,12 @@ public class GTFSHelper {
 	        zip = new ZipOutputStream(Channels.newOutputStream(outputChannel));
 	        GcsInputChannel readChannel = null;
 	        for (GcsFilename file : filesToZip) {
+	        	logger.debug("zipping file: " + file);
 	            try {
 	                final GcsFileMetadata meta = gcsService.getMetadata(file);
 	                if (meta == null) {
-//	                    logger.warning(file.toString() + " NOT FOUND. Skipping.");
 	                    continue;
 	                }
-	                //int fileSize = (int) meta.getLength();
-	                //  LOGGER.fine("adding " + file.toString());
 	                ZipEntry entry = new ZipEntry(file.getObjectName());
 	                zip.putNextEntry(entry);
 	                readChannel = gcsService.openPrefetchingReadChannel(file, 0, fetchSize);
@@ -169,6 +169,7 @@ public class GTFSHelper {
 	                }       
 
 	            } finally {
+	            	logger.debug("closing file");
 	                zip.closeEntry();
 	                readChannel.close();
 	            }
@@ -209,10 +210,10 @@ public class GTFSHelper {
 		calendars.add(calendar);
 		int trailNumber = 0;
 		NumberFormat formatter = new DecimalFormat("#0.00");     
-
+		int size = trailIds.length;
 		for(long trailId: trailIds){
 			trailNumber ++;
-			logger.debug("looking at trail " + trailNumber);
+			logger.debug("looking at trail " + trailNumber + " of " + size );
 			RegisteredTrail trail;
 			try {
 				trail = TrailsHandler.getTrailById(trailId);
@@ -251,6 +252,7 @@ public class GTFSHelper {
 					fareRules.put(tariff, new ArrayList<String>());
 					fareRules.get(tariff).add(rg.routeId);
 				}
+				logger.debug("fare rule added");
 			}
 			
 			
@@ -264,7 +266,7 @@ public class GTFSHelper {
 			baseTrip.serviceId = calendar.serviceId;
 			baseTrip.direction = isInbound?"1":"0";
 			
-			
+			logger.debug("base trip generated as "  + baseTrip);
 			for (int i = 0; i < NUMBER_OF_STOPTIMES; i++) {
 				Trip trip = new Trip();
 				trip.tripId = baseTrip.tripId + i;
@@ -275,7 +277,7 @@ public class GTFSHelper {
 
 				trips.add(trip);
 			}
-			logger.debug("trip added");
+			logger.debug("trips added");
 			
 			int position = 0;
 			GtfsTime current = new GtfsTime(6,0,0);
@@ -291,7 +293,7 @@ public class GTFSHelper {
 				if(prev == null){
 					prev = curr;
 				} else {
-					double dist = GpsLocationUtils.getDistanceBetweenPoints(prev, curr);
+					double dist = getHarvesineDistance(prev, curr);
 					if(dist > STOP_DISTANCE){ 
 						prev = curr;
 						seconds = dist / AVERAGE_SPEED_METERS_PER_SEC;
@@ -299,6 +301,7 @@ public class GTFSHelper {
 						continue;
 					}
 				}
+				logger.debug("generating new stop and stoptimes from point");
 				current = current.addSeconds((int)seconds);
 
 				Stop stop = new Stop();
@@ -319,6 +322,7 @@ public class GTFSHelper {
 		}
 		
 		try {
+			logger.info("updating the zip file");
 			updateGtfs();
 		} catch (IOException e) {
 			logger.error("No se pudo actualizar el gtfs");
@@ -375,17 +379,24 @@ public class GTFSHelper {
 		GcsFilename fareAttrs = new GcsFilename(BUCKET_NAME, FARE_ATTRIBUTES_TXT);
 
 		updateAgency(agencyFile);
+		logger.info("agencies file updated");
 		updateFareRules(fareRule, fareAttrs);
+		logger.info("fare rules and fare attributes file updated");
 		updateFile(calsFile, calendars, CALENDAR_HEADER);
 		calendars = null;
+		logger.info("calendar file updated");
 		updateFile(routesFile, routesMap.values(), ROUTES_HEADER);
 		routesMap = null;
+		logger.info("routes file updated");
 		updateFile(stopsFile, stops, STOPS_HEADER);
 		stops = null;
+		logger.info("stops file updated");
 		updateFile(tripsFile, trips, TRIPS_HEADER);
 		trips = null;
-		updateFile(stoptimesFile, stoptimes, STOPTIMES_HEADER);
+		logger.info("trips file updated");
+		updateLargeFile(stoptimesFile, stoptimes, STOPTIMES_HEADER);
 		stoptimes = null;
+		logger.info("stoptimes file updated");
 		
 		zipFiles(agencyFile, calsFile, stopsFile, routesFile, tripsFile, stoptimesFile, fareRule, fareAttrs);
 	}
@@ -439,11 +450,99 @@ public class GTFSHelper {
 	 */
 	private void updateFile(GcsFilename file, Collection<? extends GTFSElement> elements, String header) throws IOException{
 		StringBuilder sb = new StringBuilder(header);
+		logger.debug("updating file, entries:" + elements.size());
 		for	(GTFSElement s : elements){
 			sb.append(s.toTxt());
 		}
 		writeToFile(file, sb.toString().getBytes("UTF-8"));
 	}
+	/**
+	 * Method used to update the given file with a collection of elements and the header for that file
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param file the Google Cloud Services file that contains the fares
+	 * @since 22 / feb / 2016
+	 */
+	private void updateLargeFile(GcsFilename file, Collection<? extends GTFSElement> elements, String header) throws IOException{
+		String fileName = "TEMP";
+		logger.debug("updating large file, entries:" + elements.size());
+		StringBuilder sb = new StringBuilder(MAX_CAPACITY);
+		sb.append(header);
+		int current = 1;
+		GcsFilename temp = new GcsFilename(BUCKET_NAME, fileName + current);
+
+
+		for	(GTFSElement s : elements){
+
+			sb.append(s.toTxt());
+			if(sb.length() + 200> MAX_CAPACITY){
+				logger.debug("string buffer on max capacity, writing to temp file");
+				writeToFile(temp, sb.toString().getBytes("UTF-8"));
+				current+=1;
+				temp = new GcsFilename(BUCKET_NAME, fileName + current);
+				sb = new StringBuilder(MAX_CAPACITY);
+			}
+			
+			
+		}
+		writeToFile(temp, sb.toString().getBytes("UTF-8"));
+		
+		int end = current;
+		GcsOutputChannel outputChannel = gcsService.createOrReplace(file, GcsFileOptions.getDefaultInstance());
+		for(current = 1; current <= end; current++){
+			temp = new GcsFilename(BUCKET_NAME, "TEMP" + current);
+			outputChannel.write(ByteBuffer.wrap(readFromFile(temp)));
+			gcsService.delete(temp);
+		}
+		outputChannel.close();
+		
+		
+	}
+	
+	 /**
+     * <p>This method computes the harvesian distance between two gps location points in metres.</p>
+     * @author JJMS(juanjo@krieger.mx)
+     * <p>history:<br>
+     * <ul>
+     * <li>17 Jan 2015 - JJMS(juanjo@krieger.mx) - creation</li>
+     * </ul></p>
+     * @see <a href="http://en.wikipedia.org/wiki/Haversine_formula">Harvesian Distance</a>
+     * @param location1 the location 1 to get distance from
+     * @param location2 the location 2 to get distance to
+     * @return the double distance between two gps location in metres.
+     */
+    private static Double getHarvesineDistance(GPSLocation location1, GPSLocation location2) {
+
+	Double lat1 = location1.getLatitude();
+	Double lon1 = location1.getLongitude();
+	Double lat2 = location2.getLatitude();
+	Double lon2 = location2.getLongitude();
+	Double latDistance = toRadians(lat2-lat1);
+	Double lonDistance = toRadians(lon2-lon1);
+	Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + 
+		Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * 
+		Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+	Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	Double distance = EarthConstants.EARTH_RADIOUS *c*1000;
+
+//	logger.debug("The distance between "+location1.toString()+" and "+location2.toString()+" is: " + distance);
+
+	return distance;
+
+    }
+    /**
+     * <p>This method converts a longitud in meters, to radians.</p>
+     * @author JJMS(juanjo@krieger.mx)
+     * <p>history:<br>
+     * <ul>
+     * <li>17 Jan 2015 - JJMS(juanjo@krieger.mx) - creation</li>
+     * </ul></p>
+     * @param meters
+     * @return the equivalent in radiant to this distance.
+     */
+    public static Double toRadians(Double meters) {
+	return meters * Math.PI / 180;
+    }
 
 	/**
 	 * Class that defines the main behaviour of elements that will be placed on a GTFS file
@@ -478,8 +577,8 @@ public class GTFSHelper {
 			StringBuilder sb = new StringBuilder();
 			sb.append(routeId).append(",")
 				.append(shortName).append(",")
-				.append(longName).append(",")
-				.append(shortName).append(" - ").append(longName).append(",")
+				.append(longName.replaceAll(",", "").replaceAll("\"","")).append(",")
+				.append(shortName).append(" - ").append(longName.replaceAll(",", "").replaceAll("\"","")).append(",")
 				.append(type).append("\n");
 			return sb.toString();
 		}
@@ -529,20 +628,14 @@ public class GTFSHelper {
 		public String description;
 		public double lat;
 		public double lon;
-		public String url = "";
-		public String type = "";
-		public String parentStation = "";
 		
 		public String toTxt(){
 			StringBuilder sb = new StringBuilder();
 			sb.append(stopId).append(",")
 				.append(name).append(",")
-				.append(description).append(",")
+				.append(description.replaceAll(",", "").replaceAll("\"","")).append(",")
 				.append(lat).append(",")
-				.append(lon).append(",")
-				.append(url).append(",")
-				.append(type).append(",")
-				.append(parentStation).append("\n");
+				.append(lon).append("\n");
 			return sb.toString();
 		}
 
@@ -663,7 +756,7 @@ public class GTFSHelper {
 			sb.append(routeId).append(",")
 				.append(serviceId).append(",")
 				.append(tripId).append(",")
-				.append(headsign).append(",")
+				.append(headsign.replaceAll(",", "").replaceAll("\"","")).append(",")
 				.append(direction).append(",")
 				.append(shapeId).append("\n");
 			return sb.toString();
@@ -779,9 +872,9 @@ public class GTFSHelper {
 	 * @since 22 / feb / 2016
 	 */
 	private static class GtfsTime {
-		public int hour;
-		public int minute;
-		public int second;
+		public final int hour;
+		public final int minute;
+		public final int second;
 		public GtfsTime(int hour, int minute, int second) {
 			super();
 			this.hour = hour;

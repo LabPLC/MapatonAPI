@@ -12,12 +12,14 @@ import java.util.List;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.ReadPolicy.Consistency;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import mx.krieger.internal.apicommons.exceptions.APIException;
 import mx.krieger.internal.commons.utils.dateandtime.utils.TimeStampUtils;
 import mx.krieger.internal.commons.utils.location.beans.GPSLocation;
 import mx.krieger.internal.commons.utils.logging.Logger;
+import mx.krieger.labplc.mapaton.commons.enums.RegisteredTrailStatusEnum;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.labplc.mapaton.model.entities.GenericTrail;
 import mx.krieger.labplc.mapaton.model.entities.RawTrailPoint;
@@ -121,6 +123,35 @@ public class TrailsHandler{
 		// logger.debug("Getting all trails... "+result);
 
 		return theResult;
+	}
+	
+
+	/**
+	 * This method returns the all the trails that have been registered in the competition of MapatonCDMX
+	 * paginated by parameter.numberOfElements and parameter.cursor to define where to start and how many elements to get.
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 25 / feb / 2016
+	 * @param parameter The object containing all the parameters for the request.
+	 * @return The list of trails and the cursor to be able to get the next N number of elements.
+	 * @throws TrailNotFoundException 
+	 */
+	public ArrayList<Long> getAllValidTrailsIds() {
+
+		logger.debug("Getting user trails...");
+		
+
+		ArrayList<Long> result = new ArrayList<>();
+		List<Key<RegisteredTrail>> trails = ofy().cache(false)
+				.consistency(Consistency.STRONG).load().type(RegisteredTrail.class)
+				.filter("trailStatus", RegisteredTrailStatusEnum.VALID).keys().list();
+					
+		for(Key<RegisteredTrail> t : trails){
+			result.add(t.getId());
+		}
+		
+		
+		
+		return result;
 	}
 	
 	/**
