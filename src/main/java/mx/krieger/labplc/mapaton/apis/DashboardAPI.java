@@ -1,5 +1,10 @@
 package mx.krieger.labplc.mapaton.apis;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,6 +15,7 @@ import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.AuthLevel;
 import com.google.api.server.spi.config.Named;
+import com.google.common.io.CharStreams;
 
 import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
@@ -126,14 +132,19 @@ public class DashboardAPI{
 	 * Register the gtfs creation task.
 	 *
 	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
-	 * @param password the simple password to avoid excess of petitions
+	 * @param password a simple password to avoid excess of petitions
 	 * @param trailIds the trail ids to be added to the GTFS
+	 * @throws IOException 
+	 * @throws UnsupportedEncodingException 
 	 * @since 19 / feb / 2016
 	 */
 	@ApiMethod(name = "registerGtfsTask", path = "registerGtfsTask", httpMethod = HttpMethod.POST)
-	public void registerGtfsTask(@Named("password") String password, @Named("trailIds") String trailIds) throws TrailNotFoundException{
+	public void registerGtfsTask(@Named("password") String password, @Named("trailIds") String trailIds) throws TrailNotFoundException, UnsupportedEncodingException, IOException{
 		logger.debug("registering gtfs task");
-		if(password.equals("MAPATON")){
+		FileInputStream inputStream = new FileInputStream(new File("WEB-INF/config.txt"));
+		String passConfig = CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
+
+		if(password.equals(passConfig)){
 			HashMap<String, String> params = new HashMap<>();
 			params.put(GtfsGenerationTask.Params.trailIds.name(), trailIds);
 			
@@ -147,13 +158,18 @@ public class DashboardAPI{
 	 * Register the gtfs creation task of all valid trails
 	 *
 	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
-	 * @param password the simple password to avoid excess of petitions
+	 * @param password a simple password to avoid excess of petitions
+	 * @throws IOException 
+	 * @throws UnsupportedEncodingException 
 	 * @since 26 / feb / 2016
 	 */
 	@ApiMethod(name = "registerGtfsFullTask", path = "registerGtfsFullTask", httpMethod = HttpMethod.POST)
-	public void registerGtfsFullTask(@Named("password") String password) throws TrailNotFoundException{
+	public void registerGtfsFullTask(@Named("password") String password) throws TrailNotFoundException, UnsupportedEncodingException, IOException{
 		logger.debug("registering gtfs task");
-		if(password.equals("MAPATON")){
+		FileInputStream inputStream = new FileInputStream(new File("WEB-INF/config.txt"));
+		String passConfig = CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
+
+		if(password.equals(passConfig)){
 			ArrayList<Long> ids = new TrailsHandler().getAllValidTrailsIds();
 			HashMap<String, String> params = new HashMap<>();
 			String trailIds = Arrays.toString(ids.toArray()).replace("[", "").replace("]", "").replace(" ", "");

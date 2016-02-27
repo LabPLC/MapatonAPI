@@ -244,11 +244,11 @@ public class TrailsHandler{
 	 */
 	public ArrayList<PointData> getTrailPoints(Long trailId){
 		logger.debug("Getting points for trail " + trailId);
-		List<RawTrailPoint> points = ofy().load().type(RawTrailPoint.class)
-			.filter("trailId", trailId).order("pointData.timeStamp").list();
+		List<SnappedTrailPoint> points = ofy().load().type(SnappedTrailPoint.class)
+			.filter("trailId", trailId).order("position").list(); //pointData.timeStamp
 		ArrayList<PointData> result = new ArrayList<PointData>();
-		for(RawTrailPoint point : points){
-			result.add(point.getPointData());
+		for(SnappedTrailPoint point : points){
+			result.add(new PointData(point.getLocation(), null)); //getPointData());
 		}
 		return result;
 	}

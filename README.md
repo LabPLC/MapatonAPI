@@ -108,24 +108,4 @@ Método utilizado para obtener todos los puntos registrados en MapatónCDMX por 
        * __radius__: El radio de precisión del punto registrado
     * __position__: La posición en del punto respecto a otros (no utilizado en _dashboardAPI.getTrailRawPoints_)
 
-### dashboard.registerGtfsTask
-
-Método utilizado para la creación de un archivo GTFS en el servidor de acuerdo con los parámetros pasados.
-
-1. Parámetros:
-   * __password__: Una contraseña sencilla para evitar que se hagan peticiones en exceso
-   * __trailIds__: Un arreglo de identificadores de recorrido separados por coma (,)
-
-2. Retornos:
-   * Vacío, simplemente se encola una petición al servidor para que realice el procesamiento en segundo plano. Una vez generado, el archivo gtfs se puede descargar de [este link](http://mapaton-public.appspot.com/serveGtfsZip)
-   
-### dashboard.registerGtfsFullTask
-
-Método utilizado para la creación de un archivo GTFS en el servidor de acuerdo con los parámetros pasados.
-
-1. Parámetros:
-   * __password__: Una contraseña sencilla para evitar que se hagan peticiones en exceso
-
-2. Retornos:
-   * Vacío, simplemente se encola una petición al servidor para que realice el procesamiento en segundo plano. Una vez generado, el archivo gtfs se puede descargar de [este link](http://mapaton-public.appspot.com/serveGtfsZip)
 

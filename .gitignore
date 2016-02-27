@@ -9,3 +9,4 @@
 /result.txt
 *.iml
 /.idea/
+/src/main/webapp/WEB-INF/config.txt

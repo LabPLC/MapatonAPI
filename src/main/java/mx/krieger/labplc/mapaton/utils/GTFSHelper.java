@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -89,7 +90,7 @@ public class GTFSHelper {
 	private final GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
 	private Map<String, RouteGtfs> routesMap = new HashMap<>();
 	private Map<String, List<String>> fareRules = new HashMap<>();
-	private List<Stop> stops = new ArrayList<>();
+	private Map<Location, Stop> stopsMap = new TreeMap<>();// new HashMap<>();
 	private List<StopTime> stoptimes = new ArrayList<>();
 	private List<Trip> trips = new ArrayList<>();
 	private List<CalendarGtfs> calendars = new ArrayList<>();
@@ -229,7 +230,14 @@ public class GTFSHelper {
 				e.printStackTrace();
 				continue;
 			}
+			
 
+			List<PointData> points = trail.getPoints();
+			int pointSize = points.size();
+			if(pointSize < 2) {
+				continue;
+			}
+			
 			RouteGtfs rg = new RouteGtfs();
 			boolean isInbound = false;
 			boolean isNew = false;
@@ -237,13 +245,19 @@ public class GTFSHelper {
 			String destiny = trail.getDestination().get().getStation().getName();
 			if (routesMap.containsKey(origin + " - " + destiny)) {
 				rg = routesMap.get(origin + " - " + destiny);
+				rg.description += "; " + trailId;
+				routesMap.put(origin + " - " + destiny, rg);
 			} else if (routesMap.containsKey(destiny + " - " + origin)) {
 				rg = routesMap.get(destiny + " - " + origin);
+				rg.description += "; " + trailId;
+				routesMap.put(destiny + " - " + origin, rg);
+
 				isInbound = true;
 			} else {
 				rg.routeId = trailNumber + "";
 				rg.shortName = "R " + trailNumber;
 				rg.longName = origin + " - " + destiny;
+				rg.description = "Ruta generada a partir de los recorridos: " + trailId;
 				routesMap.put(origin + " - " + destiny, rg);
 				isNew = true;
 			}
@@ -291,8 +305,8 @@ public class GTFSHelper {
 			baseShape.id = baseTrip.shapeId;
 
 			GPSLocation prev = null;
-			List<PointData> points = trail.getPoints();
-			int pointSize = points.size();
+//			List<PointData> points = trail.getPoints();
+//			int pointSize = points.size();
 			logger.debug("generating stops and stoptimes");
 			for (int i = 0; i < pointSize; i++) {
 				double seconds = 0;
@@ -321,17 +335,23 @@ public class GTFSHelper {
 				logger.debug("generating new stop and stoptimes from point");
 				current = current.addSeconds((int) seconds);
 
-				Stop stop = new Stop();
-				stop.lat = prev.getLatitude();
-				stop.lon = prev.getLongitude();
-				stop.stopId = trailNumber + "S" + position;
-				stop.name = rg.shortName + " " + stop.stopId;
-				stop.description = rg.longName + " " + stop.stopId;
+				Location loc = new Location(prev.getLatitude(), prev.getLongitude());
+				Stop stop;
+				if(stopsMap.containsKey(loc)){
+					stop = stopsMap.get(loc);
+				} else {
+					stop = new Stop();
+					stop.lat = prev.getLatitude();
+					stop.lon = prev.getLongitude();
+					stop.stopId = trailNumber + "S" + position;
+					stop.name = rg.shortName + " " + stop.stopId;
+					stop.description = rg.longName + " " + stop.stopId;
+					stopsMap.put(loc, stop);
+				}
 
 				generateStoptimes(current, stop, baseTrip, trailNumber * 10000 + position * NUMBER_OF_STOPTIMES);
 				position++;
 
-				stops.add(stop);
 			}
 			logger.debug(" trail processing completed");
 
@@ -415,8 +435,8 @@ public class GTFSHelper {
 		routesMap = null;
 		logger.info("routes file updated");
 		logger.debug("updating stops file");
-		updateLargeFile(stopsFile, stops, STOPS_HEADER);
-		stops = null;
+		updateLargeFile(stopsFile, stopsMap.values(), STOPS_HEADER);
+		stopsMap = null;
 		logger.info("stops file updated");
 		logger.debug("updating trips file");
 		updateLargeFile(tripsFile, trips, TRIPS_HEADER);
@@ -533,16 +553,16 @@ public class GTFSHelper {
 	 */
 	private static Double getHarvesineDistance(GPSLocation location1, GPSLocation location2) {
 
-		Double lat1 = location1.getLatitude();
-		Double lon1 = location1.getLongitude();
-		Double lat2 = location2.getLatitude();
-		Double lon2 = location2.getLongitude();
-		Double latDistance = toRadians(lat2 - lat1);
-		Double lonDistance = toRadians(lon2 - lon1);
-		Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(toRadians(lat1))
+		double lat1 = location1.getLatitude();
+		double lon1 = location1.getLongitude();
+		double lat2 = location2.getLatitude();
+		double lon2 = location2.getLongitude();
+		double latDistance = toRadians(lat2 - lat1);
+		double lonDistance = toRadians(lon2 - lon1);
+		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(toRadians(lat1))
 				* Math.cos(toRadians(lat2)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-		Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		Double distance = EarthConstants.EARTH_RADIOUS * c * 1000;
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		double distance = EarthConstants.EARTH_RADIOUS * c * 1000;
 
 		return distance;
 
@@ -556,7 +576,7 @@ public class GTFSHelper {
 	 * @since 26 / feb / 2016
 	 * @return the equivalent in radiant to this distance.
 	 */
-	public static Double toRadians(Double meters) {
+	public static double toRadians(double meters) {
 		return meters * Math.PI / 180;
 	}
 
@@ -589,13 +609,14 @@ public class GTFSHelper {
 		public String routeId;
 		public String shortName;
 		public String longName;
+		public String description;
 		public int type = 3;
 
 		public String toTxt() {
 			StringBuilder sb = new StringBuilder();
 			sb.append(routeId).append(",").append(shortName).append(",")
-					.append(longName.replaceAll(",", "").replaceAll("\"", "")).append(",").append(shortName)
-					.append(" - ").append(longName.replaceAll(",", "").replaceAll("\"", "")).append(",").append(type)
+					.append(longName.replaceAll(",", "").replaceAll("\"", "")).append(",")
+					.append(description).append(",").append(type)
 					.append("\n");
 			return sb.toString();
 		}
@@ -983,6 +1004,74 @@ public class GTFSHelper {
 					+ String.format("%02d", second);
 		}
 
+	}
+	
+	private static class Location implements Comparable<Location>{
+		public double lat;
+		public double lon;
+		
+		
+		public Location(double lat, double lon) {
+			super();
+			this.lat = lat;
+			this.lon = lon;
+		}
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			long temp;
+			temp = Double.doubleToLongBits(lat);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			temp = Double.doubleToLongBits(lon);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			return result;
+		}
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Location other = (Location) obj;
+			
+			double latDistance = toRadians(other.lat - lat);
+			double lonDistance = toRadians(other.lon - lon);
+			double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(toRadians(other.lat))
+					* Math.cos(toRadians(other.lat)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+			double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			double distance = EarthConstants.EARTH_RADIOUS * c * 1000;
+			
+			if(Math.abs(distance) > 10)
+				return false;
+
+			
+			return true;
+		}
+		@Override
+		public int compareTo(Location other) {
+			double latDistance = toRadians(other.lat - lat);
+			double lonDistance = toRadians(other.lon - lon);
+			double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(toRadians(other.lat))
+					* Math.cos(toRadians(other.lat)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+			double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			double distance = EarthConstants.EARTH_RADIOUS * c * 1000;
+			if(Math.abs(distance) < 20)
+				return 0;
+			else if (other.lat < lat)
+				return -1;
+			else
+				return 1;
+		}
+		
 	}
 
 }
