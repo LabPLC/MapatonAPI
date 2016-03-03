@@ -3,6 +3,30 @@
 	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+	<!-- ========================================================================== -->
+	<!-- ======================== Blobstore Servlets ============================= -->
+	<!-- ========================================================================== -->
+
+	<!-- Servlet to serve the gtfs zip -->
+	<servlet>
+		<servlet-name>GetGtfs</servlet-name>
+		<servlet-class>mx.krieger.labplc.mapaton.servlets.GetGtfs</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetGtfs</servlet-name>
+		<url-pattern>/getGtfs</url-pattern>
+	</servlet-mapping>
+
+	<!-- Servlet to serve the gtfs zip -->
+	<servlet>
+		<servlet-name>ServeGtfsZip</servlet-name>
+		<servlet-class>mx.krieger.labplc.mapaton.servlets.ServeGtfsZip</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ServeGtfsZip</servlet-name>
+		<url-pattern>/serveGtfsZip</url-pattern>
+	</servlet-mapping>
 
 	<!-- ========================================================================== -->
 	<!-- ============================ System Servlets ============================= -->
@@ -45,20 +69,6 @@
 	<servlet-mapping>
 		<servlet-name>GtfsGenerationTask</servlet-name>
 		<url-pattern>/executeGtfsGenerationTask</url-pattern>
-	</servlet-mapping>
-	
-	<!-- ========================================================================== -->
-	<!-- ======================== Blobstore Servlets ============================= -->
-	<!-- ========================================================================== -->
-
-	<!-- Servlet to serve the gtfs zip -->
-	<servlet>
-		<servlet-name>ServeGtfsZip</servlet-name>
-		<servlet-class>mx.krieger.labplc.mapaton.servlets.ServeGtfsZip</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ServeGtfsZip</servlet-name>
-		<url-pattern>/serveGtfsZip</url-pattern>
 	</servlet-mapping>
 
 	<!-- ========================================================================== -->

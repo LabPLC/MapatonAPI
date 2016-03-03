@@ -44,6 +44,7 @@ import mx.krieger.labplc.mapaton.model.wrappers.PointData;
  */
 public class GTFSHelper {
 	public static final String GTFS_FILE = "mapatonGTFS.zip";
+	public static final String GTFS_VERSION_FILE = "mapatonGTFS_version_.zip";
 	public static final String BUCKET_NAME = "mapaton-public-gtfs";
 	private static final int MAX_CAPACITY = 2097152; // 2 ^ 21, used to avoid an
 														// out of memory error
@@ -197,7 +198,21 @@ public class GTFSHelper {
 	 * @since 22 / feb / 2016
 	 */
 	public byte[] getGTFSZipFile() throws IOException {
+		logger.debug("getting gtfs version 1");
 		GcsFilename targetZipFile = new GcsFilename(BUCKET_NAME, GTFS_FILE);
+		return readFromFile(targetZipFile);
+
+	}
+	/**
+	 * Method used to get the GTFS ZIP from Google Cloud Services
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @return filesToZip the main GTFS ZIP file that was generated
+	 * @since 22 / feb / 2016
+	 */
+	public byte[] getGTFSZipFile(String version) throws IOException {
+		logger.debug("getting gtfs version " + version);
+		GcsFilename targetZipFile = new GcsFilename(BUCKET_NAME, GTFS_VERSION_FILE.replaceAll("_version_", version));
 		return readFromFile(targetZipFile);
 
 	}

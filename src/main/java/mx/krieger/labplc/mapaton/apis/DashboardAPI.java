@@ -170,7 +170,7 @@ public class DashboardAPI{
 		String passConfig = CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
 
 		if(password.equals(passConfig)){
-			ArrayList<Long> ids = new TrailsHandler().getAllValidTrailsIds();
+			ArrayList<Long> ids = new TrailsHandler().getAllValidGtfsTrailsIds();
 			HashMap<String, String> params = new HashMap<>();
 			String trailIds = Arrays.toString(ids.toArray()).replace("[", "").replace("]", "").replace(" ", "");
 			params.put(GtfsGenerationTask.Params.trailIds.name(), trailIds);

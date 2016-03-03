@@ -35,6 +35,18 @@ public class RegisteredTrail extends GenericTrail{
 	
 	private Date revisionDate;
 
+	@Index
+	private int gtfsStatus;
+
+	
+	public static final class GtfsStatus{
+		public static final int NONE = 0;
+		public static final int PENDING = 1;
+		public static final int VALID = 2;
+		public static final int REJECTED = 3;
+	}
+	
+
 	
 	/**
 	 * This is the default constructor used to
@@ -200,6 +212,27 @@ public class RegisteredTrail extends GenericTrail{
 	public ArrayList<PointData> getPoints(){
 		return new TrailsHandler().getTrailPoints(this.id);
 	}
+
+	
+	/**
+	 * @return the gtfsStatus
+	 */
+	public int getGtfsStatus() {
+		return gtfsStatus;
+	}
+
+
+
+
+	/**
+	 * @param gtfsStatus the gtfsStatus to set
+	 */
+	public void setGtfsStatus(int gtfsStatus) {
+		this.gtfsStatus = gtfsStatus;
+	}
+
+
+
 
 	/* (non-Javadoc)
 	 * 

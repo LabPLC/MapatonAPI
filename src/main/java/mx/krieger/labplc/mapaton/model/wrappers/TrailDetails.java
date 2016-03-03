@@ -20,6 +20,8 @@ public class TrailDetails extends TrailWrapper {
 	private double totalMinutes;
 	private double totalMeters;
 
+	private int gtfsStatus;
+
 	/**
 	 * Instantiates a new trail details.
 	 *
@@ -30,6 +32,7 @@ public class TrailDetails extends TrailWrapper {
 		super(mappedTrail);
 		this.trailStatus = mappedTrail.getTrailStatus();
 		this.creationDate=(creationDate);
+		this.gtfsStatus = mappedTrail.getGtfsStatus();
 	}
 
 	/**
@@ -127,6 +130,20 @@ public class TrailDetails extends TrailWrapper {
 	}
 	
 	
+	/**
+	 * @return the gtfsStatus
+	 */
+	public int getGtfsStatus() {
+		return gtfsStatus;
+	}
+
+	/**
+	 * @param gtfsStatus the gtfsStatus to set
+	 */
+	public void setGtfsStatus(int gtfsStatus) {
+		this.gtfsStatus = gtfsStatus;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

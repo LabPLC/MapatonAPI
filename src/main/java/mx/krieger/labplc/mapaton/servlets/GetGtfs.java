@@ -10,13 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 import mx.krieger.labplc.mapaton.utils.GTFSHelper;
 
 
-public class ServeGtfsZip extends HttpServlet {
+public class GetGtfs extends HttpServlet {
 	
    	private static final long serialVersionUID = 1L;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        byte[] zipData = new GTFSHelper().getGTFSZipFile();
+        String paramValue = req.getParameter("version");
+        
+        if(paramValue == null){
+        	paramValue = "";
+        }
+        
+        byte[] zipData = new GTFSHelper().getGTFSZipFile(paramValue);
 		// Serve the data to response's stream
 		String filename = "mapatonGTFS.zip";
 

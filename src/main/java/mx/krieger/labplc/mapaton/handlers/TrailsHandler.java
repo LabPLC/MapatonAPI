@@ -140,6 +140,36 @@ public class TrailsHandler{
 		ArrayList<Long> result = new ArrayList<>();
 		List<Key<RegisteredTrail>> trails = ofy().cache(false)
 				.consistency(Consistency.STRONG).load().type(RegisteredTrail.class)
+				.filter("gtfsStatus", RegisteredTrail.GtfsStatus.VALID).keys().list();
+					
+		for(Key<RegisteredTrail> t : trails){
+			result.add(t.getId());
+		}
+		
+		
+		
+		return result;
+	}
+
+	
+
+	/**
+	 * This method returns the all the trails that have been registered in the competition of MapatonCDMX
+	 * paginated by parameter.numberOfElements and parameter.cursor to define where to start and how many elements to get.
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 25 / feb / 2016
+	 * @param parameter The object containing all the parameters for the request.
+	 * @return The list of trails and the cursor to be able to get the next N number of elements.
+	 * @throws TrailNotFoundException 
+	 */
+	public ArrayList<Long> getAllValidGtfsTrailsIds() {
+
+		logger.debug("Getting user trails...");
+		
+
+		ArrayList<Long> result = new ArrayList<>();
+		List<Key<RegisteredTrail>> trails = ofy().cache(false)
+				.consistency(Consistency.STRONG).load().type(RegisteredTrail.class)
 				.filter("trailStatus", RegisteredTrailStatusEnum.VALID).keys().list();
 					
 		for(Key<RegisteredTrail> t : trails){
