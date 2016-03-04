@@ -109,3 +109,7 @@ Método utilizado para obtener todos los puntos registrados en MapatónCDMX por 
     * __position__: La posición en del punto respecto a otros (no utilizado en _dashboardAPI.getTrailRawPoints_)
 
 
+## Licencia
+
+[Apache 2.0](https://github.com/LabPLC/MapatonAPI/blob/master/LICENSE)
+[Más información](http://choosealicense.com/licenses/apache-2.0/)
