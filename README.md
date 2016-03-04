@@ -91,7 +91,7 @@ Método utilizado para obtener todos los puntos registrados en MapatónCDMX por 
    
 ### dashboardAPI.getTrailSnappedPoints
 
-Método utilizado para obtener todos los puntos registrados en MapatónCDMX por un usuario, y pegados a un camino o calle a través dd Google SnapToRoad API. 
+Método utilizado para obtener todos los puntos registrados en MapatónCDMX por un usuario, y pegados a un camino o calle a través de Google SnapToRoad API. 
 
 1. Parámetros:
    * __trailId__: El identificador único del recorrido del cual se quiere obtener los puntos
