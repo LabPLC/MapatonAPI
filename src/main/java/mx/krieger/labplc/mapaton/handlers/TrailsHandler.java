@@ -140,7 +140,7 @@ public class TrailsHandler{
 		ArrayList<Long> result = new ArrayList<>();
 		List<Key<RegisteredTrail>> trails = ofy().cache(false)
 				.consistency(Consistency.STRONG).load().type(RegisteredTrail.class)
-				.filter("gtfsStatus", RegisteredTrail.GtfsStatus.VALID).keys().list();
+				.filter("trailStatus", RegisteredTrailStatusEnum.VALID).keys().list();
 					
 		for(Key<RegisteredTrail> t : trails){
 			result.add(t.getId());
@@ -170,7 +170,7 @@ public class TrailsHandler{
 		ArrayList<Long> result = new ArrayList<>();
 		List<Key<RegisteredTrail>> trails = ofy().cache(false)
 				.consistency(Consistency.STRONG).load().type(RegisteredTrail.class)
-				.filter("trailStatus", RegisteredTrailStatusEnum.VALID).keys().list();
+				.filter("gtfsStatus", RegisteredTrail.GtfsStatus.VALID).keys().list();
 					
 		for(Key<RegisteredTrail> t : trails){
 			result.add(t.getId());
