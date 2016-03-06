@@ -10,6 +10,7 @@ import com.googlecode.objectify.ObjectifyService;
 import mx.krieger.labplc.mapaton.model.entities.Branch;
 import mx.krieger.labplc.mapaton.model.entities.GenericTrail;
 import mx.krieger.labplc.mapaton.model.entities.Platform;
+import mx.krieger.labplc.mapaton.model.entities.Questionnaire;
 import mx.krieger.labplc.mapaton.model.entities.RawTrailPoint;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 import mx.krieger.labplc.mapaton.model.entities.Route;
@@ -34,6 +35,7 @@ public class OfyService {
 		factory().register(Platform.class);
 		factory().register(Route.class);
 		factory().register(Station.class);
+		factory().register(Questionnaire.class);
 	}
 
 	public static Objectify ofy() {
