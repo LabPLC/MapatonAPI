@@ -6,7 +6,9 @@ package mx.krieger.labplc.mapaton.handlers;
 import static mx.krieger.labplc.mapaton.utils.OfyService.ofy;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
@@ -22,8 +24,11 @@ import mx.krieger.labplc.mapaton.model.entities.GenericTrail;
 import mx.krieger.labplc.mapaton.model.entities.RawTrailPoint;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 import mx.krieger.labplc.mapaton.model.entities.SnappedTrailPoint;
+import mx.krieger.labplc.mapaton.model.entities.Station;
+import mx.krieger.labplc.mapaton.model.wrappers.AreaWrapper;
 import mx.krieger.labplc.mapaton.model.wrappers.CursorParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.PointData;
+import mx.krieger.labplc.mapaton.model.wrappers.SearchByKeywordParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailDetails;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailPointWrapper;
@@ -105,6 +110,74 @@ public class TrailsHandler{
 		ArrayList<TrailDetails> result = new ArrayList<TrailDetails>();
 		Query<RegisteredTrail> query = ofy().cache(false)
 				.consistency(Consistency.STRONG).load().type(RegisteredTrail.class);
+		
+		query = CursorHelper.processCursor(query, parameter);
+			
+		QueryResultIterator<RegisteredTrail> it = query.iterator();
+		while(it.hasNext()){
+			RegisteredTrail t = it.next();
+			result.add(new TrailDetails(t, t.getCreationDate()));
+		}
+		
+		
+		TrailListResponse theResult = new TrailListResponse(result, it.getCursor().toWebSafeString());
+
+		// logger.debug("Getting all trails... "+result);
+
+		return theResult;
+	}
+
+	/**
+	 * This method returns the all the trails that have been registered in the competition of MapatonCDMX
+	 * paginated by parameter.numberOfElements and parameter.cursor to define where to start and how many elements to get.
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 16 / feb / 2016
+	 * @param parameter The object containing all the parameters for the request.
+	 * @return The list of trails and the cursor to be able to get the next N number of elements.
+	 * @throws TrailNotFoundException 
+	 */
+	public TrailListResponse getAllValidTrails(CursorParameter parameter) {
+
+		logger.debug("Getting user trails...");
+
+		ArrayList<TrailDetails> result = new ArrayList<TrailDetails>();
+		Query<RegisteredTrail> query = ofy().cache(false)
+				.consistency(Consistency.STRONG).load().type(RegisteredTrail.class)
+				.filter("trailStatus", RegisteredTrailStatusEnum.VALID);
+		
+		query = CursorHelper.processCursor(query, parameter);
+			
+		QueryResultIterator<RegisteredTrail> it = query.iterator();
+		while(it.hasNext()){
+			RegisteredTrail t = it.next();
+			result.add(new TrailDetails(t, t.getCreationDate()));
+		}
+		
+		
+		TrailListResponse theResult = new TrailListResponse(result, it.getCursor().toWebSafeString());
+
+		// logger.debug("Getting all trails... "+result);
+
+		return theResult;
+	}
+
+	/**
+	 * This method returns the all the trails that have been registered in the competition of MapatonCDMX
+	 * paginated by parameter.numberOfElements and parameter.cursor to define where to start and how many elements to get.
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @since 16 / feb / 2016
+	 * @param parameter The object containing all the parameters for the request.
+	 * @return The list of trails and the cursor to be able to get the next N number of elements.
+	 * @throws TrailNotFoundException 
+	 */
+	public TrailListResponse getAllGtfsTrails(CursorParameter parameter) {
+
+		logger.debug("Getting user trails...");
+
+		ArrayList<TrailDetails> result = new ArrayList<TrailDetails>();
+		Query<RegisteredTrail> query = ofy().cache(false)
+				.consistency(Consistency.STRONG).load().type(RegisteredTrail.class)
+				.filter("gtfsStatus", RegisteredTrail.GtfsStatus.VALID);
 		
 		query = CursorHelper.processCursor(query, parameter);
 			
@@ -281,6 +354,73 @@ public class TrailsHandler{
 			result.add(new PointData(point.getLocation(), null)); //getPointData());
 		}
 		return result;
+	}
+	
+	
+	public ArrayList<TrailDetails> trailsNearPoint(AreaWrapper area) {
+		logger.debug("Getting stations in area " + area);
+
+		Set<Key<SnappedTrailPoint>> keys1 = new HashSet<>(ofy().cache(false).consistency(Consistency.STRONG).load().type(SnappedTrailPoint.class)
+				.filter("location.latitude <=", area.getNorthEastCorner().getLatitude())
+				.filter("location.latitude >=", area.getSouthWestCorner().getLatitude())
+				.keys().list());
+
+		Set<Key<SnappedTrailPoint>> keys2 = new HashSet<>(ofy().cache(false).consistency(Consistency.STRONG).load().type(SnappedTrailPoint.class)
+				.filter("location.longitude <=", area.getNorthEastCorner().getLongitude())
+				.filter("location.longitude >=", area.getSouthWestCorner().getLongitude())
+				.keys().list());
+		
+		logger.info("keys 1 size : "  + keys1.size());
+		logger.info("keys 2 size : "  + keys2.size());
+		
+		
+		keys1.retainAll(keys2);
+		
+		logger.info("keys 1 size : "  + keys1.size());
+
+		Set<TrailDetails> trails = new HashSet<TrailDetails>();
+		ArrayList<SnappedTrailPoint> nearPoints = new ArrayList<SnappedTrailPoint>(ofy().cache(false).consistency(Consistency.STRONG).load().keys(keys1).values());
+
+		for (SnappedTrailPoint point : nearPoints) {
+			RegisteredTrail trail;
+			try {
+				trail = getTrailById(point.getTrailId());
+				trails.add(new TrailDetails(trail, trail.getCreationDate()));
+			} catch (TrailNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+
+		ArrayList<TrailDetails> result = new ArrayList<>(trails);
+		
+		logger.debug("Stations found for the area " + result);
+		return result;
+	}
+
+	public ArrayList<TrailDetails> getTrailsByStationName(SearchByKeywordParameter parameter) {
+
+		logger.debug("Getting list of statios by keyword: ");
+
+		List<Station> stations = ofy().cache(false).consistency(Consistency.STRONG).load().type(Station.class)
+				.filter("name", parameter.getKeyword())
+				.list();
+		
+		ArrayList<TrailDetails> result = new ArrayList<>();
+		int i = 0;
+		for(Station s:stations){
+			List<RegisteredTrail> trails = ofy().cache(false)
+					.consistency(Consistency.STRONG).load().type(RegisteredTrail.class)
+					.filter("origin in", s.getPlatforms()).list();
+			for(RegisteredTrail trail : trails){
+				if(i < parameter.getNumberOfResults()){
+					i++;
+					result.add(new TrailDetails(trail, trail.getCreationDate()));
+				}
+			}
+		}
+		
+		return result;
+		
 	}
 	
 	

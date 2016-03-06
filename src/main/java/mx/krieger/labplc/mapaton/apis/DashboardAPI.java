@@ -21,7 +21,9 @@ import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.labplc.mapaton.handlers.TrailsHandler;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
+import mx.krieger.labplc.mapaton.model.wrappers.AreaWrapper;
 import mx.krieger.labplc.mapaton.model.wrappers.CursorParameter;
+import mx.krieger.labplc.mapaton.model.wrappers.SearchByKeywordParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailDetails;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter;
@@ -71,6 +73,41 @@ public class DashboardAPI{
 
 		return result;
 	}
+	
+	/**
+	 * Gets a number of trails from the datastore, can be paginated using a cursor (send empty to start from the beginning)
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param parameter the cursor to know where to start from, and number of elements needed
+	 * @return the number of trails from the cursor sent
+	 * @since 16 / feb / 2016
+	 */
+	@ApiMethod(path = "getAllValidTrails", name = "getAllValidTrails", httpMethod = HttpMethod.POST)
+	public TrailListResponse getAllValidTrails(CursorParameter parameter){
+		logger.debug("Getting all trails for all user ");
+
+		TrailListResponse result = new TrailsHandler().getAllTrails(parameter);
+		logger.debug("All mapped trails ");
+
+		return result;
+	}
+	/**
+	 * Gets a number of trails from the datastore, can be paginated using a cursor (send empty to start from the beginning)
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param parameter the cursor to know where to start from, and number of elements needed
+	 * @return the number of trails from the cursor sent
+	 * @since 16 / feb / 2016
+	 */
+	@ApiMethod(path = "getAllGtfsTrails", name = "getAllGtfsTrails", httpMethod = HttpMethod.POST)
+	public TrailListResponse getAllGtfsTrails(CursorParameter parameter){
+		logger.debug("Getting all trails for all user ");
+
+		TrailListResponse result = new TrailsHandler().getAllTrails(parameter);
+		logger.debug("All mapped trails ");
+
+		return result;
+	}
 
 
 	/**
@@ -91,6 +128,41 @@ public class DashboardAPI{
 		result.setTotalMinutes(trail.getTotalMinutes());
 		logger.debug("trail details finished " );
 		return result;
+	}
+	
+	
+
+
+	/**
+	 * Gets a number of trails from the datastore, that have a point in an area
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param parameter the cursor to know where to start from, and number of elements needed
+	 * @return the number of trails from the cursor sent
+	 * @since 5 / 3 / 2016
+	 */
+	@ApiMethod(path = "trailsNearPoint",name = "trailsNearPoint", httpMethod = HttpMethod.POST)
+	public ArrayList<TrailDetails> trailsNearPoint(AreaWrapper area){
+		logger.debug("Getting stations withing an area: " + area);
+		ArrayList<TrailDetails> result = new TrailsHandler().trailsNearPoint(area);
+		logger.debug("Stations within area finished");
+		return result;
+	}
+	
+
+	/**
+	 * Gets a number of trails from the datastore, that go to or from a station
+	 *
+	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
+	 * @param parameter the keyword for the station name
+	 * @return the trails from those stations
+	 * @since 5 / 3 / 2016
+	 */
+	@ApiMethod(name = "getTrailsByStationName", path = "getTrailsByStationName", httpMethod = HttpMethod.POST)
+	public ArrayList<TrailDetails> getTrailsByStationName(SearchByKeywordParameter parameter){
+		logger.debug("getting stations by keyword: " + parameter);
+		ArrayList<TrailDetails> stationsArray = new TrailsHandler().getTrailsByStationName(parameter);
+		return stationsArray;
 	}
 	
 	/**

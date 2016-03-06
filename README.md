@@ -11,7 +11,7 @@ Dentro de DashboardAPI es posible ver los métodos expuestos:
 
 ## Descripción de cada método
 
-### dashboardAPI.getAllTrails
+### dashboardAPI.getAllTrails, dashboardAPI.getAllValidTrails, dashboardAPI.getAllGtfsTrails, 
 
 Método utilizado para obtener todos los recorridos guardados, los recorridos se encuentran paginados y es necesario indicar al servidor el tamaño y el número de la página.
 
