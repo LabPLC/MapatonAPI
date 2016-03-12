@@ -14,6 +14,7 @@ import mx.krieger.labplc.mapaton.model.entities.Questionnaire;
 import mx.krieger.labplc.mapaton.model.entities.RawTrailPoint;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 import mx.krieger.labplc.mapaton.model.entities.Route;
+import mx.krieger.labplc.mapaton.model.entities.RouteStats;
 import mx.krieger.labplc.mapaton.model.entities.SnappedTrailPoint;
 import mx.krieger.labplc.mapaton.model.entities.Station;
 
@@ -36,6 +37,7 @@ public class OfyService {
 		factory().register(Route.class);
 		factory().register(Station.class);
 		factory().register(Questionnaire.class);
+		factory().register(RouteStats.class);
 	}
 
 	public static Objectify ofy() {

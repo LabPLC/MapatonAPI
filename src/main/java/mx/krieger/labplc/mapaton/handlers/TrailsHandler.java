@@ -385,7 +385,8 @@ public class TrailsHandler{
 			RegisteredTrail trail;
 			try {
 				trail = getTrailById(point.getTrailId());
-				trails.add(new TrailDetails(trail, trail.getCreationDate()));
+				if(trail.getGtfsStatus() == RegisteredTrail.GtfsStatus.VALID)
+					trails.add(new TrailDetails(trail, trail.getCreationDate()));
 			} catch (TrailNotFoundException e) {
 				e.printStackTrace();
 			}

@@ -19,10 +19,15 @@ import com.google.common.io.CharStreams;
 
 import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
+import mx.krieger.labplc.mapaton.handlers.QuestionnaireHandler;
 import mx.krieger.labplc.mapaton.handlers.TrailsHandler;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 import mx.krieger.labplc.mapaton.model.wrappers.AreaWrapper;
 import mx.krieger.labplc.mapaton.model.wrappers.CursorParameter;
+import mx.krieger.labplc.mapaton.model.wrappers.QuestionnaireWrapper;
+import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsParameter;
+import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsResponse;
+import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsWrapper;
 import mx.krieger.labplc.mapaton.model.wrappers.SearchByKeywordParameter;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailDetails;
 import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
@@ -252,6 +257,26 @@ public class DashboardAPI{
 		
 		logger.debug("registration finished");
 	}
+
+	@ApiMethod(path = "registerQuestionnaire", name = "registerQuestionnaire", httpMethod = HttpMethod.POST)
+	public void registerQuestionnaire(QuestionnaireWrapper parameter){
+		new QuestionnaireHandler().register(parameter);
+
+	}
+	@ApiMethod(path = "getQuestionnaire", name = "getQuestionnaire", httpMethod = HttpMethod.POST)
+	public QuestionnaireWrapper getQuestionnaire(@Named("id") Long id){
+		return new QuestionnaireHandler().get(id);
+
+	}
+	@ApiMethod(path = "getStats", name = "getStats", httpMethod = HttpMethod.POST)
+	public RouteStatsWrapper getStats(@Named("trailId") Long trailId){
+		return new QuestionnaireHandler().getStats(trailId);
+
+	}
 	
+	@ApiMethod(path = "getAllStats", name = "getAllStats", httpMethod = HttpMethod.POST)
+	public RouteStatsResponse getAllStats(RouteStatsParameter parameter){
+		return new QuestionnaireHandler().getAllStats(parameter);
+	}
 
 }

@@ -1,88 +1,149 @@
 package mx.krieger.labplc.mapaton.model.wrappers;
 
+import java.util.Date;
+
 import mx.krieger.labplc.mapaton.model.entities.Questionnaire;
 
 public class QuestionnaireWrapper {
 
-	private int security;
+	private int[] security;
 	private int fullness;
-	private int rating;
-	private int cleanness;
-	private int value;
+	private int[] state;
+	private int[] transitRegulation;
+	private int transportType;
+	private Date timeTaken;
 	private String notes;
+	private int rating;
 	private long trailId;
 	
-
-	public QuestionnaireWrapper(int security, int fullness, int rating, long trailId) {
+	
+	
+	public QuestionnaireWrapper() {
 		super();
-		this.security = security;
-		this.fullness = fullness;
-		this.rating = rating;
-		this.trailId = trailId;
 	}
+
 
 	public QuestionnaireWrapper(Questionnaire param) {
 		super();
 		this.security = param.getSecurity();
 		this.fullness = param.getFullness();
-		this.rating = param.getRating();		
+		this.state = param.getState();
+		this.transitRegulation = param.getTransitRegulation();
+		this.transportType = param.getTransportType();
+		this.timeTaken = param.getTimeTaken();
 		this.notes = param.getNotes();
-		this.cleanness = param.getCleanness();
-		this.value = param.getValue();
-
+		this.rating = param.getRating();
 		this.trailId = param.getTrail().get().getId();
 	}
-
-	public QuestionnaireWrapper() {
-		super();
-	}
-	public int getSecurity() {
+	
+	
+	/**
+	 * @return the security
+	 */
+	public int[] getSecurity() {
 		return security;
 	}
-	public void setSecurity(int security) {
+	/**
+	 * @param security the security to set
+	 */
+	public void setSecurity(int[] security) {
 		this.security = security;
 	}
+	/**
+	 * @return the fullness
+	 */
 	public int getFullness() {
 		return fullness;
 	}
+	/**
+	 * @param fullness the fullness to set
+	 */
 	public void setFullness(int fullness) {
 		this.fullness = fullness;
 	}
-	public int getRating() {
-		return rating;
+	/**
+	 * @return the state
+	 */
+	public int[] getState() {
+		return state;
 	}
-	public void setRating(int rating) {
-		this.rating = rating;
+	/**
+	 * @param state the state to set
+	 */
+	public void setState(int[] state) {
+		this.state = state;
 	}
-	public long getTrailId() {
-		return trailId;
+	/**
+	 * @return the transitRegulation
+	 */
+	public int[] getTransitRegulation() {
+		return transitRegulation;
 	}
-	public void setTrailId(long trailId) {
-		this.trailId = trailId;
+	/**
+	 * @param transitRegulation the transitRegulation to set
+	 */
+	public void setTransitRegulation(int[] transitRegulation) {
+		this.transitRegulation = transitRegulation;
 	}
-
-	public int getCleanness() {
-		return cleanness;
+	/**
+	 * @return the transportType
+	 */
+	public int getTransportType() {
+		return transportType;
 	}
-
-	public void setCleanness(int cleanness) {
-		this.cleanness = cleanness;
+	/**
+	 * @param transportType the transportType to set
+	 */
+	public void setTransportType(int transportType) {
+		this.transportType = transportType;
 	}
-
-	public int getValue() {
-		return value;
+	/**
+	 * @return the timeTaken
+	 */
+	public Date getTimeTaken() {
+		return timeTaken;
 	}
-
-	public void setValue(int value) {
-		this.value = value;
+	/**
+	 * @param timeTaken the timeTaken to set
+	 */
+	public void setTimeTaken(Date timeTaken) {
+		this.timeTaken = timeTaken;
 	}
-
+	/**
+	 * @return the notes
+	 */
 	public String getNotes() {
 		return notes;
 	}
-
+	/**
+	 * @param notes the notes to set
+	 */
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+	/**
+	 * @return the rating
+	 */
+	public int getRating() {
+		return rating;
+	}
+	/**
+	 * @param rating the rating to set
+	 */
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+	/**
+	 * @return the trailId
+	 */
+	public long getTrailId() {
+		return trailId;
+	}
+	/**
+	 * @param trailId the trailId to set
+	 */
+	public void setTrailId(long trailId) {
+		this.trailId = trailId;
 	}
 	
 	

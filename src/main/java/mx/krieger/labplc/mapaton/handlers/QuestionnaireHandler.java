@@ -5,43 +5,66 @@ import static mx.krieger.labplc.mapaton.utils.OfyService.ofy;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.cmd.Query;
 
 import mx.krieger.labplc.mapaton.model.entities.Questionnaire;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
+import mx.krieger.labplc.mapaton.model.entities.RouteStats;
 import mx.krieger.labplc.mapaton.model.wrappers.QuestionnaireWrapper;
-import mx.krieger.labplc.mapaton.model.wrappers.RouteStats;
+import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsParameter;
+import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsResponse;
+import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsWrapper;
+import mx.krieger.labplc.mapaton.utils.CursorHelper;
 
 public class QuestionnaireHandler {
 
 	public void register(QuestionnaireWrapper param){
-		ofy().save().entity(new Questionnaire(param));
+		Key<Questionnaire> key = ofy().save().entity(new Questionnaire(param)).now();
+		Questionnaire q = ofy().load().key(key).now();
+		RouteStats stats = ofy().load().type(RouteStats.class).filter("trail", q.getTrail()).first().now();
+		
+		if(stats == null) {
+			stats = new RouteStats();
+		}
+		stats.addRating(q.getRating());
+		
+		ofy().save().entity(stats).now();
 	}
 	public QuestionnaireWrapper get(long trailId){
 		return new QuestionnaireWrapper(ofy().load().type(Questionnaire.class).id(trailId).now());
 	}
-	public RouteStats getStats(long trailId){
-		RouteStats stats= new RouteStats();
-		List<Questionnaire> qs = ofy().load().type(Questionnaire.class).filter("trail", 
-				Ref.create(Key.create(RegisteredTrail.class, trailId))).list();
-		for(Questionnaire q : qs){
-			stats.addCleanness(q.getCleanness());
-			stats.addFullness(q.getFullness());
-			stats.addRating(q.getRating());
-			stats.addSecurity(q.getSecurity());
-			stats.addValue(q.getValue());
-		}
-		stats.normalize(qs.size());
-		return stats;
+	public RouteStatsWrapper getStats(long trailId){
+		RouteStats stats=  ofy().load().type(RouteStats.class).filter("trail", 
+				Ref.create(Key.create(RegisteredTrail.class, trailId))).first().now();
+		RouteStatsWrapper wrapper = new RouteStatsWrapper();
+		wrapper.setRating(stats.getTotalRating()/stats.getTotalElements());
+		wrapper.setOriginStation(stats.getTrail().get().getOrigin().get().getStation().getName());
+		wrapper.setDestinyStation(stats.getTrail().get().getDestination().get().getStation().getName());
+		return wrapper;
 	}
-	public List<QuestionnaireWrapper> getAll(boolean asc){
-		List<QuestionnaireWrapper> questionnaries = new ArrayList<>();
-		List<Questionnaire> qs = ofy().load().type(Questionnaire.class).order((asc?"":"-") + "rating").list();
-		for(Questionnaire q : qs){
-			questionnaries.add(new QuestionnaireWrapper(q));
-		}
+	public RouteStatsResponse getAllStats(RouteStatsParameter parameter){
+		List<RouteStatsWrapper> result = new ArrayList<>();
+		Query<RouteStats> query = ofy().load().type(RouteStats.class).order((parameter.isDescending() ?"-":"") + "rating");
+		query = CursorHelper.processCursor(query, parameter);
+
+		RouteStatsResponse response = new RouteStatsResponse();
 		
-		return questionnaries;
+			
+		QueryResultIterator<RouteStats> it = query.iterator();
+		while(it.hasNext()){
+			RouteStats stats = it.next();
+			RouteStatsWrapper wrapper = new RouteStatsWrapper();
+			wrapper.setRating(stats.getTotalRating()/stats.getTotalElements());
+			wrapper.setOriginStation(stats.getTrail().get().getOrigin().get().getStation().getName());
+			wrapper.setDestinyStation(stats.getTrail().get().getDestination().get().getStation().getName());
+
+			result.add(wrapper);	
+		}
+		response.setCursor(it.getCursor().toWebSafeString());
+		response.setItems(result);
+		return response;
 	}
 }

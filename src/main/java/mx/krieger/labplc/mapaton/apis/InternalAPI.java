@@ -1,18 +1,17 @@
 package mx.krieger.labplc.mapaton.apis;
 
-import java.util.List;
-
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.AuthLevel;
 import com.google.api.server.spi.config.Named;
-import com.google.api.server.spi.config.Nullable;
 
 import mx.krieger.labplc.mapaton.handlers.QuestionnaireHandler;
 import mx.krieger.labplc.mapaton.model.wrappers.QuestionnaireWrapper;
-import mx.krieger.labplc.mapaton.model.wrappers.RouteStats;
+import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsParameter;
+import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsResponse;
+import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsWrapper;
 
 @Api(
 		name = "internalAPI",
@@ -38,13 +37,13 @@ public class InternalAPI {
 
 	}
 	@ApiMethod(path = "getStats", name = "getStats", httpMethod = HttpMethod.POST)
-	public RouteStats getStats(@Named("id") Long id){
-		return new QuestionnaireHandler().getStats(id);
+	public RouteStatsWrapper getStats(@Named("trailId") Long trailId){
+		return new QuestionnaireHandler().getStats(trailId);
 
 	}
-	public List<QuestionnaireWrapper> getAllQuestionnaires(@Named("sortOrder") @Nullable String sortOrder){
-		boolean sort = sortOrder!=null;
-		sort = sort?!sortOrder.equals("desc"):sort;
-		return new QuestionnaireHandler().getAll(sort);
+	
+	@ApiMethod(path = "getAllStats", name = "getAllStats", httpMethod = HttpMethod.POST)
+	public RouteStatsResponse getAllStats(RouteStatsParameter parameter){
+		return new QuestionnaireHandler().getAllStats(parameter);
 	}
 }
