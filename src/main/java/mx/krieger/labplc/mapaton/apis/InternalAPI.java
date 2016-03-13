@@ -7,6 +7,7 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.AuthLevel;
 import com.google.api.server.spi.config.Named;
 
+import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.labplc.mapaton.handlers.QuestionnaireHandler;
 import mx.krieger.labplc.mapaton.model.wrappers.QuestionnaireWrapper;
 import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsParameter;
@@ -27,7 +28,7 @@ import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsWrapper;
 public class InternalAPI {
 	
 	@ApiMethod(path = "registerQuestionnaire", name = "registerQuestionnaire", httpMethod = HttpMethod.POST)
-	public void registerQuestionnaire(QuestionnaireWrapper parameter){
+	public void registerQuestionnaire(QuestionnaireWrapper parameter) throws TrailNotFoundException{
 		new QuestionnaireHandler().register(parameter);
 
 	}

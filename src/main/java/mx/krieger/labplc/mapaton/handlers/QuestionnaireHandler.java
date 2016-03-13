@@ -10,6 +10,8 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.cmd.Query;
 
+import mx.krieger.internal.commons.utils.logging.Logger;
+import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.labplc.mapaton.model.entities.Questionnaire;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 import mx.krieger.labplc.mapaton.model.entities.RouteStats;
@@ -20,14 +22,18 @@ import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsWrapper;
 import mx.krieger.labplc.mapaton.utils.CursorHelper;
 
 public class QuestionnaireHandler {
-
-	public void register(QuestionnaireWrapper param){
-		Key<Questionnaire> key = ofy().save().entity(new Questionnaire(param)).now();
+	private Logger logger = new Logger(QuestionnaireHandler.class);
+	
+	public void register(QuestionnaireWrapper param) throws TrailNotFoundException{
+		RegisteredTrail trail = TrailsHandler.getTrailById(param.getTrailId());
+		Key<Questionnaire> key = ofy().save().entity(new Questionnaire(param, Ref.create(trail))).now();
 		Questionnaire q = ofy().load().key(key).now();
 		RouteStats stats = ofy().load().type(RouteStats.class).filter("trail", q.getTrail()).first().now();
 		
 		if(stats == null) {
 			stats = new RouteStats();
+			stats.setTrail(q.getTrail());
+
 		}
 		stats.addRating(q.getRating());
 		
@@ -37,9 +43,14 @@ public class QuestionnaireHandler {
 		return new QuestionnaireWrapper(ofy().load().type(Questionnaire.class).id(trailId).now());
 	}
 	public RouteStatsWrapper getStats(long trailId){
+		logger.debug("getting stats for " + trailId);
+		
 		RouteStats stats=  ofy().load().type(RouteStats.class).filter("trail", 
 				Ref.create(Key.create(RegisteredTrail.class, trailId))).first().now();
 		RouteStatsWrapper wrapper = new RouteStatsWrapper();
+		if(stats == null) {
+			return wrapper;
+		}
 		wrapper.setRating(stats.getTotalRating()/stats.getTotalElements());
 		wrapper.setOriginStation(stats.getTrail().get().getOrigin().get().getStation().getName());
 		wrapper.setDestinyStation(stats.getTrail().get().getDestination().get().getStation().getName());

@@ -49,7 +49,7 @@ import mx.krieger.labplc.mapaton.tasks.GtfsGenerationTask;
 	title = "Dashboard API",
 	description = "This API exposes the services required by the mapaton dashboard of mapaton",
 	authLevel = AuthLevel.NONE,
-	namespace = @ApiNamespace(
+	namespace = @ApiNamespace( 
 		ownerDomain = "labplc.krieger.mx",
 		ownerName = "krieger",
 		packagePath = "clients") )
@@ -259,7 +259,7 @@ public class DashboardAPI{
 	}
 
 	@ApiMethod(path = "registerQuestionnaire", name = "registerQuestionnaire", httpMethod = HttpMethod.POST)
-	public void registerQuestionnaire(QuestionnaireWrapper parameter){
+	public void registerQuestionnaire(QuestionnaireWrapper parameter) throws TrailNotFoundException{
 		new QuestionnaireHandler().register(parameter);
 
 	}

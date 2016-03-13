@@ -47,7 +47,7 @@ public class Questionnaire extends PersistentEntity{
 		super();
 	}
 
-	public Questionnaire(QuestionnaireWrapper param) {
+	public Questionnaire(QuestionnaireWrapper param, Ref<RegisteredTrail> trail) {
 		super();
 		this.security = param.getSecurity();
 		this.fullness = param.getFullness();
@@ -57,7 +57,7 @@ public class Questionnaire extends PersistentEntity{
 		this.timeTaken = param.getTimeTaken();
 		this.notes = param.getNotes();
 		this.rating = param.getRating();
-		this.trail = Ref.create(Key.create(RegisteredTrail.class,param.getTrailId()));
+		this.trail = trail;
 	}
 
 	/**
