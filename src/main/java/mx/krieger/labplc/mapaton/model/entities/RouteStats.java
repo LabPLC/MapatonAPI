@@ -9,6 +9,7 @@ import mx.krieger.internal.apicommons.model.entities.PersistentEntity;
 @Entity
 public class RouteStats extends PersistentEntity{
 
+	@Index
 	private float totalRating;
 	private int totalElements;
 	@Index

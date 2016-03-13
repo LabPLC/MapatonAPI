@@ -57,8 +57,10 @@ public class QuestionnaireHandler {
 		return wrapper;
 	}
 	public RouteStatsResponse getAllStats(RouteStatsParameter parameter){
+		logger.debug("getting all stats");
+		logger.info(ofy().load().type(RouteStats.class).count() + " number oif stats");
 		List<RouteStatsWrapper> result = new ArrayList<>();
-		Query<RouteStats> query = ofy().load().type(RouteStats.class).order((parameter.isDescending() ?"-":"") + "rating");
+		Query<RouteStats> query = ofy().load().type(RouteStats.class).order((parameter.isDescending() ?"-":"") + "totalRating");
 		query = CursorHelper.processCursor(query, parameter);
 
 		RouteStatsResponse response = new RouteStatsResponse();
@@ -73,6 +75,7 @@ public class QuestionnaireHandler {
 			wrapper.setDestinyStation(stats.getTrail().get().getDestination().get().getStation().getName());
 
 			result.add(wrapper);	
+			logger.debug("adding stat");
 		}
 		response.setCursor(it.getCursor().toWebSafeString());
 		response.setItems(result);
