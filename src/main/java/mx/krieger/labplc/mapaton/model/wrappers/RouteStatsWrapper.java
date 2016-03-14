@@ -4,6 +4,7 @@ public class RouteStatsWrapper {
 	private String originStation;
 	private String destinyStation;
 	private float rating;
+	private long id;
 	
 	
 	public RouteStatsWrapper(String originStation, String destinyStation, float rating) {
@@ -50,6 +51,18 @@ public class RouteStatsWrapper {
 	 */
 	public void setRating(float rating) {
 		this.rating = rating;
+	}
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 
