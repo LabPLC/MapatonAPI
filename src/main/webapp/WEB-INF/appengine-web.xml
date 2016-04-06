@@ -3,7 +3,6 @@
 	
 	<!-- General Configuration -->
 	<application>${app.id}</application>
-	<module>public-api</module>
 	<version>${app.version}</version>
 	<threadsafe>true</threadsafe>
 	<instance-class>F4_1G</instance-class>
