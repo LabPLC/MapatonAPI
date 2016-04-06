@@ -14,6 +14,7 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.ReadPolicy.Consistency;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.cmd.Query;
 
 import mx.krieger.internal.commons.utils.dateandtime.utils.TimeStampUtils;
@@ -25,15 +26,7 @@ import mx.krieger.labplc.mapaton.model.entities.RawTrailPoint;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
 import mx.krieger.labplc.mapaton.model.entities.SnappedTrailPoint;
 import mx.krieger.labplc.mapaton.model.entities.Station;
-import mx.krieger.labplc.mapaton.model.wrappers.AreaWrapper;
-import mx.krieger.labplc.mapaton.model.wrappers.CursorParameter;
-import mx.krieger.labplc.mapaton.model.wrappers.PointData;
-import mx.krieger.labplc.mapaton.model.wrappers.SearchByKeywordParameter;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailDetails;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailPointWrapper;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsResult;
+import mx.krieger.labplc.mapaton.model.wrappers.*;
 import mx.krieger.labplc.mapaton.utils.CursorHelper;
 
 /**
@@ -341,7 +334,7 @@ public class TrailsHandler{
 	 * This method returns the all the points of a trail registered in the competition of MapatonCDMX
 	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
 	 * @since 19 / feb / 2016
-	 * @param parameter The object containing all the parameters for the request.
+	 * @param trailId The object containing all the parameters for the request.
 	 * @return The list of trails and the cursor to be able to get the next N number of elements.
 	 * @throws TrailNotFoundException 
 	 */
@@ -357,7 +350,7 @@ public class TrailsHandler{
 	}
 	
 	
-	public ArrayList<TrailDetails> trailsNearPoint(AreaWrapper area) {
+	public ArrayList<NearTrails> trailsNearPoint(AreaWrapper area) {
 		logger.debug("Getting stations in area " + area);
 
 		Set<Key<SnappedTrailPoint>> keys1 = new HashSet<>(ofy().cache(false).consistency(Consistency.STRONG).load().type(SnappedTrailPoint.class)
@@ -375,25 +368,19 @@ public class TrailsHandler{
 		
 		
 		keys1.retainAll(keys2);
-		
 		logger.info("keys 1 size : "  + keys1.size());
 
-		Set<TrailDetails> trails = new HashSet<TrailDetails>();
-		ArrayList<SnappedTrailPoint> nearPoints = new ArrayList<SnappedTrailPoint>(ofy().cache(false).consistency(Consistency.STRONG).load().keys(keys1).values());
+        HashSet<Key<RegisteredTrail>> trailsKeys = new HashSet<>();
 
-		for (SnappedTrailPoint point : nearPoints) {
-			RegisteredTrail trail;
-			try {
-				trail = getTrailById(point.getTrailId());
-				if(trail.getGtfsStatus() == RegisteredTrail.GtfsStatus.VALID)
-					trails.add(new TrailDetails(trail, trail.getCreationDate()));
-			} catch (TrailNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
+        ArrayList<NearTrails> result = new ArrayList<NearTrails>();
 
-		ArrayList<TrailDetails> result = new ArrayList<>(trails);
-		
+		for(Key<SnappedTrailPoint> pointKey : keys1){
+            Key<RegisteredTrail> trailKey = Key.create(RegisteredTrail.class, Ref.create(pointKey).get().getTrailId());
+            if(trailsKeys.add(trailKey)){
+                result.add(new NearTrails(Ref.create(trailKey).get()));
+            }
+        }
+
 		logger.debug("Stations found for the area " + result);
 		return result;
 	}

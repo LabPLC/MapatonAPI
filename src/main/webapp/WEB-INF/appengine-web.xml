@@ -2,9 +2,9 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 	
 	<!-- General Configuration -->
-	<application>mapathon-1337</application>
-	<module>default</module>
-	<version>dos</version>
+	<application>${app.id}</application>
+	<module>public-api</module>
+	<version>${app.version}</version>
 	<threadsafe>true</threadsafe>
 	<instance-class>F4_1G</instance-class>
 	
