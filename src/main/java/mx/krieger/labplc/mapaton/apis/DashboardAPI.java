@@ -142,7 +142,7 @@ public class DashboardAPI{
 	 * Gets a number of trails from the datastore, that have a point in an area
 	 *
 	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
-	 * @param parameter the cursor to know where to start from, and number of elements needed
+	 * @param area the cursor to know where to start from, and number of elements needed
 	 * @return the number of trails from the cursor sent
 	 * @since 5 / 3 / 2016
 	 */
