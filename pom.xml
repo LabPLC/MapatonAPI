@@ -6,7 +6,7 @@
 	<!-- Project basics -->
 	<groupId>mx.krieger.labplc.mapaton</groupId>
 	<artifactId>public</artifactId>
-	<version>1.4.0.0</version>
+	<version>1.5.0.0</version>
 	<packaging>war</packaging>
 
 	<!-- Project information -->
@@ -31,12 +31,30 @@
 		</license>
 	</licenses>
 
+    <!-- Profiles -->
+	<profiles>
+		<profile>
+			<id>dev</id>
+            <properties>
+                <app.id>mapaton-cdmx-dev</app.id>
+                <app.version>public-api</app.version>
+            </properties>
+		</profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <app.id>mapaton-public</app.id>
+                <app.version>dos</app.version>
+            </properties>
+        </profile>
+	</profiles>
+
 	<!-- Properties of the project -->
 	<properties>
+        <app.id>mapaton-cdmx-dev1</app.id>
+        <app.version>public</app.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<app.id>mapaton-cdmx-dev</app.id>
-		<app.version>uno</app.version>
-		<appengine.version>1.9.31</appengine.version>
+		<appengine.version>1.9.34</appengine.version>
 		<gcloud.plugin.version>0.9.58.v20150505</gcloud.plugin.version>
 		<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
 		<maven.version>3.1.0</maven.version>
@@ -248,6 +266,7 @@
 				<version>${appengine.version}</version>
 				<configuration>
 					<enableJarClasses>false</enableJarClasses>
+                    <appId>${app.id}</appId>
 					<version>${app.version}</version>
 					<!-- Comment in the below snippet to bind to all IPs instead of just 
 						localhost -->
