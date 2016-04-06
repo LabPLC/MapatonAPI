@@ -22,17 +22,7 @@ import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.labplc.mapaton.handlers.QuestionnaireHandler;
 import mx.krieger.labplc.mapaton.handlers.TrailsHandler;
 import mx.krieger.labplc.mapaton.model.entities.RegisteredTrail;
-import mx.krieger.labplc.mapaton.model.wrappers.AreaWrapper;
-import mx.krieger.labplc.mapaton.model.wrappers.CursorParameter;
-import mx.krieger.labplc.mapaton.model.wrappers.QuestionnaireWrapper;
-import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsParameter;
-import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsResponse;
-import mx.krieger.labplc.mapaton.model.wrappers.RouteStatsWrapper;
-import mx.krieger.labplc.mapaton.model.wrappers.SearchByKeywordParameter;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailDetails;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailListResponse;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter;
-import mx.krieger.labplc.mapaton.model.wrappers.TrailPointsResult;
+import mx.krieger.labplc.mapaton.model.wrappers.*;
 import mx.krieger.labplc.mapaton.tasks.GtfsGenerationTask;
 
 /**
@@ -147,9 +137,9 @@ public class DashboardAPI{
 	 * @since 5 / 3 / 2016
 	 */
 	@ApiMethod(path = "trailsNearPoint",name = "trailsNearPoint", httpMethod = HttpMethod.POST)
-	public ArrayList<TrailDetails> trailsNearPoint(AreaWrapper area){
+	public ArrayList<NearTrails> trailsNearPoint(AreaWrapper area){
 		logger.debug("Getting stations withing an area: " + area);
-		ArrayList<TrailDetails> result = new TrailsHandler().trailsNearPoint(area);
+		ArrayList<NearTrails> result = new TrailsHandler().trailsNearPoint(area);
 		logger.debug("Stations within area finished");
 		return result;
 	}
