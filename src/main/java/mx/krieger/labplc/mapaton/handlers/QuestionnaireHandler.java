@@ -71,9 +71,10 @@ public class QuestionnaireHandler {
 			RouteStats stats = it.next();
 			RouteStatsWrapper wrapper = new RouteStatsWrapper();
 			wrapper.setRating(stats.getTotalRating()/stats.getTotalElements());
-			wrapper.setOriginStation(stats.getTrail().get().getOrigin().get().getStation().getName());
-			wrapper.setDestinyStation(stats.getTrail().get().getDestination().get().getStation().getName());
-			wrapper.setId(stats.getTrail().get().getId());
+			RegisteredTrail trail = stats.getTrail().get();
+			wrapper.setOriginStation(trail.getOrigin().get().getStation().getName());
+			wrapper.setDestinyStation(trail.getDestination().get().getStation().getName());
+			wrapper.setId(trail.getId());
 
 			result.add(wrapper);	
 			logger.debug("adding stat");
