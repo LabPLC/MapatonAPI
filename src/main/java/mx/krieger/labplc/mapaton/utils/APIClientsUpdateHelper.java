@@ -44,7 +44,7 @@ public class APIClientsUpdateHelper {
 
 	private static final String APP_CLIENT_POM_TEMPLATE_FILE = "clients/app/pom_template.xml";
 	private static final String APP_CLIENT_POM_FILE = "clients/app/pom.xml";
-	private static final String APP_CLIENT_POM_DEPLOYABLE_FILE = "target/endpoints-client-libs/mapatonAPI/pom.xml";
+	private static final String APP_CLIENT_POM_DEPLOYABLE_FILE = "target/endpoints-client-libs/dashboardAPI/pom.xml";
 	private static final String BACKEND_POM = "pom.xml";
 	private static boolean updateAppClient = true;
 

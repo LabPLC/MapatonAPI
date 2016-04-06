@@ -9,23 +9,14 @@
 	</parent>
 
 	<!-- Project basics -->
-	<groupId>mx.krieger.labplc.mapaton</groupId>
-	<artifactId>android-clients</artifactId>
+	<groupId>mx.krieger.labplc.hackeourbano</groupId>
+	<artifactId>clients-internalapi</artifactId>
 	<version>[artifact-version]</version>
 	<packaging>jar</packaging>
 
 	<!-- Project information -->
 	<name>android-clients-test v[artifact-version]</name>
-	<description>
-		This project contains the API client used in the Mapaton Android app.
-		v1.0.0.0
-			Includes basic clients for the services:
-				-access
-				-getUploadURL
-				-getStationsByKeyword
-				-registerTrail
-	</description>
-	<inceptionYear>2015</inceptionYear>
+	<inceptionYear>2016</inceptionYear>
 	<organization>
 		<name>Krieger</name>
 		<url>http://www.krieger.mx</url>
@@ -78,12 +69,12 @@
 		<repository>			
 			<id>krieger-projects</id>
 			<name>Krieger Projects Repository</name>
-			<url>http://krieger.mx:8081/artifactory/projects</url>
+			<url>http://krieger.mx:8081/artifactory/public</url>
 		</repository>
 		<snapshotRepository>			
 			<id>krieger-projects</id>
 			<name>Krieger Projects Repository</name>
-			<url>http://krieger.mx:8081/artifactory/projects</url>
+			<url>http://krieger.mx:8081/artifactory/public</url>
 		</snapshotRepository>
 	</distributionManagement>
 

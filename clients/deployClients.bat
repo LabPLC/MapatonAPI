@@ -1,5 +1,6 @@
 @echo off
 REM set PATH=C:\Program Files\Java\jdk1.7.0_79\bin;%PATH%
+set WORKING_DIR=J:\Work\Krieger\LabPLC\HackeoUrbano\dev\MapatonAPI
 call cd..
 echo ==============================================================================
 ECHO ==============================================================================
@@ -27,8 +28,8 @@ ECHO ===========================================================================
 ECHO ==============================================================================
 ECHO ==============================================================================
 call javac -d . src/main/java/mx/krieger/labplc/mapaton/utils/APIClientsUpdateHelper.java
-call java -cp . mx.krieger.labplc.mapaton.utils.APIClientsUpdateHelper > result.txt
-find /c "--SUCCESS--" result.txt  && ( goto update) || (goto error )
+call java -cp . mx.krieger.labplc.mapaton.utils.APIClientsUpdateHelper > %WORKING_DIR%/result.txt
+FINDSTR /C:"--SUCCESS--" /G:%WORKING_DIR%/result.txt  && ( goto update) || (goto error )
 :update
 ECHO ==============================================================================
 ECHO ==============================================================================
