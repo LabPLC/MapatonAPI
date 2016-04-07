@@ -1,19 +1,28 @@
 
 # MapatonAPI
-API pública y open-source para el consumo de los datos resultantes de MapatónCDMX
+(RESTful) API pública y open-source para el consumo de los datos resultantes de MapatónCDMX
 
-Para más información acerca del API es posible utilizar la herramienta [API explorer](https://apis-explorer.appspot.com/apis-explorer/?base=https%3A%2F%2Fmapaton-public.appspot.com%2F_ah%2Fapi#p/) del proyecto, la cual contiene una lista de los métodos utilizables, así como sus parámetros y retornos. El API explorer cuenta con un editor de JSON para realizar las peticiones y ayuda a saber qué parámetros se utilizan en cada método.
-Dentro de DashboardAPI es posible ver los métodos expuestos:
-* dashboardAPI.getAllTrails 
-* dashboardAPI.getTrailDetails 
-* dashboardAPI.getTrailRawPoints 
-* dashboardAPI.getTrailSnappedPoints
+Para más información acerca del API es posible utilizar la herramienta
+[API explorer](https://public-api-dot-mapaton-public.appspot.com/_ah/api/explorer) del proyecto, la cual contiene
+una lista de los métodos utilizables, así como sus parámetros y retornos. El API explorer cuenta con un editor de JSON
+para realizar las peticiones y ayuda a saber qué parámetros se utilizan en cada método.
+Dentro de Mapaton Public API es posible ver los métodos expuestos:
+ * mapatonPublicAPI.getAllGtfsTrails
+ * mapatonPublicAPI.getAllTrails
+ * mapatonPublicAPI.getAllValidTrails
+ * mapatonPublicAPI.getTrailDetails
+ * mapatonPublicAPI.getTrailRawPoints
+ * mapatonPublicAPI.getTrailSnappedPoints
+ * mapatonPublicAPI.getTrailsByStationName
+ * mapatonPublicAPI.registerGtfsFullTask
+ * mapatonPublicAPI.registerGtfsTask
+ * mapatonPublicAPI.trailsNearPoint
 
 ## Descripción de cada método
 
-### dashboardAPI.getAllTrails, dashboardAPI.getAllValidTrails, dashboardAPI.getAllGtfsTrails, 
+### mapatonPublicAPI.getAllTrails, mapatonPublicAPI.getAllValidTrails, mapatonPublicAPI.getAllGtfsTrails, 
 
-Método utilizado para obtener todos los recorridos guardados, los recorridos se encuentran paginados y es necesario indicar al servidor el tamaño y el número de la página.
+Métodos utilizados para obtener todos los recorridos guardados, los recorridos se encuentran paginados y es necesario indicar al servidor el tamaño y el número de la página.
 
 1. Parámetros:
 
@@ -23,10 +32,10 @@ Método utilizado para obtener todos los recorridos guardados, los recorridos se
 2. Retornos:
  
    * __cursor__: Una cadena de texto utilizada para mandar al servidor y obtener el siguiente grupo de elementos paginados.
-   * __trails__: Un arreglo de recorridos del número de elementos solicitado por __numberOfElements__. Los recorridos tienen todos los datos de recorrido detallados en _dashboardAPI.getTrailDetails_.
+   * __trails__: Un arreglo de recorridos del número de elementos solicitado por __numberOfElements__. Los recorridos tienen todos los datos de recorrido detallados en _mapatonPublicAPI.getTrailDetails_.
 
 
-### dashboardAPI.getTrailDetails
+### mapatonPublicAPI.getTrailDetails
 
 Método utilizado para obtener todos los detalles de un recorrido en particular
 
@@ -60,7 +69,7 @@ Método utilizado para obtener todos los detalles de un recorrido en particular
    * __totalMinutes__: Tiempo en minutos del recorrido (Para getAllTrails es 0 por causas de eficiencia) 
    * __totalMeters__: Distancia en metros del recorrido (Para getAllTrails es 0 por causas de eficiencia)
  
-### dashboardAPI.getTrailRawPoints
+### mapatonPublicAPI.getTrailRawPoints
 
 Método utilizado para obtener todos los puntos registrados en MapatónCDMX por un usuario.
 
@@ -87,9 +96,9 @@ Método utilizado para obtener todos los puntos registrados en MapatónCDMX por 
         * __day__: El día en el que el punto fue registrado
         * __month__: El mes en el que el punto fue registrado
         * __year__: El año en el que el punto fue registrado
-    * __position__: La posición en del punto respecto a otros (no utilizado en _dashboardAPI.getTrailRawPoints_)
+    * __position__: La posición en del punto respecto a otros (no utilizado en _mapatonPublicAPI.getTrailRawPoints_)
    
-### dashboardAPI.getTrailSnappedPoints
+### mapatonPublicAPI.getTrailSnappedPoints
 
 Método utilizado para obtener todos los puntos registrados en MapatónCDMX por un usuario, y pegados a un camino o calle a través de Google SnapToRoad API. 
 
@@ -106,7 +115,7 @@ Método utilizado para obtener todos los puntos registrados en MapatónCDMX por 
        * __latitude__: La latitud del punto registrado
        * __longitude__: La longitud del punto registrado
        * __radius__: El radio de precisión del punto registrado
-    * __position__: La posición en del punto respecto a otros (no utilizado en _dashboardAPI.getTrailRawPoints_)
+    * __position__: La posición en del punto respecto a otros (no utilizado en _mapatonPublicAPI.getTrailRawPoints_)
 
 
 ## Licencia
