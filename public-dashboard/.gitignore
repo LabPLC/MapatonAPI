@@ -1,0 +1,12 @@
+/target/
+/.settings/
+/.classpath
+/.project
+/src/main/webapp/WEB-INF/*.api
+/mx
+/clients/app/pom.xml
+/build/
+/result.txt
+*.iml
+/.idea/
+/src/main/webapp/WEB-INF/config.txt

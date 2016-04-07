@@ -1,0 +1,38 @@
+/// Makes an element's :before pseudoelement a FontAwesome icon.
+/// @param {string} $content Optional content value to use.
+@mixin icon($content: false) {
+  text-decoration: none;
+  &:before {
+	@if $content {
+	  content: $content;
+	}
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	text-transform: none !important;
+  }
+}
+
+@mixin container-responsive-padding(){
+	@include breakpoint(medium){
+		padding-right: 2.3em;
+		padding-left: 2.3em;
+	}
+
+	@include breakpoint(small){
+		padding-right: 1.8em;
+		padding-left: 1.8em;
+	}
+
+	@include breakpoint(xsmall){
+		padding-right: 1.4em;
+		padding-left: 1.4em;
+	}
+
+	@include breakpoint(xxsmall){
+		padding-right: 1em;
+		padding-left: 1em;
+	}
+}

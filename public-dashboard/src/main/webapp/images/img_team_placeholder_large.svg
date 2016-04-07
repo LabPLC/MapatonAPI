@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1920 1080" enable-background="new 0 0 1920 1080" xml:space="preserve">
+<symbol  id="New_Symbol" viewBox="-17.9 -38.3 35.8 76.6">
+	<path fill="#4051B5" d="M17.9-38.3c0,0-35.8,3.2-35.8,64c2.1-2.1,15.1-2.2,15.1,11c6.1,1.2,20.7,1.6,20.7,1.6V-38.3z"/>
+</symbol>
+<rect x="420" fill="#E9F5FF" width="1080" height="1080"/>
+<g>
+	<path fill="none" d="M765.6,345.6h388.8v388.8H765.6V345.6z"/>
+	<g>
+		<circle fill="#E9F5FF" cx="960" cy="540" r="162"/>
+		<g>
+			
+				<use xlink:href="#New_Symbol"  width="35.8" height="76.6" id="XMLID_2_" x="-17.9" y="-38.3" transform="matrix(2.8883 0 0 -2.8883 908.2974 547.2116)" overflow="visible"/>
+			
+				<use xlink:href="#New_Symbol"  width="35.8" height="76.6" id="XMLID_1_" x="-17.9" y="-38.3" transform="matrix(-2.8883 0 0 -2.8883 1011.7022 547.2116)" overflow="visible"/>
+			<path fill="#E9F5FF" d="M1010.7,478H909.3l-4.4,112.5h8.3c1.7,5,6.4,8.6,11.9,8.6c5.5,0,10.2-3.6,11.9-8.6h45.7
+				c1.7,5,6.4,8.6,11.9,8.6c5.5,0,10.2-3.6,11.9-8.6h8.6L1010.7,478z M948.4,483.8h23.8v6.9h-23.8V483.8z M925.2,577.7
+				c-5.6,0-10-4.5-10-10c0-5.5,4.5-10,10-10c5.5,0,10,4.5,10,10C935.2,573.2,930.7,577.7,925.2,577.7z M915.2,547.7l1.3-50.1h87.1
+				l1.3,50.1H915.2z M994.9,577.7c-5.5,0-10-4.5-10-10c0-5.5,4.5-10,10-10c5.5,0,10,4.5,10,10
+				C1004.9,573.2,1000.4,577.7,994.9,577.7z"/>
+		</g>
+	</g>
+</g>
+</svg>
