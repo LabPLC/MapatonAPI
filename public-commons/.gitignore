@@ -1,0 +1,6 @@
+/target/
+/.settings/
+/.classpath
+/.project
+/src/test/java/META-INF/MANIFEST.MF
+commons.iml
