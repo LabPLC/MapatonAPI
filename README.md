@@ -1,6 +1,26 @@
 
 # MapatonAPI
-(RESTful) API pública y open-source para el consumo de los datos resultantes de MapatónCDMX
+Este proyecto contiene el código referente a la API de consulta de datos públicos obtenidos en MapatónCDMX
+
+## Arquitectura del proyecto
+Este es un proyecto maven compuesto por los siguientes módulos:
+ * **public-commons:** Este módulo contiene los enums y las constantes utilizadas en todo mapaton. Es un jar que puede
+ ser accedido desde el nuestro [repositorio](http://artifactory.krieger.mx/).
+ * **public-utils:** Este módulo contiene la lógica pincipal necesaria para implementar la API pública. En este módulo
+ se encuentran las entidades (tablas) que componen la estructura de datos de nuestro modelo.
+ Es un jar que puede ser accedido desde el nuestro [repositorio](http://artifactory.krieger.mx/).
+ * **public-api:** Este módulo contiene el código de la API pública que se explica a continuación y es
+ despliegado en [Google App Engine](https://console.cloud.google.com/home/dashboard?project=mapaton-public).
+ * **public-dashboard:** Este módulo contiene el código hmtl del dashboartd público y es
+ despliegado en [Google App Engine](https://console.cloud.google.com/home/dashboard?project=mapaton-public).
+
+ ## Cómo correr el código
+Una vez que el usuario ha descargado el código desde este [repositorio](https://github.com/LabPLC/MapatonAPI) puede empezar
+a hacer modificaciones. Los proyectos pueden modificarse e instalarse individualmente. De forma que si sólo se desea modificar
+la API, no es necesario hacer cambios o distribuir los otros módulos. Dado que todo el proyecto es de tipo Maven, éste
+puede ser importado en Eclipse o IntelliJ. Se reocmienda mantener los módulos juntos dentro del proytecto padre.
+
+##API pública
 
 Para más información acerca del API es posible utilizar la herramienta
 [API explorer](https://public-api-dot-mapaton-public.appspot.com/_ah/api/explorer) del proyecto, la cual contiene
