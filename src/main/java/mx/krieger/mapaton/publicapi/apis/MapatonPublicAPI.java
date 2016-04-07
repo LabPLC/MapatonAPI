@@ -5,7 +5,6 @@ import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.common.io.CharStreams;
 import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
-import mx.krieger.mapaton.publicapi.handlers.QuestionnaireHandler;
 import mx.krieger.mapaton.publicapi.handlers.TrailsHandler;
 import mx.krieger.mapaton.publicapi.model.entities.RegisteredTrail;
 import mx.krieger.mapaton.publicapi.model.wrappers.*;
@@ -25,19 +24,19 @@ import java.util.HashMap;
  * @since 16 / feb / 2016
  */
 @Api(
-	name = "dashboardAPI",
-	canonicalName = "dashboardAPI",
-	title = "Dashboard API",
-	description = "This API exposes the services required by the mapaton dashboard of mapaton",
+	name = "mapatonPublicAPI",
+	canonicalName = "mapatonPublicAPI",
+	title = "Mapaton Public API",
+	description = "This is the public API for mapaton",
 	authLevel = AuthLevel.NONE,
 	namespace = @ApiNamespace( 
-		ownerDomain = "mapaton.pides.krieger.mx",
+		ownerDomain = "mapaton.krieger.mx",
 		ownerName = "krieger",
 		packagePath = "clients") )
-public class MapatonAPI {
+public class MapatonPublicAPI {
 
 	/** The logger. */
-	private Logger logger = new Logger(MapatonAPI.class);
+	private Logger logger = new Logger(MapatonPublicAPI.class);
 
 	
 
@@ -238,26 +237,4 @@ public class MapatonAPI {
 		
 		logger.debug("registration finished");
 	}
-
-	@ApiMethod(path = "registerQuestionnaire", name = "registerQuestionnaire", httpMethod = HttpMethod.POST)
-	public void registerQuestionnaire(QuestionnaireWrapper parameter) throws TrailNotFoundException{
-		new QuestionnaireHandler().register(parameter);
-
-	}
-	@ApiMethod(path = "getQuestionnaire", name = "getQuestionnaire", httpMethod = HttpMethod.POST)
-	public QuestionnaireWrapper getQuestionnaire(@Named("id") Long id){
-		return new QuestionnaireHandler().get(id);
-
-	}
-	@ApiMethod(path = "getStats", name = "getStats", httpMethod = HttpMethod.POST)
-	public RouteStatsWrapper getStats(@Named("trailId") Long trailId){
-		return new QuestionnaireHandler().getStats(trailId);
-
-	}
-	
-	@ApiMethod(path = "getAllStats", name = "getAllStats", httpMethod = HttpMethod.POST)
-	public RouteStatsResponse getAllStats(RouteStatsParameter parameter){
-		return new QuestionnaireHandler().getAllStats(parameter);
-	}
-
 }
