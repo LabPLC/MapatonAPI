@@ -33,8 +33,6 @@
 
 	<!-- Properties of the project -->
 	<properties>
-		<app.id>mapaton-public</app.id>
-		<app.version>prod</app.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<appengine.version>1.9.34</appengine.version>
 		<gcloud.plugin.version>0.9.58.v20150505</gcloud.plugin.version>
