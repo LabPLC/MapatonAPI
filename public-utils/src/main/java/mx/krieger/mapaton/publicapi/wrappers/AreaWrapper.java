@@ -1,7 +1,7 @@
 /**
  * 21 Aug 2015 - 00:52:28
  */
-package mx.krieger.mapaton.publicapi.model.wrappers;
+package mx.krieger.mapaton.publicapi.wrappers;
 
 import mx.krieger.internal.commons.utils.location.beans.GPSLocation;
 

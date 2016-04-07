@@ -1,4 +1,4 @@
-package mx.krieger.mapaton.publicapi.model.wrappers;
+package mx.krieger.mapaton.publicapi.wrappers;
 
 public class RouteStatsWrapper {
 	private String originStation;

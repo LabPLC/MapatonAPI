@@ -1,7 +1,7 @@
 /**
  * 30 Jul 2015 - 14:04:38
  */
-package mx.krieger.mapaton.publicapi.model.wrappers;
+package mx.krieger.mapaton.publicapi.wrappers;
 
 import mx.krieger.internal.commons.utils.dateandtime.beans.TimeStamp;
 import mx.krieger.internal.commons.utils.location.beans.GPSLocation;

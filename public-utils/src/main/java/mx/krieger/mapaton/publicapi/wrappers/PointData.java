@@ -1,4 +1,4 @@
-package mx.krieger.mapaton.publicapi.model.wrappers;
+package mx.krieger.mapaton.publicapi.wrappers;
 
 import java.util.Date;
 

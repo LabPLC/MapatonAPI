@@ -32,7 +32,7 @@ import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.mapaton.publicapi.handlers.TrailsHandler;
 import mx.krieger.mapaton.publicapi.model.entities.RegisteredTrail;
-import mx.krieger.mapaton.publicapi.model.wrappers.PointData;
+import mx.krieger.mapaton.publicapi.wrappers.PointData;
 
 /**
  * This class is used to manage the contents of the application through the

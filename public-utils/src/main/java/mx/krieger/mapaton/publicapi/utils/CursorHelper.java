@@ -3,7 +3,7 @@ package mx.krieger.mapaton.publicapi.utils;
 import com.google.appengine.api.datastore.Cursor;
 import com.googlecode.objectify.cmd.Query;
 
-import mx.krieger.mapaton.publicapi.model.wrappers.CursorParameter;
+import mx.krieger.mapaton.publicapi.wrappers.CursorParameter;
 
 /**
  * This class is used to help manage the cursor requests

@@ -7,7 +7,7 @@ import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
 import mx.krieger.mapaton.publicapi.handlers.TrailsHandler;
 import mx.krieger.mapaton.publicapi.model.entities.RegisteredTrail;
-import mx.krieger.mapaton.publicapi.model.wrappers.*;
+import mx.krieger.mapaton.publicapi.wrappers.*;
 import mx.krieger.mapaton.publicapi.tasks.GtfsGenerationTask;
 
 import java.io.*;

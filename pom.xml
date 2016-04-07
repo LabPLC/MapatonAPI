@@ -10,10 +10,10 @@
 	<packaging>pom</packaging>
     
 	<modules>
-        <module>/public-api</module>
         <module>/public-commons</module>
-        <module>/public-dashboard</module>
         <module>/public-utils</module>
+        <module>/public-api</module>
+        <module>/public-dashboard</module>
     </modules>
 	
 	 <!-- License -->
@@ -30,14 +30,17 @@
     <properties>
         <app.id>mapaton-public</app.id>
         <app.version>prod</app.version>
-        <jdk.version>1.7</jdk.version>
-        <junit.version>4.12</junit.version>
         <appengine.version>1.9.34</appengine.version>
         <gcloud.plugin.version>2.0.9.74.v20150814</gcloud.plugin.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+        <jdk.version>1.7</jdk.version>
+        <jodatime.version>2.5</jodatime.version>
+        <junit.version>4.12</junit.version>
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.version>3.1.0</maven.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mapaton.commons.version>1.0.0.28</mapaton.commons.version>
+        <internal.api.commons.version>2.0.2.12</internal.api.commons.version>
+        <internal.commons.version>2.1.1.1</internal.commons.version>
     </properties>
 	
 	 <!-- Prerequisites -->
@@ -89,6 +92,17 @@
 	 <!-- Repositories -->
     <repositories>
         <repository>
+            <id>krieger-projects</id>
+            <name>Krieger Private Repository</name>
+            <url>http://krieger.mx:8081/artifactory/projects</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
             <id>krieger-public</id>
             <name>Krieger Public Repository</name>
             <url>http://krieger.mx:8081/artifactory/public</url>
@@ -137,7 +151,7 @@
     </dependencies>
 	
 	<!-- Build -->
-	<buil>
+	<build>
 		<extensions>
             <!-- Extension used to upload artifacts to internal repository -->
             <extension>

@@ -3,47 +3,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Project basics -->
-	<groupId>mx.krieger.mapaton</groupId>
+    <parent>
+        <groupId>mx.krieger.mapaton</groupId>
+        <artifactId>mapaton-public</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 	<artifactId>public-utils</artifactId>
 	<version>1.7.0.0</version>
 	<packaging>jar</packaging>
 
 	<!-- Project information -->
 	<name>${artifactId}</name>
-	<description>
-		This project contains all the modules that integrate the set of reusable utilities common to all GAE endpoints API projects within Krieger.
-	</description>
-	<inceptionYear>2015</inceptionYear>
-	<organization>
-		<name>Krieger</name>
-		<url>http://www.krieger.mx</url>
-	</organization>
-	<url>http://code.krieger.mx/mapaton/commons</url>
-
-	<!-- License -->
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-			<comments>A business-friendly OSS license</comments>
-		</license>
-	</licenses>
-
-	<!-- Properties of the project -->
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.7</jdk.version>
-		<junit.version>4.11</junit.version>
-		<jodatime.version>2.5</jodatime.version>
-		<maven.version>3.1.0</maven.version>
-		<internal.commons.version>2.1.1.1</internal.commons.version>
-	</properties>
-
-	<!-- Prerequesites -->
-	<prerequisites>
-		<maven>${maven.version}</maven>
-	</prerequisites>
 	
 	<!-- Dependencies -->
 	<dependencies>
@@ -53,12 +23,33 @@
 			<artifactId>joda-time</artifactId>
 			<version>${jodatime.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-api-1.0-sdk</artifactId>
+            <version>${appengine.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-endpoints</artifactId>
+            <version>${appengine.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.appengine.tools</groupId>
+            <artifactId>appengine-gcs-client</artifactId>
+            <version>0.5</version>
+        </dependency>
 
-		<!-- Internal dependencies -->
+
+        <!-- Internal dependencies -->
 		<dependency>
 			<groupId>mx.krieger.internal.commons</groupId>
-			<artifactId>commons</artifactId>
-			<version>${internal.commons.version}</version>
+			<artifactId>api-commons</artifactId>
+			<version>${internal.api.commons.version}</version>
+		</dependency>
+		<dependency>
+            <groupId>mx.krieger.mapaton</groupId>
+            <artifactId>public-commons</artifactId>
+			<version>${mapaton.commons.version}</version>
 		</dependency>
 
 		<!-- Test Dependencies -->
@@ -142,14 +133,6 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<extensions>
-			<!-- Extension used to load artifacts to internal repository -->
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-http</artifactId>
-				<version>1.0-beta-6</version>
-			</extension>
-		</extensions>
 	</build>
 
 </project>

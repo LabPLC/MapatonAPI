@@ -11,7 +11,7 @@ import com.googlecode.objectify.annotation.Subclass;
 
 import mx.krieger.labplc.mapaton.commons.enums.TransportType;
 import mx.krieger.mapaton.publicapi.handlers.TrailsHandler;
-import mx.krieger.mapaton.publicapi.model.wrappers.PointData;
+import mx.krieger.mapaton.publicapi.wrappers.PointData;
 
 /**
  * This entity class persists the information of a trail.

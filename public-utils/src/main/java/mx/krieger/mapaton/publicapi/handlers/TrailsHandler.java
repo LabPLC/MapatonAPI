@@ -19,7 +19,7 @@ import mx.krieger.internal.commons.utils.dateandtime.utils.TimeStampUtils;
 import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.enums.RegisteredTrailStatusEnum;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
-import mx.krieger.mapaton.publicapi.model.wrappers.*;
+import mx.krieger.mapaton.publicapi.wrappers.*;
 import mx.krieger.mapaton.publicapi.utils.CursorHelper;
 import mx.krieger.mapaton.publicapi.utils.OfyService;
 import mx.krieger.mapaton.publicapi.model.entities.GenericTrail;

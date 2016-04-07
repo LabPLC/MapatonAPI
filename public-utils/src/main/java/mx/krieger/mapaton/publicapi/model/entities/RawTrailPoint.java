@@ -7,7 +7,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import mx.krieger.internal.apicommons.model.entities.PersistentEntity;
-import mx.krieger.mapaton.publicapi.model.wrappers.PointData;
+import mx.krieger.mapaton.publicapi.wrappers.PointData;
 
 /**
  * This class stores the information of a point, timestamp and location.

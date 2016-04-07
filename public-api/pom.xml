@@ -4,117 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Project basics -->
-	<groupId>mx.krieger.mapaton</groupId>
+	<parent>
+		<groupId>mx.krieger.mapaton</groupId>
+		<artifactId>mapaton-public</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 	<artifactId>public-api</artifactId>
 	<version>1.7.0.0</version>
 	<packaging>war</packaging>
 
 	<!-- Project information -->
 	<name>${artifactId}</name>
-	<description>
-		Proyecto con los datos abiertos recaudados por el concurso de Mapatón en la ciudad de México.
-	</description>
-	<inceptionYear>2015</inceptionYear>
-	<organization>
-		<name>Krieger</name>
-		<url>http://www.krieger.mx</url>
-	</organization>
-	<url>http://code.krieger.mx/labplc/mapaton/endpoints</url>
-
-	<!-- License -->
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-			<comments>A business-friendly OSS license</comments>
-		</license>
-	</licenses>
-
-	<!-- Properties of the project -->
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<appengine.version>1.9.34</appengine.version>
-		<gcloud.plugin.version>0.9.58.v20150505</gcloud.plugin.version>
-		<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
-		<maven.version>3.1.0</maven.version>
-		<internal.api.commons.version>2.0.2.12</internal.api.commons.version>
-		<mapaton.commons.version>1.0.0.28</mapaton.commons.version>
-	</properties>
-
-	<!-- Prerequisites -->
-	<prerequisites>
-		<maven>${maven.version}</maven>
-	</prerequisites>
-
-	<!-- Developers -->
-	<developers>
-		<developer>
-			<id>juanjo</id>
-			<name>Juan José Mendoza Santana</name>
-			<email>juanjo@krieger.mx</email>
-			<url>http://www.krieger.mx/profiles/juanjo</url>
-			<organization>Krieger</organization>
-			<organizationUrl>http://www.krieger.mx</organizationUrl>
-			<roles>
-				<role>architect</role>
-				<role>developer</role>
-			</roles>
-			<timezone>Europe/London</timezone>
-			<properties>
-				<picUrl>http://www.krieger.mx/profiles/photos/juanjo.jpg</picUrl>
-			</properties>
-		</developer>
-		<developer>
-			<id>rodrigo.cp</id>
-			<name>Rodrigo Cabrera</name>
-			<email>rodrigo.cp@krieger.mx</email>
-			<url>http://www.krieger.mx/profiles/rodrigocp</url>
-			<organization>Krieger</organization>
-			<organizationUrl>http://www.krieger.mx</organizationUrl>
-			<roles>
-				<role>developer</role>
-			</roles>
-			<timezone>America/Mexico_City</timezone>
-			<properties>
-				<picUrl>http://www.krieger.mx/profiles/photos/rodrigocp.jpg</picUrl>
-			</properties>
-		</developer>
-	</developers>
-
-	<!-- Source Code/Control Management TODO -->
-	<scm>
-		<url>https://bitbucket.org/krieger-mapaton/endpoints</url>
-	</scm>
-
-	<!-- Repositories -->
-	<repositories>
-		<repository>
-			<id>krieger-public</id>
-			<name>Krieger Public Repository</name>
-			<url>http://krieger.mx:8081/artifactory/public</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-	</repositories>
-
-	<!-- Distributions Management to release version into public repository -->
-	<distributionManagement>
-		<repository>
-			<id>krieger-public</id>
-			<name>Krieger Projects Repository</name>
-			<url>http://krieger.mx:8081/artifactory/public</url>
-		</repository>
-		<snapshotRepository>
-			<id>krieger-public</id>
-			<name>Krieger Projects Repository</name>
-			<url>http://krieger.mx:8081/artifactory/public</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<!-- Dependencies -->
 	<dependencies>
@@ -140,18 +40,6 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
-
-		<!-- Internal dependencies -->
-		<dependency>
-			<groupId>mx.krieger.internal.commons</groupId>
-			<artifactId>api-commons</artifactId>
-			<version>${internal.api.commons.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>mx.krieger.labplc.mapaton</groupId>
-			<artifactId>commons</artifactId>
-			<version>${mapaton.commons.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -162,6 +50,13 @@
 			<artifactId>gcm-server</artifactId>
 			<version>1.0.2</version>
 		</dependency>
+
+        <!-- Internal -->
+        <dependency>
+            <groupId>mx.krieger.mapaton</groupId>
+            <artifactId>public-utils</artifactId>
+            <version>1.7.0.0</version>
+        </dependency>
 
 		<!-- Test Dependencies -->
 		<dependency>

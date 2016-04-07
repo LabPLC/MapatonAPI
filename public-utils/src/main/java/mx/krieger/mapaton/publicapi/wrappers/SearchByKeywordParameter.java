@@ -1,7 +1,7 @@
 /**
  * 29 Jul 2015 - 09:56:57
  */
-package mx.krieger.mapaton.publicapi.model.wrappers;
+package mx.krieger.mapaton.publicapi.wrappers;
 
 /**
  * <p>
