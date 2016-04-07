@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Project basics -->
-	<groupId>mx.krieger.pides.mapaton</groupId>
-	<artifactId>public</artifactId>
+	<groupId>mx.krieger.mapaton</groupId>
+	<artifactId>public-api</artifactId>
 	<version>1.6.0.0</version>
 	<packaging>war</packaging>
 
