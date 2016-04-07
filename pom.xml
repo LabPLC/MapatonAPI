@@ -7,6 +7,144 @@
     <groupId>mx.krieger.mapaton</groupId>
     <artifactId>mapaton-public</artifactId>
     <version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+    
+	<modules>
+        <module>/public-api</module>
+        <module>/public-commons</module>
+        <module>/public-dashboard</module>
+        <module>/public-utils</module>
+    </modules>
+	
+	 <!-- License -->
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+	
+	 <!-- Properties of the project -->
+    <properties>
+        <app.id>mapaton-public</app.id>
+        <app.version>prod</app.version>
+        <jdk.version>1.7</jdk.version>
+        <junit.version>4.12</junit.version>
+        <appengine.version>1.9.34</appengine.version>
+        <gcloud.plugin.version>2.0.9.74.v20150814</gcloud.plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+        <maven.version>3.1.0</maven.version>
+    </properties>
+	
+	 <!-- Prerequisites -->
+    <prerequisites>
+        <maven>${maven.version}</maven>
+    </prerequisites>
 
-
+    <!-- Developers -->
+    <developers>
+        <developer>
+            <id>juanjo</id>
+            <name>Juan José Mendoza Santana</name>
+            <email>juanjo@krieger.mx</email>
+            <url>http://www.krieger.mx/profiles/juanjo.html</url>
+            <organization>Krieger</organization>
+            <organizationUrl>http://www.krieger.mx</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/London</timezone>
+        </developer>
+		<developer>
+            <id>c</id>
+            <name>Cristian Hiram Guerreo Leon</name>
+            <email>c@krieger.mx</email>
+            <url>http://www.krieger.mx/profiles/jc.html</url>
+            <organization>Krieger</organization>
+            <organizationUrl>http://www.krieger.mx</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>America/Mexico_City</timezone>
+        </developer>
+		<developer>
+			<id>rodrigo.cp</id>
+			<name>Rodrigo Cabrera</name>
+			<email>rodrigo.cp@krieger.mx</email>
+			<url>http://www.krieger.mx/profiles/rodrigocp</url>
+			<organization>Krieger</organization>
+			<organizationUrl>http://www.krieger.mx</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>America/Mexico_City</timezone>
+		</developer>
+    </developers>
+	
+	 <!-- Repositories -->
+    <repositories>
+        <repository>
+            <id>krieger-public</id>
+            <name>Krieger Public Repository</name>
+            <url>http://krieger.mx:8081/artifactory/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+	
+	 <!-- Distributions Management to release artifact into public repository -->
+    <distributionManagement>
+        <repository>
+            <id>krieger-public</id>
+            <name>Krieger Public Repository</name>
+            <url>http://krieger.mx:8081/artifactory/public</url>
+            <layout>maven-2-default</layout>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+            <id>krieger-public</id>
+            <name>Krieger Public Repository</name>
+            <url>http://krieger.mx:8081/artifactory/public</url>
+            <layout>maven-2-default</layout>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+	
+	 <!-- Dependencies -->
+    <dependencies>
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>2.0.2-beta</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+	
+	<!-- Build -->
+	<buil>
+		<extensions>
+            <!-- Extension used to upload artifacts to internal repository -->
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-http</artifactId>
+                <version>1.0-beta-6</version>
+            </extension>
+        </extensions>
+    </build>
 </project>
