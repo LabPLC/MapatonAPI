@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Project basics -->
-	<groupId>mx.krieger.labplc.mapaton</groupId>
+	<groupId>mx.krieger.pides.mapaton</groupId>
 	<artifactId>public</artifactId>
 	<version>1.5.0.0</version>
 	<packaging>war</packaging>

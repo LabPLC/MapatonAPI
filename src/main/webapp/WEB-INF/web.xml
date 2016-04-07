@@ -11,7 +11,7 @@
 	<!-- Servlet to serve the gtfs zip -->
 	<servlet>
 		<servlet-name>GetGtfs</servlet-name>
-		<servlet-class>mx.krieger.labplc.pides.servlets.GetGtfs</servlet-class>
+		<servlet-class>mx.krieger.pides.mapaton.servlets.GetGtfs</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetGtfs</servlet-name>
@@ -21,7 +21,7 @@
 	<!-- Servlet to serve the gtfs zip -->
 	<servlet>
 		<servlet-name>ServeGtfsZip</servlet-name>
-		<servlet-class>mx.krieger.labplc.pides.servlets.ServeGtfsZip</servlet-class>
+		<servlet-class>mx.krieger.pides.mapaton.servlets.ServeGtfsZip</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ServeGtfsZip</servlet-name>
@@ -37,7 +37,7 @@
 		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
 		<init-param>
 			<param-name>services</param-name>
-			<param-value>mx.krieger.labplc.pides.apis.DashboardAPI,mx.krieger.labplc.pides.apis.MapatonAPI</param-value>
+			<param-value>mx.krieger.pides.mapaton.apis.DashboardAPI,mx.krieger.labplc.pides.apis.MapatonAPI</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
@@ -64,7 +64,7 @@
 	<!-- Task to update the gtfs based on a list of trailIds -->
 	<servlet>
 		<servlet-name>GtfsGenerationTask</servlet-name>
-		<servlet-class>mx.krieger.labplc.pides.tasks.GtfsGenerationTask</servlet-class>
+		<servlet-class>mx.krieger.pides.mapaton.tasks.GtfsGenerationTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GtfsGenerationTask</servlet-name>
