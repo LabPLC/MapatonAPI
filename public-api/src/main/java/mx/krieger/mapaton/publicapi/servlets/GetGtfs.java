@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mx.krieger.mapaton.publicapi.utils.GTFSHelper;
+import mx.krieger.mapaton.publicutils.utils.GTFSHelper;
 
 
 public class GetGtfs extends HttpServlet {

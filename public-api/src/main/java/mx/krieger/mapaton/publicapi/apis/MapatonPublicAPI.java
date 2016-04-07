@@ -5,9 +5,9 @@ import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.common.io.CharStreams;
 import mx.krieger.internal.commons.utils.logging.Logger;
 import mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException;
-import mx.krieger.mapaton.publicapi.handlers.TrailsHandler;
-import mx.krieger.mapaton.publicapi.model.entities.RegisteredTrail;
-import mx.krieger.mapaton.publicapi.wrappers.*;
+import mx.krieger.mapaton.publicutils.handlers.TrailsHandler;
+import mx.krieger.mapaton.publicutils.entities.RegisteredTrail;
+import mx.krieger.mapaton.publicutils.wrappers.*;
 import mx.krieger.mapaton.publicapi.tasks.GtfsGenerationTask;
 
 import java.io.*;

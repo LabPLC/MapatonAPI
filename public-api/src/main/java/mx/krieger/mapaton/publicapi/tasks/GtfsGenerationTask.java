@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import mx.krieger.internal.apicommons.model.Task;
 import mx.krieger.internal.commons.utils.logging.Logger;
-import mx.krieger.mapaton.publicapi.utils.GTFSHelper;
+import mx.krieger.mapaton.publicutils.utils.GTFSHelper;
 
 
 public class GtfsGenerationTask extends Task{
