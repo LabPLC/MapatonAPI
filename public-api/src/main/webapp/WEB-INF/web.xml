@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+	<!-- ========================================================================== -->
+	<!-- ======================== Blobstore Servlets ============================= -->
+	<!-- ========================================================================== -->
+
+	<!-- Servlet to serve the gtfs zip -->
+	<servlet>
+		<servlet-name>GetGtfs</servlet-name>
+		<servlet-class>mx.krieger.mapaton.publicapi.servlets.GetGtfs</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetGtfs</servlet-name>
+		<url-pattern>/getGtfs</url-pattern>
+	</servlet-mapping>
+
+	<!-- Servlet to serve the gtfs zip -->
+	<servlet>
+		<servlet-name>ServeGtfsZip</servlet-name>
+		<servlet-class>mx.krieger.mapaton.publicapi.servlets.ServeGtfsZip</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ServeGtfsZip</servlet-name>
+		<url-pattern>/serveGtfsZip</url-pattern>
+	</servlet-mapping>
+
+	<!-- ========================================================================== -->
+	<!-- ============================ System Servlets ============================= -->
+	<!-- ========================================================================== -->
+	<!-- System Servlet -->
+	<servlet>
+		<servlet-name>SystemServiceServlet</servlet-name>
+		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
+		<init-param>
+			<param-name>services</param-name>
+			<param-value>mx.krieger.mapaton.publicapi.apis.MapatonPublicAPI,mx.krieger.labplc.pides.apis.MapatonAPI</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SystemServiceServlet</servlet-name>
+		<url-pattern>/_ah/spi/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- ========================================================================== -->
+	<!-- ============================ Objectify Filter ============================ -->
+	<!-- ========================================================================== -->
+	<filter>
+		<filter-name>ObjectifyFilter</filter-name>
+		<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ObjectifyFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- ========================================================================== -->
+	<!-- ============================= Tasks Servlets ============================= -->
+	<!-- ========================================================================== -->
+
+	<!-- Task to update the gtfs based on a list of trailIds -->
+	<servlet>
+		<servlet-name>GtfsGenerationTask</servlet-name>
+		<servlet-class>mx.krieger.mapaton.publicapi.tasks.GtfsGenerationTask</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GtfsGenerationTask</servlet-name>
+		<url-pattern>/executeGtfsGenerationTask</url-pattern>
+	</servlet-mapping>
+
+	<!-- ========================================================================== -->
+	<!-- ============================== Welcome Files ============================= -->
+	<!-- ========================================================================== -->
+
+	<!-- Welcome files -->
+	<welcome-file-list>
+		<welcome-file>main.html</welcome-file>
+	</welcome-file-list>
+</web-app>
