@@ -28,7 +28,7 @@ function initDashboardAPI(){
  */
 function getAllTrails(cursor){
     if(window.clientHasLoaded){
-        gapi.client.dashboardAPI.getAllTrails({
+        gapi.client.mapatonPublicAPI.getAllTrails({
         	numberOfElements:NUMBER_OF_ELEMENTS,
         	cursor:cursor
         }).execute(function (resp) {

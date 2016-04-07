@@ -20,7 +20,7 @@ function initTrailAPI(){
  * @param trailId the trail id.
  */
 function getTrail(trailId){
-    gapi.client.dashboardAPI.getTrailDetails({
+    gapi.client.mapatonPublicAPI.getTrailDetails({
         "trailId":trailId
     }).execute(function (resp) {
         if(typeof resp.error=='undefined'){
@@ -93,7 +93,7 @@ function getTrail(trailId){
  */
 var trailPoints = []; //An array to store the current points fetched from the server
 function getTrailPoints(trailId, cursor){
-    gapi.client.dashboardAPI.getTrailRawPoints({
+    gapi.client.mapatonPublicAPI.getTrailRawPoints({
         "trailId":trailId,
         "numberOfElements":NUMBER_OF_ELEMENTS,
         "cursor":cursor
@@ -118,7 +118,7 @@ function getTrailPoints(trailId, cursor){
  */
 var trailSnappedPoints = []; //An array to store the current snapped points fetched from the server
 function getTrailSnappedPoints(trailId, cursor){
-    gapi.client.dashboardAPI.getTrailSnappedPoints({
+    gapi.client.mapatonPublicAPI.getTrailSnappedPoints({
         "trailId":trailId,
         "numberOfElements":NUMBER_OF_ELEMENTS,
         "cursor":cursor
