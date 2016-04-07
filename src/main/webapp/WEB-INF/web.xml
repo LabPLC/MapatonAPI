@@ -37,7 +37,7 @@
 		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
 		<init-param>
 			<param-name>services</param-name>
-			<param-value>mx.krieger.mapaton.publicapi.apis.MapatonAPI,mx.krieger.labplc.pides.apis.MapatonAPI</param-value>
+			<param-value>mx.krieger.mapaton.publicapi.apis.MapatonPublicAPI,mx.krieger.labplc.pides.apis.MapatonAPI</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
