@@ -6,7 +6,7 @@
 	<!-- Project basics -->
 	<groupId>mx.krieger.pides.mapaton</groupId>
 	<artifactId>public</artifactId>
-	<version>1.5.0.0</version>
+	<version>1.6.0.0</version>
 	<packaging>war</packaging>
 
 	<!-- Project information -->

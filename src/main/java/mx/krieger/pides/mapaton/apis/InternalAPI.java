@@ -21,7 +21,7 @@ import mx.krieger.pides.mapaton.model.wrappers.RouteStatsWrapper;
 		description = "This API exposes the services required by the mapaton dashboard of mapaton",
 		authLevel = AuthLevel.NONE,
 		namespace = @ApiNamespace(
-			ownerDomain = "pides.krieger.mx",
+			ownerDomain = "mapaton.pides.krieger.mx",
 			ownerName = "krieger",
 			packagePath = "clients") )
 
