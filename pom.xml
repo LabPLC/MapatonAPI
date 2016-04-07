@@ -6,11 +6,11 @@
 	<!-- Project basics -->
 	<groupId>mx.krieger.mapaton</groupId>
 	<artifactId>public-api</artifactId>
-	<version>1.6.0.0</version>
+	<version>1.7.0.0</version>
 	<packaging>war</packaging>
 
 	<!-- Project information -->
-	<name>mapaton-public</name>
+	<name>${artifactId}</name>
 	<description>
 		Proyecto con los datos abiertos recaudados por el concurso de Mapatón en la ciudad de México.
 	</description>
