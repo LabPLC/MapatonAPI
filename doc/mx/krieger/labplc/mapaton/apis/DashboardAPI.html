@@ -91,7 +91,7 @@ var activeTableTab = "activeTableTab";
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">mx.krieger.labplc.mapaton.apis</div>
+<div class="subTitle">mx.krieger.labplc.pides.apis</div>
 <h2 title="Class DashboardAPI" class="title">Class DashboardAPI</h2>
 </div>
 <div class="contentContainer">
@@ -99,7 +99,7 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>mx.krieger.labplc.mapaton.apis.DashboardAPI</li>
+<li>mx.krieger.labplc.pides.apis.DashboardAPI</li>
 </ul>
 </li>
 </ul>
@@ -156,21 +156,21 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>mx.krieger.labplc.mapaton.model.wrappers.UserTrailsResponse</code></td>
+<td class="colFirst"><code>mx.krieger.labplc.pides.model.wrappers.UserTrailsResponse</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../mx/krieger/labplc/mapaton/apis/DashboardAPI.html#getAllTrails-mx.krieger.labplc.mapaton.model.wrappers.CursorParameter-">getAllTrails</a></span>(mx.krieger.labplc.mapaton.model.wrappers.CursorParameter&nbsp;parameter)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>mx.krieger.labplc.mapaton.model.wrappers.TrailDetails</code></td>
+<td class="colFirst"><code>mx.krieger.labplc.pides.model.wrappers.TrailDetails</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../mx/krieger/labplc/mapaton/apis/DashboardAPI.html#getTrailDetails-java.lang.Long-">getTrailDetails</a></span>(java.lang.Long&nbsp;trailId)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>mx.krieger.labplc.mapaton.model.wrappers.TrailPointsResult</code></td>
+<td class="colFirst"><code>mx.krieger.labplc.pides.model.wrappers.TrailPointsResult</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../mx/krieger/labplc/mapaton/apis/DashboardAPI.html#getTrailRawPoints-mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter-">getTrailRawPoints</a></span>(mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter&nbsp;parameter)</code>
 <div class="block">This method gets the list of raw points for a trail.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>mx.krieger.labplc.mapaton.model.wrappers.TrailPointsResult</code></td>
+<td class="colFirst"><code>mx.krieger.labplc.pides.model.wrappers.TrailPointsResult</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../mx/krieger/labplc/mapaton/apis/DashboardAPI.html#getTrailSnappedPoints-mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter-">getTrailSnappedPoints</a></span>(mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter&nbsp;parameter)</code>
 <div class="block">This method gets the list of snapped points for a trail.</div>
 </td>
@@ -220,11 +220,11 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllTrails</h4>
-<pre>public&nbsp;mx.krieger.labplc.mapaton.model.wrappers.UserTrailsResponse&nbsp;getAllTrails(mx.krieger.labplc.mapaton.model.wrappers.CursorParameter&nbsp;parameter)
-                                                                         throws mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException</pre>
+<pre>public&nbsp;mx.krieger.labplc.pides.model.wrappers.UserTrailsResponse&nbsp;getAllTrails(mx.krieger.labplc.pides.model.wrappers.CursorParameter&nbsp;parameter)
+                                                                         throws mx.krieger.labplc.pides.commons.exceptions.TrailNotFoundException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException</code></dd>
+<dd><code>mx.krieger.labplc.pides.commons.exceptions.TrailNotFoundException</code></dd>
 </dl>
 </li>
 </ul>
@@ -234,11 +234,11 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getTrailDetails</h4>
-<pre>public&nbsp;mx.krieger.labplc.mapaton.model.wrappers.TrailDetails&nbsp;getTrailDetails(java.lang.Long&nbsp;trailId)
-                                                                      throws mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException</pre>
+<pre>public&nbsp;mx.krieger.labplc.pides.model.wrappers.TrailDetails&nbsp;getTrailDetails(java.lang.Long&nbsp;trailId)
+                                                                      throws mx.krieger.labplc.pides.commons.exceptions.TrailNotFoundException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException</code></dd>
+<dd><code>mx.krieger.labplc.pides.commons.exceptions.TrailNotFoundException</code></dd>
 </dl>
 </li>
 </ul>
@@ -248,8 +248,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getTrailSnappedPoints</h4>
-<pre>public&nbsp;mx.krieger.labplc.mapaton.model.wrappers.TrailPointsResult&nbsp;getTrailSnappedPoints(mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter&nbsp;parameter)
-                                                                                 throws mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException,
+<pre>public&nbsp;mx.krieger.labplc.pides.model.wrappers.TrailPointsResult&nbsp;getTrailSnappedPoints(mx.krieger.labplc.pides.model.wrappers.TrailPointsRequestParameter&nbsp;parameter)
+                                                                                 throws mx.krieger.labplc.pides.commons.exceptions.TrailNotFoundException,
                                                                                         mx.krieger.internal.apicommons.exceptions.APIException</pre>
 <div class="block">This method gets the list of snapped points for a trail.</div>
 <dl>
@@ -257,7 +257,7 @@ extends java.lang.Object</pre>
 <dd><code>parameter</code> - </dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException</code></dd>
+<dd><code>mx.krieger.labplc.pides.commons.exceptions.TrailNotFoundException</code></dd>
 <dd><code>mx.krieger.internal.apicommons.exceptions.APIException</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>18 Nov 2015 - 19:25:56</dd>
@@ -270,15 +270,15 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getTrailRawPoints</h4>
-<pre>public&nbsp;mx.krieger.labplc.mapaton.model.wrappers.TrailPointsResult&nbsp;getTrailRawPoints(mx.krieger.labplc.mapaton.model.wrappers.TrailPointsRequestParameter&nbsp;parameter)
-                                                                             throws mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException</pre>
+<pre>public&nbsp;mx.krieger.labplc.pides.model.wrappers.TrailPointsResult&nbsp;getTrailRawPoints(mx.krieger.labplc.pides.model.wrappers.TrailPointsRequestParameter&nbsp;parameter)
+                                                                             throws mx.krieger.labplc.pides.commons.exceptions.TrailNotFoundException</pre>
 <div class="block">This method gets the list of raw points for a trail.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parameter</code> - </dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>mx.krieger.labplc.mapaton.commons.exceptions.TrailNotFoundException</code></dd>
+<dd><code>mx.krieger.labplc.pides.commons.exceptions.TrailNotFoundException</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11 Aug 2015 - 17:03:52</dd>
 </dl>
