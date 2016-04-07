@@ -3,7 +3,8 @@
 	
 	<!-- General Configuration -->
 	<application>mapaton-public</application>
-	<version>dos</version>
+	<module>public-api</module>
+	<version>prod</version>
 	<threadsafe>true</threadsafe>
 	<instance-class>F4_1G</instance-class>
 	
