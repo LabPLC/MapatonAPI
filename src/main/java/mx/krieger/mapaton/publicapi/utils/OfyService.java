@@ -10,11 +10,9 @@ import com.googlecode.objectify.ObjectifyService;
 import mx.krieger.mapaton.publicapi.model.entities.Branch;
 import mx.krieger.mapaton.publicapi.model.entities.GenericTrail;
 import mx.krieger.mapaton.publicapi.model.entities.Platform;
-import mx.krieger.mapaton.publicapi.model.entities.Questionnaire;
 import mx.krieger.mapaton.publicapi.model.entities.RawTrailPoint;
 import mx.krieger.mapaton.publicapi.model.entities.RegisteredTrail;
 import mx.krieger.mapaton.publicapi.model.entities.Route;
-import mx.krieger.mapaton.publicapi.model.entities.RouteStats;
 import mx.krieger.mapaton.publicapi.model.entities.SnappedTrailPoint;
 import mx.krieger.mapaton.publicapi.model.entities.Station;
 
@@ -36,8 +34,7 @@ public class OfyService {
 		factory().register(Platform.class);
 		factory().register(Route.class);
 		factory().register(Station.class);
-		factory().register(Questionnaire.class);
-		factory().register(RouteStats.class);
+
 	}
 
 	public static Objectify ofy() {
