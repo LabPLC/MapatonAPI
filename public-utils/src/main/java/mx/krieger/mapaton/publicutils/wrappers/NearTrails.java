@@ -1,5 +1,7 @@
 package mx.krieger.mapaton.publicutils.wrappers;
 
+import com.googlecode.objectify.Ref;
+import mx.krieger.mapaton.publicutils.entities.Branch;
 import mx.krieger.mapaton.publicutils.entities.RegisteredTrail;
 
 /**
@@ -24,7 +26,11 @@ public class NearTrails {
 
     public NearTrails(RegisteredTrail registeredTrail) {
         this.trailId = registeredTrail.getId();
-        this.branchName = registeredTrail.getBranch().getValue().getName();
+        try{
+            this.branchName = registeredTrail.getBranch().getValue().getName();
+        }catch (NullPointerException e){
+            this.branchName="No Especificado";
+        }
         this.originName = registeredTrail.getOrigin().get().getStation().getDisplayName();
         this.destinationName = registeredTrail.getDestination().get().getStation().getDisplayName();
     }

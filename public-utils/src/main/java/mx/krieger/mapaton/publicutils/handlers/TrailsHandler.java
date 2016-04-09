@@ -193,7 +193,6 @@ public class TrailsHandler{
 	 * paginated by parameter.numberOfElements and parameter.cursor to define where to start and how many elements to get.
 	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
 	 * @since 25 / feb / 2016
-	 * @param parameter The object containing all the parameters for the request.
 	 * @return The list of trails and the cursor to be able to get the next N number of elements.
 	 * @throws TrailNotFoundException 
 	 */
@@ -211,8 +210,6 @@ public class TrailsHandler{
 			result.add(t.getId());
 		}
 		
-		
-		
 		return result;
 	}
 
@@ -223,7 +220,6 @@ public class TrailsHandler{
 	 * paginated by parameter.numberOfElements and parameter.cursor to define where to start and how many elements to get.
 	 * @author Rodrigo Cabrera (rodrigo.cp@krieger.mx)
 	 * @since 25 / feb / 2016
-	 * @param parameter The object containing all the parameters for the request.
 	 * @return The list of trails and the cursor to be able to get the next N number of elements.
 	 * @throws TrailNotFoundException 
 	 */
@@ -251,7 +247,7 @@ public class TrailsHandler{
 	 * @author JJMS (juanjo@krieger.mx)
 	 * @since 16 / feb / 2016
 	 * @version 1.0.0.0
-	 * @param trail
+	 * @param parameter
 	 *            The id the id of the trail to search for.
 	 * @return The arrayList of points of the trail
 	 * @throws TrailNotFoundException
@@ -352,12 +348,12 @@ public class TrailsHandler{
 	public ArrayList<NearTrails> trailsNearPoint(AreaWrapper area) {
 		logger.debug("Getting stations in area " + area);
 
-		Set<Key<SnappedTrailPoint>> keys1 = new HashSet<>(OfyService.ofy().cache(false).consistency(Consistency.STRONG).load().type(SnappedTrailPoint.class)
+		Set<Key<SnappedTrailPoint>> keys1 = new HashSet<>(OfyService.ofy().cache(true).load().type(SnappedTrailPoint.class)
 				.filter("location.latitude <=", area.getNorthEastCorner().getLatitude())
 				.filter("location.latitude >=", area.getSouthWestCorner().getLatitude())
 				.keys().list());
 
-		Set<Key<SnappedTrailPoint>> keys2 = new HashSet<>(OfyService.ofy().cache(false).consistency(Consistency.STRONG).load().type(SnappedTrailPoint.class)
+		Set<Key<SnappedTrailPoint>> keys2 = new HashSet<>(OfyService.ofy().cache(true).load().type(SnappedTrailPoint.class)
 				.filter("location.longitude <=", area.getNorthEastCorner().getLongitude())
 				.filter("location.longitude >=", area.getSouthWestCorner().getLongitude())
 				.keys().list());
@@ -373,10 +369,14 @@ public class TrailsHandler{
 
         ArrayList<NearTrails> result = new ArrayList<NearTrails>();
 
+        HashSet registeredKeys = new HashSet(OfyService.ofy().cache(true).load().type(RegisteredTrail.class).keys().list());
+
 		for(Key<SnappedTrailPoint> pointKey : keys1){
             Key<RegisteredTrail> trailKey = Key.create(RegisteredTrail.class, Ref.create(pointKey).get().getTrailId());
-            if(trailsKeys.add(trailKey)){
-                result.add(new NearTrails(Ref.create(trailKey).get()));
+            if(registeredKeys.contains(trailKey)){
+                if(trailsKeys.add(trailKey)){
+                    result.add(new NearTrails(Ref.create(trailKey).get()));
+                }
             }
         }
 
