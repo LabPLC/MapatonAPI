@@ -55,7 +55,7 @@
         <dependency>
             <groupId>mx.krieger.mapaton</groupId>
             <artifactId>public-utils</artifactId>
-            <version>1.7.0.0-SANPSHOT</version>
+            <version>1.7.0.0-SNAPSHOT</version>
         </dependency>
 
 		<!-- Test Dependencies -->
