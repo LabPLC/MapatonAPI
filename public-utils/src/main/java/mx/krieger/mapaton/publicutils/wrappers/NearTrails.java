@@ -29,7 +29,7 @@ public class NearTrails {
         try{
             this.branchName = registeredTrail.getBranch().getValue().getName();
         }catch (NullPointerException e){
-            this.branchName="No Especificado";
+            this.branchName=null;
         }
         this.originName = registeredTrail.getOrigin().get().getStation().getDisplayName();
         this.destinationName = registeredTrail.getDestination().get().getStation().getDisplayName();
