@@ -369,7 +369,9 @@ public class TrailsHandler{
 
         ArrayList<NearTrails> result = new ArrayList<NearTrails>();
 
-        HashSet registeredKeys = new HashSet(OfyService.ofy().cache(true).load().type(RegisteredTrail.class).keys().list());
+        HashSet registeredKeys = new HashSet(
+				OfyService.ofy().cache(true).load().type(RegisteredTrail.class)
+						.filter("gtfsStatus", RegisteredTrail.GtfsStatus.VALID).keys().list());
 
 		for(Key<SnappedTrailPoint> pointKey : keys1){
             Key<RegisteredTrail> trailKey = Key.create(RegisteredTrail.class, Ref.create(pointKey).get().getTrailId());
