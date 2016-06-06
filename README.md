@@ -10,9 +10,9 @@ Este es un proyecto maven compuesto por los siguientes módulos:
  se encuentran las entidades (tablas) que componen la estructura de datos de nuestro modelo.
  Es un jar que puede ser accedido desde el nuestro [repositorio](http://artifactory.krieger.mx/).
  * **public-api:** Este módulo contiene el código de la API pública que se explica a continuación y es
- despliegado en [Google App Engine](https://console.cloud.google.com/home/dashboard?project=mapaton-public).
+ desplegado en [Google App Engine](https://console.cloud.google.com/home/dashboard?project=mapaton-public).
  * **public-dashboard:** Este módulo contiene el código hmtl del dashboartd público y es
- despliegado en [Google App Engine](https://console.cloud.google.com/home/dashboard?project=mapaton-public).
+ desplegado en [Google App Engine](https://console.cloud.google.com/home/dashboard?project=mapaton-public).
 
  ## Cómo correr el código
 Una vez que el usuario ha descargado el código desde este [repositorio](https://github.com/LabPLC/MapatonAPI) puede empezar
@@ -80,11 +80,11 @@ Método utilizado para obtener todos los detalles de un recorrido en particular
    * __schedule__: El horario registrado por el usuario
    * __notes__: Una serie de notas registradas por el usuario
    * __creationDate__: La fecha de registro del recorrido
-   * __trailStatus__: El status actual del recorrido registrado, puede ser:
-     0. Válido
-     1. Inválido por ser muy corto (distancia menor a 5 kilómetros o tiempo menor a 15 minutos)
-     2. Inválido por ser registrado fuera de las fechas del concurso
-     3. Inválido por otras razones
+   * __trailStatus__: El status actual del recorrido registrado. De acuerdo a la clase [RegisteredTrailStatusEnum](https://github.com/LabPLC/MapatonAPI/blob/master/public-commons/src/main/java/mx/krieger/labplc/mapaton/commons/enums/RegisteredTrailStatusEnum.java) los valores pueden ser:
+     0. 0 = Válido
+     1. 1 = Inválido por ser muy corto (distancia menor a 5 kilómetros o tiempo menor a 15 minutos)
+     2. 2 = Inválido por ser registrado fuera de las fechas del concurso
+     3. 3 = Inválido por otras razones
    * __invalidReason__: En caso de ser _Inválido por otras razones_, la justificación de esa invalidez 
    * __totalMinutes__: Tiempo en minutos del recorrido (Para getAllTrails es 0 por causas de eficiencia) 
    * __totalMeters__: Distancia en metros del recorrido (Para getAllTrails es 0 por causas de eficiencia)
